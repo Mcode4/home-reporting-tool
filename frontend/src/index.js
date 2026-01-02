@@ -32,12 +32,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom'; // import RouterProvider
-import { router } from './router';  // import your router
+import { router } from './router/index';  // import your router
+import { Provider as ReduxProvider } from 'react-redux';
+import configureStore from './redux/store';
+
+const store = configureStore();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />  {/* Provide the router to your app */}
+    <ReduxProvider store={store}>
+      <RouterProvider router={router} />  {/* Provide the router to your app */}
+    </ReduxProvider>
   </React.StrictMode>
 );

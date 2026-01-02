@@ -13,27 +13,33 @@ export const router = createBrowserRouter([
         element: <Layout />,
         children: [
             {
-                path: '/',
+                index: true,
                 element: <LandingPage />
             },
             {
-                path: '/home',
+                path: 'home',
                 element: <HomePage />
             },
             {
-                path: '/add',
+                path: 'add',
                 element: <AddHousePage />
             },
             {
-                path: '/edit/:id',
+                path: 'edit/:id',
                 element: <AddHousePage />
             },
             {
-                path: '/create',
+                path: 'create/:id',
                 element: (
-                    <CreatorsPage />,
-                    <AssetsMenu />
+                    <>
+                        <CreatorsPage />
+                        <AssetsMenu />
+                    </>
                 )
+            },
+            {
+                path: '*',
+                element: <h2>404 Page Not Found</h2>
             }
         ]
     }

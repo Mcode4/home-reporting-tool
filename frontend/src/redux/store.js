@@ -1,10 +1,11 @@
 import {
-    legacy_createStore as createStore,
-    applyMiddleware,
-    compose,
-    combineReducers
+  legacy_createStore as createStore,
+  applyMiddleware,
+  compose,
+  combineReducers,
 } from "redux";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
+import logger from "redux-logger";
 
 import assetsReducer from "./assets";
 import housesReducer from "./houses";
@@ -14,20 +15,20 @@ const rootReducer = combineReducers({
     assets: assetsReducer,
     houses: housesReducer,
     sessions: sessionReducer
-})
+});
 
 let enhancer;
-if(import.meta.env.MODE === "production") {
-    enhancer = applyMiddleware(thunk);
+if (import.meta.env.MODE === "production") {
+  enhancer = applyMiddleware(thunk);
 } else {
-    const logger = (await import("redux-logger")).default;
-    const composeEnhancers =
+//   const logger = (await import("redux-logger")).default;
+  const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-    enhancer = composeEnhancers(applyMiddleware(thunk, logger)); 
+  enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 }
 
 const configureStore = (preloadedState) => {
-    return createStore(rootReducer, preloadedState, enhancer)
-}
+  return createStore(rootReducer, preloadedState, enhancer);
+};
 
-export default configureStore
+export default configureStore;

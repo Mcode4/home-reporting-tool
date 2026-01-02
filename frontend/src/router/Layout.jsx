@@ -8,12 +8,13 @@ export default function Layout() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(()=> {
-        dispatch() // Make sure all chat data is loaded
+        // dispatch() // Make sure all chat data is loaded
     }, [dispatch])
 
     return (
         <>
-            {isLoaded && <Outlet />}
+            {/* {isLoaded && <Outlet />} */}
+            <Outlet />
             <Footer />
         </>
     )

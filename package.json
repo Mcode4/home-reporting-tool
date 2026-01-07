@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "concurrently \"npm:dev-backend\" \"npm:dev-frontend\"",
     "dev-backend": "cd backend && ./venv/bin/python -m uvicorn main:app --reload",
-    "dev-frontend": "cd frontend && npm run dev"
+    "dev-frontend": "cd frontend && npm install && npm run dev"
   },
   "keywords": [],
   "author": "",

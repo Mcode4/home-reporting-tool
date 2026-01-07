@@ -2,25 +2,25 @@ import { useContext } from "react";
 import { UserContext } from "../AppLayout/AppLayout";
 
 function Navbar() {
-    // const { user, loading } = useContext(UserContext);
+    const { user, loading } = useContext(UserContext);
 
-    // return (
-    //     <>
-    //         <h1>Home Reporting Tool</h1>
+    return (
+        <div id="navbar">
+            <a href="/"><h1>Home Reporting Tool</h1></a>
 
-    //         {!loading && !user ? (
-    //             <>
-    //                 <a href="/login">Login</a>
-    //                 <a href="/signup">Sign up</a>
-    //             </>
-    //         ) : (
-    //             <>
-    //                 <span>{user.email}</span>
-    //                 <a href="/profile">Profile</a>
-    //             </>
-    //         )}
-    //     </>
-    // )
+            {!loading && !user ? (
+                <div className="right-nav">
+                    <a href="/login">Login</a>
+                    <a href="/signup">Sign up</a>
+                </div>
+            ) : (
+                <div className="right-nav">
+                    <span>{user.email}</span>
+                    <a href="/profile">Profile</a>
+                </div>
+            )}
+        </div>
+    )
 }
 
 export default Navbar;

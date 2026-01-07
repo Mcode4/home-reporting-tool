@@ -67,3 +67,15 @@ a {
     flex-direction: column;
     gap: 10px;
 }
+
+#navbar {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.right-nav {
+  display: flex;
+  margin-left: auto;
+  gap: 10px;
+}

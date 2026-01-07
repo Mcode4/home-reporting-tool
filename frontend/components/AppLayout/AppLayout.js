@@ -36,7 +36,7 @@ export default function AppLayout({ children }) {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{ user, loading, setUser }}>
       <Navbar user={user} />
       <main>{children}</main>
       <Footer />

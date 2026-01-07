@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Response
 from app.db.database import get_db
 from app.models.user import User, UserInfo
+from sqlite3 import IntegrityError
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -10,13 +11,13 @@ def register(user: User):
     cursor = conn.cursor()
 
     try:
-        conn.execute(
+        cursor.execute(
             "INSERT INTO users (email, password) VALUES (?, ?)",
             (user.email, user.password,)
         )
         conn.commit()
-    except Exception:
-        raise HTTPException(status_code=401, detail="User already exists")
+    except IntegrityError:
+        raise HTTPException(status_code=400, detail="User already exists")
     finally:
         conn.close()
 

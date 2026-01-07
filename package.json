@@ -1,0 +1,17 @@
+{
+  "name": "home-reporting-tool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "concurrently \"npm:dev-backend\" \"npm:dev-frontend\"",
+    "dev-backend": "cd backend && ./venv/bin/python -m uvicorn main:app --reload",
+    "dev-frontend": "cd frontend && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

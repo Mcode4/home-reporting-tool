@@ -60,3 +60,15 @@ export async function additionalInfo(updateObj) {
 
     return data
 }
+
+export async function getCurrentUser() {
+    const res = await fetch(`${API_BASE_URL}/session`, {
+        credentials: "include",
+    });
+
+    if (!res.ok) {
+        throw new Error("Not authenticated");
+    }
+
+    return res.json();
+}

@@ -1,5 +1,5 @@
 const API_BASE_URL =
-    process.env.API_URL || "http://127.0.0.1:8000"
+    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"
 
 export async function login(email, password) {
     const res = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -8,11 +8,13 @@ export async function login(email, password) {
         body: JSON.stringify({ email, password }),
     })
 
+    const data = await res.json()
+
     if (!res.ok) {
-        throw new Error("Login failed")
+        throw { status: res.status, message: data.detail || "Login failed"}
     }
 
-    return res.json()
+    return data
 }
 
 export async function register(email, password) {
@@ -22,11 +24,14 @@ export async function register(email, password) {
         body: JSON.stringify({ email, password }),
     })
 
+    const data = await res.json()
+    console.log("DATA", data)
+
     if (!res.ok) {
-        throw new Error("Registration failed")
+        throw { status: res.status, message: data.detail || "Login failed"}
     }
 
-    return res.json()
+    return data
 }
 
 export async function additionalInfo(updateObj) {
@@ -47,9 +52,11 @@ export async function additionalInfo(updateObj) {
         body: JSON.stringify(resBody)
     })
 
-    if(!res.ok) {
-        throw new Error("Additional info failed to add")
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw { status: res.status, message: data.detail || "Login failed"}
     }
 
-    return res.json()
+    return data
 }

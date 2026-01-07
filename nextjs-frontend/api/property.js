@@ -4,21 +4,25 @@ const API_BASE_URL =
 export async function getAllProperties(id) {
     const res = await fetch(`${API_BASE_URL}/all/${id}`)
 
-    if(!res.ok) {
-        throw new Error("Failed to get all user's property")
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw { status: res.status, message: data.detail || "Login failed"}
     }
 
-    return res.json()
+    return data
 }
 
 export async function getPropertyById(id) {
     const res = await fetch(`${API_BASE_URL}/${id}`)
 
-    if(!res.ok) {
-        throw new Error("Property not found")
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw { status: res.status, message: data.detail || "Login failed"}
     }
 
-    return res.json()
+    return data
 }
 
 export async function editProperty(id, property) {
@@ -28,11 +32,13 @@ export async function editProperty(id, property) {
     body: JSON.stringify(property),
   })
 
-  if (!res.ok) {
-    throw new Error("Failed to update property")
-  }
+  const data = await res.json()
 
-  return res.json()
+    if (!res.ok) {
+        throw { status: res.status, message: data.detail || "Login failed"}
+    }
+
+    return data
 }
 
 export async function deleteProperty(id) {
@@ -40,9 +46,11 @@ export async function deleteProperty(id) {
     method: "DELETE",
   })
 
-  if (!res.ok) {
-    throw new Error("Failed to delete property")
-  }
+  const data = await res.json()
 
-  return res.json()
+    if (!res.ok) {
+        throw { status: res.status, message: data.detail || "Login failed"}
+    }
+
+    return data
 }

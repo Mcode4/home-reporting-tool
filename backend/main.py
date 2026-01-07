@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, Cookie, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
 from app.db.database import init_db
 from app.routes.auth import router as auth_router
 from app.routes.property import router as property_router
+from app.utils.jwt import decode_access_token
 
 app = FastAPI(title="Report Tool API")
 
@@ -30,3 +30,14 @@ app.include_router(property_router)
 @app.get("/")
 def health_check():
     return {"status": "API running"}
+
+@app.get("/session")
+def get_current_user(access_token: str = Cookie(None)):
+    if not access_token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    payload = decode_access_token(access_token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    return {"user_id": payload["user_id"]}

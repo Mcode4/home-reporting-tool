@@ -2,8 +2,18 @@ from fastapi import APIRouter, HTTPException, Response
 from app.db.database import get_db
 from app.models.user import User, UserInfo
 from sqlite3 import IntegrityError
+from passlib.context import CryptContext
+from app.utils.jwt import create_access_token
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str):
+    return pwd_context.hash(password)
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
 
 @router.post("/register")
 def register(user: User):
@@ -13,7 +23,7 @@ def register(user: User):
     try:
         cursor.execute(
             "INSERT INTO users (email, password) VALUES (?, ?)",
-            (user.email, user.password,)
+            (user.email, hash_password(user.password),)
         )
         conn.commit()
     except IntegrityError:
@@ -24,7 +34,7 @@ def register(user: User):
     return {"message": "User created"}
 
 @router.post('/login')
-def login(user: User):
+def login(user: User, response: Response):
     conn = get_db()
     cursor = conn.cursor()
 
@@ -34,16 +44,25 @@ def login(user: User):
     )
 
     db_user = cursor.fetchone()
+    conn.close()
 
     if not db_user:
-        conn.close()
         raise HTTPException(status_code=404, detail="User doesn't exist")
     
-    if db_user["password"] != user.password:
-        conn.close()
+    if not verify_password(user.password, db_user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    conn.close()
+    access_token = create_access_token({"user_id": db_user["id"]})
+
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        max_age=60*60, # 1 hour
+        samesite="lax",
+        secure=False # True if using HTTPS
+    )
+    
     return {"message": "Login Successful"}
 
 @router.patch('/additional-info')

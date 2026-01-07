@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from app.db.database import get_db
 from app.models.user import User, UserInfo
 
@@ -16,7 +16,7 @@ def register(user: User):
         )
         conn.commit()
     except Exception:
-        raise HTTPException(status_code=400, detail="User already exists")
+        raise HTTPException(status_code=401, detail="User already exists")
     finally:
         conn.close()
 
@@ -29,25 +29,20 @@ def login(user: User):
 
     cursor.execute(
         "SELECT * FROM users WHERE email=?",
-        (user.email)
+        (user.email,)
     )
 
     db_user = cursor.fetchone()
 
     if not db_user:
-        raise HTTPException(status_code=400, detail="User doesn't exist")
+        conn.close()
+        raise HTTPException(status_code=404, detail="User doesn't exist")
     
-    cursor.execute(
-        "SELECT * FROM user WHERE email=? AND password=?",
-        (user.email, user.password,)
-    )
-
-    db_user = cursor.fetchone()
-    conn.close()
-
-    if not db_user:
+    if db_user["password"] != user.password:
+        conn.close()
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
+    conn.close()
     return {"message": "Login Successful"}
 
 @router.patch('/additional-info')

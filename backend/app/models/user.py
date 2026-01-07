@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class User(BaseModel):
     email: str
@@ -6,5 +7,5 @@ class User(BaseModel):
 
 class UserInfo(BaseModel):
     id: int
-    name: str
-    phone: int
+    name: Optional[str] = None
+    phone: Optional[int] = None

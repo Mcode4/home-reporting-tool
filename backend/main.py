@@ -4,6 +4,10 @@ from app.db.database import init_db
 from app.routes.auth import router as auth_router
 from app.routes.property import router as property_router
 from app.utils.jwt import decode_access_token
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 app = FastAPI(title="Report Tool API")
 

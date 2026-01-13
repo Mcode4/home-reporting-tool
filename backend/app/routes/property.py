@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from app.db.database import get_db
 from app.models.property import Property
+import json
 
 router = APIRouter(prefix="/property", tags=["Property"])
 
@@ -145,3 +146,33 @@ def delete_property(id: int):
 
     return {"message": "Property deleted successfully"}
 
+@router.patch("/details/{id}")
+def update_property_details(id: int, details: dict):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            """
+            UPDATE property
+            SET details = json_patch(
+                COALESCE(details, '{}'),
+                ?
+            )
+            WHERE id = ?
+            """,
+            (json.dumps(details), id)
+            # COALESCE - If details exist, use it else use {}
+            # json_patch(existing, new)
+            # json.dumps(details) - Converts it into a JSON string
+        )
+
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=400, detail=f"Error occured: {str(e)}")
+        # conn.rollback - Revert all changes in this trasaction to its last committed state
+    finally:
+        conn.close()
+    
+    return {"message": "Extra property details successfully added"}

@@ -39,6 +39,7 @@ def init_db():
             zip INTEGER NOT NULL,
             bedroom_size INTEGER NOT NULL,
             bathroom_size INTEGER NOT NULL,
+            details TEXT
             user_id INTEGER NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users(id)
                 ON DELETE CASCADE
@@ -48,5 +49,4 @@ def init_db():
 
     conn.commit()
     conn.close()
-
-
+        

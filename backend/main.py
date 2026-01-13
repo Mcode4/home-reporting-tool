@@ -59,3 +59,17 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="User not found")
 
     return {"user_id": user_id, "email": db_user["email"]}
+
+@app.delete("/session")
+def logout_user(response: Response):
+    response.set_cookie(
+        key="access_token",
+        value="",
+        httponly=True,
+        max_age=0,
+        samesite="none",
+        secure=True,
+        path="/"
+    )
+
+    return {"message": "Logged out successfully"}

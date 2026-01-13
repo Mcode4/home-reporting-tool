@@ -1,7 +1,7 @@
 // components/AppLayout.js
 "use client";
 import { useEffect, useState, createContext, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getCurrentUser } from "@/api/session";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -15,6 +15,10 @@ export const UserContext = createContext({
 export default function AppLayout({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const loginRoutes = useRef(new Set(['', '/', 'login', 'signup']));
+    const pathname = usePathname();
+    const router = useRouter();
+
     useEffect(() => {
     console.log("AppLayout mounted");
 
@@ -32,6 +36,18 @@ export default function AppLayout({ children }) {
         setLoading(false);
     });
     }, []);
+
+    useEffect(()=> {
+        let pageName
+        pathname === '/' ? pageName = '' : pageName = pathname ? pathname.split('/').filter(Boolean)[0] : null;
+        console.log('pageName:', pageName);
+        
+        if(user) {
+            if(loginRoutes.current.has(pageName)) router.push('/home');
+        } else {
+            if(!loginRoutes.current.has(pageName)) router.push('/');
+        }
+    }, [user, pathname]);
 
     if (loading) return <div>Loading...</div>;
 

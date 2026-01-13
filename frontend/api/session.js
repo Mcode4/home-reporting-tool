@@ -76,3 +76,16 @@ export async function getCurrentUser() {
 
     return res.json();
 }
+
+export async function logoutUser() {
+    const res = await fetch(`${API_BASE_URL}/session`, {
+        method: 'DELETE',
+        credentials: 'include'
+    })
+
+    if (!res.ok) {
+        throw { status: res.status, message: data.detail || "Log out failed"}
+    }
+
+    return res.json();
+}

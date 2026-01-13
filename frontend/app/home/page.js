@@ -7,7 +7,7 @@ export default function HomePagePage() {
     const data = [{id: 1, name: 'Initial Property'}, {id: 2, name: 'Secondary Property'}]
 
     return (
-        <>
+        <div className="defaultWrapper">
         <button onClick={()=> router.push('/properties/new')}>Create New Property</button>
 
         <h2>Properties</h2>
@@ -24,6 +24,6 @@ export default function HomePagePage() {
         </div>
 
         
-        </>
+        </div>
     )
 }

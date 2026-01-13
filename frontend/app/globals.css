@@ -40,12 +40,19 @@ main {
   margin: 0;
 }
 
-.center-wrapper,
+.centerWrapper,
 .mainHolder {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding: 10px;
+}
+
+.defaultWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
 
 /* .main: keep centered when used inside a centering wrapper,

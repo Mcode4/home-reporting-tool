@@ -5,7 +5,7 @@ export default function LandingPagePage() {
   const router = useRouter();
 
     return (
-        <div id="landingPage">
+        <div id="landingPage" className="mainHolder">
           <div className="main">
             <h2>Welcome to Home Reporting Tool</h2>
 

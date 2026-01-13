@@ -24,14 +24,12 @@ export default function LoginPage() {
             console.log('Login successful');
             router.push('/home');
         } catch(err) {
-            console.log("Login error: ", err)
+            console.log("Login error: ", err);
             if(err.status === 404) {
-                console.log("Email doesn't have an account")
                 setErr({
                     email: "Email doesn't have an account"
                 });
             } else if(err.status === 401) {
-                console.log("Invalid password")
                 setErr({
                     password: "Invalid password"
                 });
@@ -40,7 +38,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="loginSignupPage">
+        <div id="loginPage" className="mainHolder">
             <div className="main">
                 <h2>Login</h2>
 

@@ -88,9 +88,9 @@ def login(user: User, response: Response):
         key="access_token",
         value=access_token,
         httponly=True,
-        max_age=60*60,       # 1 hour
-        samesite="lax",      # works for local dev
-        secure=False,        # True for HTTPS in prod
+        max_age=60*60,
+        samesite="none",  # required for cross-site cookies
+        secure=True,      # required with SameSite=None (needs HTTPS)
         path="/"
     )
 

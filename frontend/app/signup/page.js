@@ -35,7 +35,7 @@ export default function SignUpPage() {
     }
 
     return (
-        <div className="loginSignupPage">
+        <div id="signupPage" className="mainHolder">
             <div className="main">
                 <h2>Sign Up</h2>
 

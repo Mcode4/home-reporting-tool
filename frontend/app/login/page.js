@@ -1,7 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { login } from "@/api/session";
+import { UserContext } from "@/components/AppLayout/AppLayout";
 
 import styles from './page.module.css'
 
@@ -10,22 +11,27 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [err, setErr] = useState({});
+    const { setUser } = useContext(UserContext);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErr({});
-
+        console.log('Submit in progress')
         try {
-            const res = await login(email, password);
+            const user = await login(email, password);
+            setUser(user);
             console.log('Login successful');
             router.push('/home');
         } catch(err) {
+            console.log("Login error: ", err)
             if(err.status === 404) {
+                console.log("Email doesn't have an account")
                 setErr({
                     email: "Email doesn't have an account"
                 });
             } else if(err.status === 401) {
+                console.log("Invalid password")
                 setErr({
                     password: "Invalid password"
                 });

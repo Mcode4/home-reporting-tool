@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 app = FastAPI(title="Report Tool API")
 
 app.add_middleware(
@@ -22,10 +21,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.options("/{path:path}")
-def options_handler(path: str):
-    return Response(status_code=200)
-
 init_db()
 
 app.include_router(auth_router)
@@ -36,12 +31,14 @@ def health_check():
     return {"status": "API running"}
 
 @app.get("/session")
-def get_current_user(access_token: str = Cookie(None)):
+def get_current_user(
+    access_token: str | None = Cookie(None, alias="access_token")
+):
     if not access_token:
         raise HTTPException(status_code=401, detail="Not authenticated")
-    
+
     payload = decode_access_token(access_token)
     if not payload:
         raise HTTPException(status_code=401, detail="Invalid token")
-    
+
     return {"user_id": payload["user_id"]}

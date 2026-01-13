@@ -30,4 +30,4 @@ Currently being developed into BETA stage. This is a home reporting tool for doc
 **Backend:**
 - Python3
 - FastAPI
-- Sqlite3 (database)
+- SQLite3 (database)

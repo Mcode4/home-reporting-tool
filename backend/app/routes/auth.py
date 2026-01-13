@@ -7,7 +7,6 @@ from app.utils.jwt import create_access_token
 import hashlib
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
@@ -83,4 +82,18 @@ def login(user: User, response: Response):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     access_token = create_access_token({"user_id": db_user["id"]})
+
+    # --- SET COOKIE ---
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        max_age=60*60,       # 1 hour
+        samesite="lax",      # works for local dev
+        secure=False,        # True for HTTPS in prod
+        path="/"
+    )
+
+    # Return a normal JSON response (cookie already set on `response`)
+    return {"message": "Login successful"}
 

@@ -6,12 +6,16 @@ export async function login(email, password) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
+        credentials: "include"
     })
+    console.log("login in progress")
 
-    const data = await res.json()
+    const text = await res.text().catch(()=>"")
+    let data = {}
+    try { data = text ? JSON.parse(text) : {} } catch (e) { data = {} }
 
     if (!res.ok) {
-        throw { status: res.status, message: data.detail || "Login failed"}
+        throw { status: res.status, message: data.detail || data.message || "Login failed" }
     }
 
     return data

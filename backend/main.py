@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Response, Cookie, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from app.db.database import init_db
+from app.db.database import init_db, get_db
 from app.routes.auth import router as auth_router
 from app.routes.property import router as property_router
 from app.utils.jwt import decode_access_token
@@ -34,6 +34,7 @@ def health_check():
 
 @app.get("/session")
 def get_current_user(
+    response: Response,
     access_token: str | None = Cookie(None, alias="access_token")
 ):
     if not access_token:
@@ -41,6 +42,20 @@ def get_current_user(
 
     payload = decode_access_token(access_token)
     if not payload:
+        # invalid token: remove cookie and return 401
+        response.delete_cookie("access_token", path="/")
         raise HTTPException(status_code=401, detail="Invalid token")
 
-    return {"user_id": payload["user_id"]}
+    user_id = payload.get("user_id")
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    db_user = cursor.fetchone()
+    conn.close()
+
+    if not db_user:
+        # user no longer exists: clear cookie and return 401
+        response.delete_cookie("access_token", path="/")
+        raise HTTPException(status_code=401, detail="User not found")
+
+    return {"user_id": user_id, "email": db_user["email"]}

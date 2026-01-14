@@ -75,6 +75,16 @@ export default function NewPropertyPage() {
         setErr({});
         let id
 
+        const bedroomObj = {}
+        const bathroomObj = {}
+        for(let i=1; i<=bedrooms; i++) {
+            bedroomObj[`bedroom${i}`] = bedroomTemp()
+        }
+        for(let i=1; i<=bathrooms; i++) {
+            bathroomObj[`bathroom${i}`] = bathTemp()
+        }
+
+
         const data = {
             name,
             address,
@@ -86,8 +96,8 @@ export default function NewPropertyPage() {
             bathrooms: Number(bathrooms),
             details: {
                 main: mainTemp(),
-                bedrooms: bedroomTemp(),
-                baths: bathTemp()
+                bedrooms: bedroomObj,
+                baths: bathroomObj
             }
         };
 
@@ -120,11 +130,7 @@ export default function NewPropertyPage() {
 
                         // iterates to add template to each number of "details"
                         for(let i=1; i<=livingRoomCount; i++){
-                            if(i !== 1){
-                                result[`${detail}${i}`] = livingRoomTemp()
-                            } else {
-                                result[`${detail}`] = livingRoomTemp()
-                            }
+                            result[`${detail}${i}`] = livingRoomTemp()
                         }
                         // Append result to detailObj
                         detailObj[detail] = result
@@ -136,11 +142,7 @@ export default function NewPropertyPage() {
 
                         // iterates to add template to each number of "details"
                         for(let i=1; i<=kitchenCount; i++){
-                            if(i !== 1){
-                                result[`${detail}${i}`] = kitchenTemp()
-                            } else {
-                                result[`${detail}`] = kitchenTemp()
-                            }
+                            result[`${detail}${i}`] = kitchenTemp()
                         }
                         // Append result to detailObj
                         detailObj[detail] = result
@@ -152,11 +154,7 @@ export default function NewPropertyPage() {
 
                         // iterates to add template to each number of "details"
                         for(let i=1; i<=diningRoomCount; i++){
-                            if(i !== 1){
-                                result[`${detail}${i}`] = diningRoomTemp()
-                            } else {
-                                result[`${detail}`] = diningRoomTemp()
-                            }
+                            result[`${detail}${i}`] = diningRoomTemp()
                         }
                         // Append result to detailObj
                         detailObj[detail] = result
@@ -168,11 +166,7 @@ export default function NewPropertyPage() {
 
                         // iterates to add template to each number of "details"
                         for(let i=1; i<=laundryRoomCount; i++){
-                            if(i !== 1){
-                                result[`${detail}${i}`] = laundryRoomTemp()
-                            } else {
-                                result[`${detail}`] = laundryRoomTemp()
-                            }
+                            result[`${detail}${i}`] = laundryRoomTemp()
                         }
                         // Append result to detailObj
                         detailObj[detail] = result
@@ -184,11 +178,7 @@ export default function NewPropertyPage() {
 
                         // iterates to add template to each number of "details"
                         for(let i=1; i<=exteriorCount; i++){
-                            if(i !== 1){
-                                result[`${detail}${i}`] = exteriorTemp()
-                            } else {
-                                result[`${detail}`] = exteriorTemp()
-                            }
+                            result[`${detail}${i}`] = exteriorTemp()
                         }
                         // Append result to detailObj
                         detailObj[detail] = result
@@ -200,11 +190,7 @@ export default function NewPropertyPage() {
 
                         // iterates to add template to each number of "details"
                         for(let i=1; i<=patioCount; i++){
-                            if(i !== 1){
-                                result[`${detail}${i}`] = patioTemp()
-                            } else {
-                                result[`${detail}`] = patioTemp()
-                            }
+                            result[`${detail}${i}`] = patioTemp()
                         }
                         // Append result to detailObj
                         detailObj[detail] = result
@@ -216,11 +202,7 @@ export default function NewPropertyPage() {
 
                         // iterates to add template to each number of "details"
                         for(let i=1; i<=smokeDetectorCount; i++){
-                            if(i !== 1){
-                                result[`${detail}${i}`] = smokeDetectorTemp()
-                            } else {
-                                result[`${detail}`] = smokeDetectorTemp()
-                            }
+                            result[`${detail}${i}`] = smokeDetectorTemp()
                         }
                         // Append result to detailObj
                         detailObj[detail] = result

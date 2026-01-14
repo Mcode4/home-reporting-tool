@@ -7,7 +7,7 @@ export async function getAllProperties(id) {
     const data = await res.json()
 
     if (!res.ok) {
-        throw { status: res.status, message: data.detail || "Login failed"}
+        throw { status: res.status, message: data.detail || "Properties not failed"}
     }
 
     return data
@@ -19,11 +19,48 @@ export async function getPropertyById(id) {
     const data = await res.json()
 
     if (!res.ok) {
-        throw { status: res.status, message: data.detail || "Login failed"}
+        throw { status: res.status, message: data.detail || "Property not failed"}
     }
 
     return data
 }
+
+export async function addProperty(dataObj) {
+  const verifiedData = {}
+  const verifyKeys = new Set([
+    "name", "address", "city", "state", "zip", "country",
+    "bedroomSize", "bathroomSize"
+  ])
+
+  for(let key of Object.keys(dataObj)) {
+    if(!verifyKeys.has(key)) {
+      return console.error(`"${key}" is not a valid key`);
+    }
+    
+    if(key === "bedroomSize") {
+      verifiedData["bedroom_size"] =  dataObj[key];
+    }
+    else if(key === "bathroomSize") {
+      verifiedData["bathroom_size"] =  dataObj[key];
+    }
+    else {
+      verifiedData[key] =  dataObj[key];
+    }
+  }
+  const res = await fetch(`${API_BASE_URL}/add`, {
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ verifiedData })
+  });
+
+  const data = await res.json();
+
+  if(!res.ok) {
+    throw { status: res.status, message: data.detail || "Property could not be created"}
+  }
+
+  return data;
+} 
 
 export async function editProperty(id, property) {
   const res = await fetch(`${API_BASE_URL}/property/edit/${id}`, {
@@ -35,7 +72,7 @@ export async function editProperty(id, property) {
   const data = await res.json()
 
     if (!res.ok) {
-        throw { status: res.status, message: data.detail || "Login failed"}
+        throw { status: res.status, message: data.detail || "Property could not be edited"}
     }
 
     return data
@@ -49,7 +86,7 @@ export async function deleteProperty(id) {
   const data = await res.json()
 
     if (!res.ok) {
-        throw { status: res.status, message: data.detail || "Login failed"}
+        throw { status: res.status, message: data.detail || "Property could not be deleted"}
     }
 
     return data

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function NewPropertyPage() {
@@ -12,6 +12,49 @@ export default function NewPropertyPage() {
     const [country, setCountry] = useState('');
     const [bedroom, setBedroom] = useState(1);
     const [bathroom, setBathroom] = useState(1);
+    // Extra Details
+    const [active, setActive] = useState(false);
+
+    const [livingRoom, setLivingRoom] = useState(false);
+    const [livingRoomCount, setLivingRoomCount] = useState(1);
+
+    const [exterior, setExterior] = useState(false);
+    const [exteriorCount, setExteriorCount] = useState(1);
+
+    const [diningRoom, setDiningRoom] = useState(false);
+    const [diningRoomCount, setDiningRoomCount] = useState(1);
+
+    const [kitchen, setKitchen] = useState(false);
+    const [kitchenCount, setKitchenCount] = useState(1);
+
+    const [laundryRoom, setLaundryRoom] = useState(false);
+    const [laundryRoomCount, setLaundryRoomCount] = useState(1);
+
+    const [patio, setPatio] = useState(false);
+    const [patioCount, setPatioCount] = useState(1);
+
+    const [smokeDetector, setSmokeDetector] = useState(false);
+    const [smokeDetectorCount, setSmokeDetectorCount] = useState(1);
+
+    useEffect(()=> {
+        const details = document.getElementById("details")
+        if(active) {
+            details.className = "active"
+        } else {
+            details.className = "inactive"
+        }
+    }, [active])
+
+    // console.log('Extras:', {
+    //     kitchen,
+    //     diningRoom,
+    //     laundryRoom,
+    //     exterior,
+    //     patio,
+    //     smokeDetector
+    // })
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -80,6 +123,81 @@ export default function NewPropertyPage() {
             <input type="number" name="bathroom-size" id="bathroom-size" min={1} required
                 value={bathroom} onChange={(e)=> setBathroom(e.target.value)}
             />
+
+            <button type="button" onClick={()=> setActive(!active)}>Advanced</button>
+
+            <ul id="details" className="active">
+                <li>
+                    <input type="checkbox" value={livingRoom} onChange={(e)=> setLivingRoom(e.target.checked)} />
+                    Living Room
+                    {livingRoom && (
+                        <div>
+                            Count: 
+                            <input type="number" min={1} value={livingRoomCount} onChange={(e)=> setLivingRoomCount(e.target.value)} />
+                        </div>
+                    )}
+                </li>
+                <li>
+                    <input type="checkbox" value={kitchen} onChange={(e)=> setKitchen(e.target.checked)} />
+                    Kitchen
+                    {kitchen && (
+                        <div>
+                            Count: 
+                            <input type="number" min={1} value={kitchenCount} onChange={(e)=> setKitchenCount(e.target.value)} />
+                        </div>
+                    )}
+                </li>
+                <li>
+                    <input type="checkbox" value={diningRoom} onChange={(e)=> setDiningRoom(e.target.checked)} />
+                    Dining Room
+                    {diningRoom && (
+                        <div>
+                            Count: 
+                            <input type="number" min={1} value={diningRoomCount} onChange={(e)=> setDiningRoomCount(e.target.value)} />
+                        </div>
+                    )}
+                </li>
+                <li>
+                    <input type="checkbox" value={laundryRoom} onChange={(e)=> setLaundryRoom(e.target.checked)} />
+                    Laundry Room
+                    {laundryRoom && (
+                        <div>
+                            Count: 
+                            <input type="number" min={1} value={laundryRoomCount} onChange={(e)=> setLaundryRoomCount(e.target.value)} />
+                        </div>
+                    )}
+                </li>
+                <li>
+                    <input type="checkbox" value={exterior} onChange={(e)=> setExterior(e.target.checked)} />
+                    Exterior
+                    {exterior && (
+                        <div>
+                            Count: 
+                            <input type="number" min={1} value={exteriorCount} onChange={(e)=> setExteriorCount(e.target.value)} />
+                        </div>
+                    )}
+                </li>
+                <li>
+                    <input type="checkbox" value={patio} onChange={(e)=> setPatio(e.target.checked)} />
+                    Patio
+                    {patio && (
+                        <div>
+                            Count: 
+                            <input type="number" min={1} value={patioCount} onChange={(e)=> setPatioCount(e.target.value)} />
+                        </div>
+                    )}
+                </li>
+                <li>
+                    <input type="checkbox" value={smokeDetector} onChange={(e)=> setSmokeDetector(e.target.checked)} />
+                    Smoke Detector
+                    {smokeDetector && (
+                        <div>
+                            Count: 
+                            <input type="number" min={1} value={smokeDetectorCount} onChange={(e)=> setSmokeDetectorCount(e.target.value)} />
+                        </div>
+                    )}
+                </li>
+            </ul>
 
             <button type="submit">Submit</button>
             <button type="button" onClick={()=> router.push('/home')}>Back to Home</button>

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from app.db.database import get_db
 from app.models.property import Property
-from main import get_current_user
+from app.routes.auth import get_current_user
 import json
 
 router = APIRouter(prefix="/property", tags=["Property"])

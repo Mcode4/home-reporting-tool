@@ -76,3 +76,12 @@ main {
     flex-direction: column;
     gap: 10px;
 }
+
+/* Temporary Testing */
+.active {
+  display: block;
+}
+
+.inactive {
+  display: none;
+}

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, HTTPException, Response, Cookie
 from app.db.database import get_db
 from app.models.user import User, UserInfo
 from sqlite3 import IntegrityError
@@ -97,3 +97,30 @@ def login(user: User, response: Response):
     # Return a normal JSON response (cookie already set on `response`)
     return {"message": "Login successful"}
 
+# ---------- Verify User ----------
+def get_current_user(
+    response: Response,
+    access_token: str | None = Cookie(None, alias="access_token")
+):
+    if not access_token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    payload = decode_access_token(access_token)
+    if not payload:
+        # invalid token: remove cookie and return 401
+        response.delete_cookie("access_token", path="/")
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+    user_id = payload.get("user_id")
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if not user:
+        # user no longer exists: clear cookie and return 401
+        response.delete_cookie("access_token", path="/")
+        raise HTTPException(status_code=401, detail="User not found")
+
+    return user

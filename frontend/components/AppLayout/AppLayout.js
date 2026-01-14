@@ -38,16 +38,18 @@ export default function AppLayout({ children }) {
     }, []);
 
     useEffect(()=> {
-        let pageName
-        pathname === '/' ? pageName = '' : pageName = pathname ? pathname.split('/').filter(Boolean)[0] : null;
-        console.log('pageName:', pageName);
-        
-        if(user) {
-            if(loginRoutes.current.has(pageName)) router.push('/home');
-        } else {
-            if(!loginRoutes.current.has(pageName)) router.push('/');
+        if(!loading) {
+            let pageName
+            pathname === '/' ? pageName = '' : pageName = pathname ? pathname.split('/').filter(Boolean)[0] : null;
+            console.log('pageName:', pageName);
+
+            if(user) {
+                if(loginRoutes.current.has(pageName)) router.push('/home');
+            } else {
+                if(!loginRoutes.current.has(pageName)) router.push('/');
+            }
         }
-    }, [user, pathname]);
+    }, [loading, user, pathname]);
 
     if (loading) return <div>Loading...</div>;
 

@@ -83,7 +83,12 @@ export default function NewPropertyPage() {
             zip: Number(zip),
             country,
             bedrooms: Number(bedrooms),
-            bathrooms: Number(bathrooms)
+            bathrooms: Number(bathrooms),
+            details: {
+                main: mainTemp(),
+                bedrooms: bedroomTemp(),
+                baths: bathTemp()
+            }
         };
 
         console.log('DATA:', data);

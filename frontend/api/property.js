@@ -33,7 +33,7 @@ export async function addProperty(dataObj) {
   const verifiedData = {}
   const verifyKeys = new Set([
     "name", "address", "city", "state", "zip", "country",
-    "bedrooms", "bathrooms"
+    "bedrooms", "bathrooms", "details"
   ])
 
   for(let key of Object.keys(dataObj)) {

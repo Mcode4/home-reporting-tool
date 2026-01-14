@@ -13,8 +13,8 @@ export default function HomePagePage() {
         if(!data) {
             const properties = getAllProperties()
                 .then((prop)=> setData(prop["properties"]))
-                .then(()=> setLoaded(true))
                 .catch((e)=> console.log('Error occured: ', e))
+                .finally(setLoaded(true))
         }
     }, [data])
 
@@ -22,7 +22,7 @@ export default function HomePagePage() {
         <div className="defaultWrapper">
         {loaded && (
             <>
-            <button onClick={()=> router.push('/properties/new')}>Create New Property</button>
+            <button onClick={()=> router.push('/property/new')}>Create New Property</button>
 
             <h2>Properties</h2>
             <div className={styles.properySection}>
@@ -30,10 +30,15 @@ export default function HomePagePage() {
                 {data?.length > 0 ? data.map(property => (
                     <div className={styles.property} key={property.id}>
                         <img src="" alt={`Property${property.id}`} />
-                        <div>{property.name}</div>
+                        <a href={`/property/${property.id}`}>{property.name}</a>
+
+                        <div className={styles.propertyActions}>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </div>
                     </div>
                 )) : (
-                    <p>Must a property</p>
+                    <p>Must create a property</p>
                 )}
             </div>
             </>

@@ -1,6 +1,19 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { addProperty, updatePropertyDetails, deleteProperty } from "@/api/property";
+import { 
+    mainTemp, 
+    exteriorTemp, 
+    livingRoomTemp,
+    bedroomTemp,
+    bathTemp,
+    diningRoomTemp,
+    kitchenTemp,
+    laundryRoomTemp,
+    patioTemp,
+    smokeDetectorTemp
+} from "../detailTemps";
 
 export default function NewPropertyPage() {
     const router = useRouter();
@@ -10,8 +23,9 @@ export default function NewPropertyPage() {
     const [state, setState] = useState('');
     const [zip, setZip] = useState(null);
     const [country, setCountry] = useState('');
-    const [bedroom, setBedroom] = useState(1);
-    const [bathroom, setBathroom] = useState(1);
+    const [bedrooms, setBedrooms] = useState(1);
+    const [bathrooms, setBathrooms] = useState(1);
+    const [err, setErr] = useState({});
     // Extra Details
     const [active, setActive] = useState(false);
 
@@ -58,21 +72,175 @@ export default function NewPropertyPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErr({});
+        let id
 
         const data = {
             name,
             address,
             city,
             state,
-            zip,
+            zip: Number(zip),
             country,
-            bedroom,
-            bathroom
+            bedrooms: Number(bedrooms),
+            bathrooms: Number(bathrooms)
         };
 
         console.log('DATA:', data);
 
+        try {
+            const property = await addProperty(data);
+            console.log(property);
+            id = property["id"]
+            if(active) {
+                console.log('PROPERTY:', property, "ID:", id)
 
+                const details = {
+                    livingRoom,
+                    kitchen,
+                    diningRoom,
+                    laundryRoom,
+                    exterior,
+                    patio,
+                    smokeDetector
+                };
+                const detailObj = {}
+
+                const iterable = Array(Object.keys(details))[0];
+                iterable.forEach(detail => {
+
+                    if(detail === 'livingRoom' && details[detail]){
+                        // Sets count in result
+                        const result = {count: livingRoomCount}
+
+                        // iterates to add template to each number of "details"
+                        for(let i=1; i<=livingRoomCount; i++){
+                            if(i !== 1){
+                                result[`${detail}${i}`] = livingRoomTemp()
+                            } else {
+                                result[`${detail}`] = livingRoomTemp()
+                            }
+                        }
+                        // Append result to detailObj
+                        detailObj[detail] = result
+                    }
+
+                    if(detail === 'kitchen' && details[detail]){
+                        // Sets count in result
+                        const result = {count: kitchenCount}
+
+                        // iterates to add template to each number of "details"
+                        for(let i=1; i<=kitchenCount; i++){
+                            if(i !== 1){
+                                result[`${detail}${i}`] = kitchenTemp()
+                            } else {
+                                result[`${detail}`] = kitchenTemp()
+                            }
+                        }
+                        // Append result to detailObj
+                        detailObj[detail] = result
+                    }
+
+                    if(detail === 'diningRoom' && details[detail]){
+                        // Sets count in result
+                        const result = {count: diningRoomCount}
+
+                        // iterates to add template to each number of "details"
+                        for(let i=1; i<=diningRoomCount; i++){
+                            if(i !== 1){
+                                result[`${detail}${i}`] = diningRoomTemp()
+                            } else {
+                                result[`${detail}`] = diningRoomTemp()
+                            }
+                        }
+                        // Append result to detailObj
+                        detailObj[detail] = result
+                    }
+
+                    if(detail === 'laundryRoom' && details[detail]){
+                        // Sets count in result
+                        const result = {count: laundryRoomCount}
+
+                        // iterates to add template to each number of "details"
+                        for(let i=1; i<=laundryRoomCount; i++){
+                            if(i !== 1){
+                                result[`${detail}${i}`] = laundryRoomTemp()
+                            } else {
+                                result[`${detail}`] = laundryRoomTemp()
+                            }
+                        }
+                        // Append result to detailObj
+                        detailObj[detail] = result
+                    }
+
+                    if(detail === 'exterior' && details[detail]){
+                        // Sets count in result
+                        const result = {count: exteriorCount}
+
+                        // iterates to add template to each number of "details"
+                        for(let i=1; i<=exteriorCount; i++){
+                            if(i !== 1){
+                                result[`${detail}${i}`] = exteriorTemp()
+                            } else {
+                                result[`${detail}`] = exteriorTemp()
+                            }
+                        }
+                        // Append result to detailObj
+                        detailObj[detail] = result
+                    }
+
+                    if(detail === 'patio' && details[detail]){
+                        // Sets count in result
+                        const result = {count: patioCount}
+
+                        // iterates to add template to each number of "details"
+                        for(let i=1; i<=patioCount; i++){
+                            if(i !== 1){
+                                result[`${detail}${i}`] = patioTemp()
+                            } else {
+                                result[`${detail}`] = patioTemp()
+                            }
+                        }
+                        // Append result to detailObj
+                        detailObj[detail] = result
+                    }
+
+                    if(detail === 'smokeDetector' && details[detail]){
+                        // Sets count in result
+                        const result = {count: smokeDetectorCount}
+
+                        // iterates to add template to each number of "details"
+                        for(let i=1; i<=smokeDetectorCount; i++){
+                            if(i !== 1){
+                                result[`${detail}${i}`] = smokeDetectorTemp()
+                            } else {
+                                result[`${detail}`] = smokeDetectorTemp()
+                            }
+                        }
+                        // Append result to detailObj
+                        detailObj[detail] = result
+                    }
+                })
+                console.log('detOBJ', detailObj)
+                await updatePropertyDetails(id, detailObj);
+            }
+        }
+        catch (e) {
+            console.log('Error occured:', e)
+            setErr({
+                'message': `Status Code: ${e.status} ${e.message}`
+            })
+            if(id) {
+                const deleteProp = await deleteProperty(id);
+                console.log(deleteProp);
+                setErr({
+                    "message": `${err.message}. Property has been deleted, try again.`
+                })
+            }
+        }
+        finally {
+            router.push('/home')
+        }
     }
 
 
@@ -116,12 +284,12 @@ export default function NewPropertyPage() {
 
             <label htmlFor="bedroom-size">Bedrooms: </label>
             <input type="number" name="bedroom-size" id="bedroom-size" min={1} required
-                value={bedroom} onChange={(e)=> setBedroom(e.target.value)}
+                value={bedrooms} onChange={(e)=> setBedrooms(e.target.value)}
             />
 
             <label htmlFor="bathroom-size">Bathrooms: </label>
             <input type="number" name="bathroom-size" id="bathroom-size" min={1} required
-                value={bathroom} onChange={(e)=> setBathroom(e.target.value)}
+                value={bathrooms} onChange={(e)=> setBathrooms(e.target.value)}
             />
 
             <button type="button" onClick={()=> setActive(!active)}>Advanced</button>
@@ -200,6 +368,9 @@ export default function NewPropertyPage() {
             </ul>
 
             <button type="submit">Submit</button>
+            {err.message && (
+                <p>{err.message}</p>
+            )}
             <button type="button" onClick={()=> router.push('/home')}>Back to Home</button>
         </form>
         </div>

@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional, Dict, Any
 
 class Property(BaseModel):
     name: str
@@ -9,3 +10,4 @@ class Property(BaseModel):
     zip: int
     bedrooms: int
     bathrooms: int
+    details: Optional[Dict[str, Any]] = None

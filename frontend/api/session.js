@@ -6,7 +6,7 @@ export async function login(email, password) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-        credentials: "include"
+        credentials: "include", // <-- ensure cookie is accepted
     })
     console.log("login in progress")
 
@@ -66,26 +66,20 @@ export async function additionalInfo(updateObj) {
 }
 
 export async function getCurrentUser() {
-    const res = await fetch(`${API_BASE_URL}/session`, {
+    const res = await fetch(`${API_BASE_URL}/auth/session`, {
+        method: "GET",
         credentials: "include",
     });
-
-    if (!res.ok) {
-        throw new Error("Not authenticated");
-    }
-
+    if (!res.ok) throw { status: res.status };
     return res.json();
 }
 
 export async function logoutUser() {
     const res = await fetch(`${API_BASE_URL}/session`, {
-        method: 'DELETE',
-        credentials: 'include'
-    })
-
-    if (!res.ok) {
-        throw { status: res.status, message: data.detail || "Log out failed"}
-    }
-
-    return res.json();
+        method: "DELETE",
+        credentials: "include",
+    });
+    const data = await res.json().catch(()=>({}));
+    if (!res.ok) throw { status: res.status, ...data };
+    return data;
 }

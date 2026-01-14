@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Response, Cookie, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.db.database import init_db, get_db
-from app.routes.auth import router as auth_router, get_current_user
+from app.routes.auth import router as auth_router
 from app.routes.property import router as property_router
-from app.utils.jwt import decode_access_token
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -32,15 +32,9 @@ app.include_router(property_router)
 def health_check():
     return {"status": "API running"}
 
-@app.get("/session")
-def session(current_user = Depends(get_current_user)):
-    return {
-        "id": current_user["id"],
-        "email": current_user["email"]
-    }
-
 @app.delete("/session")
 def logout_user(response: Response):
+    # match the same attributes
     response.set_cookie(
         key="access_token",
         value="",
@@ -50,5 +44,5 @@ def logout_user(response: Response):
         secure=True,
         path="/"
     )
-
+    response.delete_cookie("access_token", path="/")
     return {"message": "Logged out successfully"}

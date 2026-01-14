@@ -3,7 +3,7 @@ from app.db.database import get_db
 from app.models.user import User, UserInfo
 from sqlite3 import IntegrityError
 from passlib.context import CryptContext
-from app.utils.jwt import create_access_token
+from app.utils.jwt import create_access_token, decode_access_token
 import hashlib
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -84,13 +84,15 @@ def login(user: User, response: Response):
     access_token = create_access_token({"user_id": db_user["id"]})
 
     # --- SET COOKIE ---
+    # Dev: use Lax + secure=False so cookies work over HTTP.
+    # In production with HTTPS switch to SameSite=None + secure=True.
     response.set_cookie(
         key="access_token",
         value=access_token,
         httponly=True,
         max_age=60*60,
-        samesite="none",  # required for cross-site cookies
-        secure=True,      # required with SameSite=None (needs HTTPS)
+        samesite="none",    # dev-friendly
+        secure=True,      # not HTTPS in dev
         path="/"
     )
 
@@ -98,6 +100,7 @@ def login(user: User, response: Response):
     return {"message": "Login successful"}
 
 # ---------- Verify User ----------
+@router.get("/session")
 def get_current_user(
     response: Response,
     access_token: str | None = Cookie(None, alias="access_token")
@@ -123,4 +126,7 @@ def get_current_user(
         response.delete_cookie("access_token", path="/")
         raise HTTPException(status_code=401, detail="User not found")
 
-    return user
+    return {
+        "id": user["id"],
+        "email": user["email"]
+    }

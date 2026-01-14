@@ -39,9 +39,9 @@ def init_db():
             zip INTEGER NOT NULL,
             bedroom_size INTEGER NOT NULL,
             bathroom_size INTEGER NOT NULL,
-            details TEXT
             owner_id INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users(id)
+            details TEXT,
+            FOREIGN KEY (owner_id) REFERENCES users(id)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE
         )

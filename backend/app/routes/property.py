@@ -1,18 +1,22 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from app.db.database import get_db
 from app.models.property import Property
+from main import get_current_user
 import json
 
 router = APIRouter(prefix="/property", tags=["Property"])
 
-@router.get("/all/{user_id}")
-def all_properties(user_id: int):
+
+
+@router.get("/all")
+def all_properties(current_user = Depends(get_current_user)):
+    
     conn = get_db()
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM property WHERE user_id=?",
-        (user_id,)
+        "SELECT * FROM property WHERE owner_id=?",
+        (current_user["id"],)
     )
     properties = cursor.fetchall()
     conn.close()
@@ -25,7 +29,7 @@ def all_properties(user_id: int):
     }
 
 @router.get("/{id}")
-def get_property_by_id(id: int):
+def get_property_by_id(id: int, current_user = Depends(get_current_user)):
     conn = get_db()
     cursor = conn.cursor()
 
@@ -41,11 +45,18 @@ def get_property_by_id(id: int):
             status_code=404,
             detail=f"Property with ID {id} not found"
         )
-
+    
+    if curr_prop["owner_id"] != current_user["id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="You do not have permission to access this property"
+        )
+    
     return {"property": dict(curr_prop)}
 
 @router.post("/add")
-def add_property(property: Property):
+def add_property(property: Property, owner_id = Depends(get_current_user)):
+
     conn = get_db()
     cursor = conn.cursor()
 
@@ -64,7 +75,7 @@ def add_property(property: Property):
                 property.zip,
                 property.bedrooms,
                 property.bathrooms,
-                property.user_id,
+                owner_id,
             )
         )
         conn.commit()
@@ -78,7 +89,7 @@ def add_property(property: Property):
     return {"message": "Property created successfully"}
 
 @router.patch("/edit/{id}")
-def edit_property(id: int, property: Property):
+def edit_property(id: int, property: Property, current_user = Depends(get_current_user)):
     conn = get_db()
     cursor = conn.cursor()
 
@@ -93,6 +104,12 @@ def edit_property(id: int, property: Property):
         raise HTTPException(
             status_code=404,
             detail=f"Property with ID {id} not found"
+        )
+    
+    if not curr_prop["owner_id"] != current_user["id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="You do not have permission to access this property"
         )
 
     cursor.execute(
@@ -119,7 +136,7 @@ def edit_property(id: int, property: Property):
     return {"message": "Property edited successfully"}
 
 @router.delete("/{id}")
-def delete_property(id: int):
+def delete_property(id: int, current_user = Depends(get_current_user)):
     conn = get_db()
     cursor = conn.cursor()
 
@@ -135,6 +152,12 @@ def delete_property(id: int):
             status_code=404,
             detail=f"Property with ID {id} not found"
         )
+    
+    if curr_prop["owner_id"] != current_user["id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="You do not have permission to access this property"
+        )
 
     cursor.execute(
         "DELETE FROM property WHERE id=?",
@@ -147,9 +170,21 @@ def delete_property(id: int):
     return {"message": "Property deleted successfully"}
 
 @router.patch("/details/{id}")
-def update_property_details(id: int, details: dict):
+def update_property_details(id: int, details: dict, current_user = Depends(get_current_user)):
     conn = get_db()
     cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM property WHERE id=?",
+        (id,)
+    )
+    curr_prop = cursor.fetchone()
+
+    if not curr_prop["owner_id"] != current_user["id"]:
+        raise HTTPException(
+            status_code=403,
+            detail="You do not have permission to access this property"
+        )
 
     try:
         cursor.execute(

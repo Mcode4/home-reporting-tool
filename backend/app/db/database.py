@@ -40,7 +40,7 @@ def init_db():
             bedroom_size INTEGER NOT NULL,
             bathroom_size INTEGER NOT NULL,
             details TEXT
-            user_id INTEGER NOT NULL,
+            owner_id INTEGER NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users(id)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE

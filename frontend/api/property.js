@@ -1,8 +1,8 @@
 const API_BASE_URL =
     process.env.API_URL || "http://127.0.0.1:8000"
 
-export async function getAllProperties(id) {
-    const res = await fetch(`${API_BASE_URL}/all/${id}`)
+export async function getAllProperties() {
+    const res = await fetch(`${API_BASE_URL}/all`)
 
     const data = await res.json()
 
@@ -35,13 +35,6 @@ export async function addProperty(dataObj) {
   for(let key of Object.keys(dataObj)) {
     if(!verifyKeys.has(key)) {
       return console.error(`"${key}" is not a valid key`);
-    }
-    
-    if(key === "bedroomSize") {
-      verifiedData["bedroom_size"] =  dataObj[key];
-    }
-    else if(key === "bathroomSize") {
-      verifiedData["bathroom_size"] =  dataObj[key];
     }
     else {
       verifiedData[key] =  dataObj[key];

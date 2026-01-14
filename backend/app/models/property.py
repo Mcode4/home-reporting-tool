@@ -9,4 +9,3 @@ class Property(BaseModel):
     zip: int
     bedrooms: int
     bathrooms: int
-    user_id: int

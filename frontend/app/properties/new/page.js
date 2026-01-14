@@ -10,8 +10,8 @@ export default function NewPropertyPage() {
     const [state, setState] = useState('');
     const [zip, setZip] = useState(null);
     const [country, setCountry] = useState('');
-    const [bedroomSize, setBedroomSize] = useState(1);
-    const [bathroomSize, setBathroomSize] = useState(1);
+    const [bedroom, setBedroom] = useState(1);
+    const [bathroom, setBathroom] = useState(1);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,13 +23,13 @@ export default function NewPropertyPage() {
             state,
             zip,
             country,
-            bedroomSize,
-            bathroomSize
+            bedroom,
+            bathroom
         };
 
         console.log('DATA:', data);
 
-        
+
     }
 
 
@@ -73,12 +73,12 @@ export default function NewPropertyPage() {
 
             <label htmlFor="bedroom-size">Bedrooms: </label>
             <input type="number" name="bedroom-size" id="bedroom-size" min={1} required
-                value={bedroomSize} onChange={(e)=> setBedroomSize(e.target.value)}
+                value={bedroom} onChange={(e)=> setBedroom(e.target.value)}
             />
 
             <label htmlFor="bathroom-size">Bathrooms: </label>
             <input type="number" name="bathroom-size" id="bathroom-size" min={1} required
-                value={bathroomSize} onChange={(e)=> setBathroomSize(e.target.value)}
+                value={bathroom} onChange={(e)=> setBathroom(e.target.value)}
             />
 
             <button type="submit">Submit</button>

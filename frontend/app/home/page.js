@@ -1,39 +1,57 @@
 "use client";
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react";
-import { getAllProperties } from "@/api/property";
+import { getAllProperties, deleteProperty } from "@/api/property";
 import { getImageByPropertyId } from "@/api/images";
+import Image from "next/image";
 import defaultImage from "@/public/HomeInsuranceCompany.jpg"
 import styles from './page.module.css'
 
 export default function HomePagePage() {
     const router = useRouter();
     const [data, setData] = useState(null);
+    const [images, setImages] = useState(null);
     const [loaded, setLoaded] = useState(false)
 
     useEffect(()=> {
         if(!data) {
-            const properties = getAllProperties()
-                .then((prop)=> setData(prop["properties"]))
-                .catch((e)=> console.log('Error occured: ', e))
-                .finally(setLoaded(true))
+            async function loadFunc() {
+                try {
+                    const propData =  await getAllProperties();
+                    const properties = propData["properties"];
+                    setData(properties);
+
+                    console.log('Properties: ', properties)
+                    properties.forEach(async (p)=> {
+                        const res = await getImageByPropertyId(p.id)
+                        console.log('RES', res)
+                        setImages(prev => ({ 
+                            ...prev, 
+                            [p.id]: res?.url || "/HomeInsuranceCompany.jpg" 
+                        }))
+                    });
+                }
+                catch(e) {
+                    console.log('Error occured: ', e);
+                }
+                finally {
+                    setLoaded(true);
+                }
+            }
+            loadFunc()
         }
     }, [data])
 
-    async function getImage(propertyId) {
-        let image
+    async function handleDelete (e, id) {
+        e.preventDefault();
         try {
-            const data = await getImageByPropertyId(propertyId)
-            console.log('DATA', data)
-
-            if(data.ok) {
-                image = data
-            }
-        } catch(e) {
-            console.log("Error Occured: ", e)
+            const res = await deleteProperty(id);
+            console.log(res)
+            window.location.reload();
         }
-        if(image) return image
-        return defaultImage
+        catch(e) {
+            console.log('Error occured', e);
+        } 
     }
 
     return (
@@ -47,12 +65,17 @@ export default function HomePagePage() {
                 
                 {data?.length > 0 ? data.map(property => (
                     <div className={styles.property} key={property.id}>
-                        <img src={getImage(property.id)} alt={`Property${property.id}`} />
+                        <Image 
+                            src={images?.[property.id] || defaultImage} 
+                            alt={property.name}
+                            height={100}
+                            width={100}
+                        />
                         <a href={`/property/${property.id}`}>{property.name}</a>
 
                         <div className={styles.propertyActions}>
                             <button>Edit</button>
-                            <button>Delete</button>
+                            <button onClick={(e)=> handleDelete(e, property.id)}>Delete</button>
                         </div>
                     </div>
                 )) : (

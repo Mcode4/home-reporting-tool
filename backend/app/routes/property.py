@@ -219,12 +219,17 @@ def delete_property(property_id: int, current_user = Depends(get_current_user)):
             detail="You do not have permission to access this property"
         )
 
-    delete_images_by_property(property_id)
+    try:
+        cursor.execute(
+            "DELETE FROM property WHERE id=?",
+            (property_id,)
+        )
 
-    cursor.execute(
-        "DELETE FROM property WHERE id=?",
-        (property_id,)
-    )
+        delete_images_by_property(property_id)
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 
     conn.commit()
     conn.close()

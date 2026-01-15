@@ -1,22 +1,5 @@
 import os
-import shutil
-from fastapi import UploadFile
 from app.db.database import get_db
-
-UPLOAD_DIR = "app/uploads/properties"
-
-async def save_image(property_id: int, file: UploadFile) -> str:
-    """Save uploaded image to disk"""
-    # Create directory if it doesn't exist
-    property_dir = os.path.join(UPLOAD_DIR, str(property_id))
-    os.makedirs(property_dir, exist_ok=True)
-
-    # Save file
-    file_path = os.path.join(property_dir, file.filename)
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-
-    return file_path
 
 def delete_image_by_id(image_id: int):
     conn = get_db()
@@ -51,7 +34,29 @@ def delete_image_by_id(image_id: int):
         conn.close()
 
 def delete_images_by_property(property_id: int):
-    """Delete all images for a property"""
-    property_dir = os.path.join(UPLOAD_DIR, str(property_id))
-    if os.path.exists(property_dir):
-        shutil.rmtree(property_dir)
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "SELECT id, filepath FROM images WHERE property_id=?",
+            (property_id,)
+        )
+        rows = cursor.fetchall()
+
+        for image_id, filepath in rows:
+            if filepath and os.path.exists(filepath):
+                os.remove(filepath)
+        
+        cursor.execute(
+            "DELETE FROM images WHERE property_id = ?",
+            (property_id,),
+        )
+        conn.commit()
+        return len(rows)
+    
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+    finally:
+        conn.close()

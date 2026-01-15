@@ -58,6 +58,8 @@ def init_db():
             size INTEGER,
             uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (property_id) REFERENCES property(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
         );
     """)
 

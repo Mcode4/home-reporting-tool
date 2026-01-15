@@ -234,7 +234,7 @@ export default function NewPropertyPage() {
             }
         }
         finally {
-            // router.push('/home')
+            router.push('/home')
         }
     }
 

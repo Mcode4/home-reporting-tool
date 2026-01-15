@@ -23,13 +23,25 @@ export async function getImageByPropertyId(propertyId) {
     const res = await fetch(`${API_BASE_URL}/images/${propertyId}`, {
         method: "GET",
         credentials: "include"
-    })
+    });
 
-    const data = await res.json()
+    const contentType = res.headers.get("Content-Type") || "";
 
     if(!res.ok) {
-        throw { status: res.status, message: data.detail || data.message || "Image failed to get" }
+        if(contentType.includes("application/json")) {
+            const err = await res.json().catch(()=> ({detail: "Unknown error"}))
+            throw { status: res.status, message: err.detail || err.message || "Image failed to get" }
+        }
+        const text = await res.text().catch(()=> "Unknown error");
+        throw { status: res.status, message: txt };
     }
 
-    return data
+    if (contentType.includes("application/json")) {
+        const data = await res.json();
+        return data;
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    return { url, contentType, blob };
 }

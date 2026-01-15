@@ -5,6 +5,8 @@
 - passlib[bcrypt]
 - python-dotenv
 - python-multipart
+- sqlalchemy
+- psycopg2-binary
 
 ## Start Backend
 uvicorn main:app --reload  <!-- Starts running api on http://127.0.0.1:8000 -->

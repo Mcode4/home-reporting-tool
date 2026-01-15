@@ -2,6 +2,8 @@
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react";
 import { getAllProperties } from "@/api/property";
+import { getImageByPropertyId } from "@/api/images";
+import defaultImage from "@/public/HomeInsuranceCompany.jpg"
 import styles from './page.module.css'
 
 export default function HomePagePage() {
@@ -18,6 +20,22 @@ export default function HomePagePage() {
         }
     }, [data])
 
+    async function getImage(propertyId) {
+        let image
+        try {
+            const data = await getImageByPropertyId(propertyId)
+            console.log('DATA', data)
+
+            if(data.ok) {
+                image = data
+            }
+        } catch(e) {
+            console.log("Error Occured: ", e)
+        }
+        if(image) return image
+        return defaultImage
+    }
+
     return (
         <div className="defaultWrapper">
         {loaded && (
@@ -29,7 +47,7 @@ export default function HomePagePage() {
                 
                 {data?.length > 0 ? data.map(property => (
                     <div className={styles.property} key={property.id}>
-                        <img src="" alt={`Property${property.id}`} />
+                        <img src={getImage(property.id)} alt={`Property${property.id}`} />
                         <a href={`/property/${property.id}`}>{property.name}</a>
 
                         <div className={styles.propertyActions}>

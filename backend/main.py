@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.db.database import init_db, get_db
 from app.routes.auth import router as auth_router
 from app.routes.property import router as property_router
+from app.routes.images import router as image_router
 
 from dotenv import load_dotenv
 
@@ -27,6 +28,7 @@ init_db()
 
 app.include_router(auth_router)
 app.include_router(property_router)
+app.include_router(image_router)
 
 @app.get("/")
 def health_check():

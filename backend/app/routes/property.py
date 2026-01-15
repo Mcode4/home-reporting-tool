@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, Response, Cookie
 from app.db.database import get_db
 from app.models.property import Property
 from app.routes.auth import get_current_user
+from app.utils.image_utils import delete_images_by_property
 import json
 
 router = APIRouter(prefix="/property", tags=["Property"])
@@ -194,14 +195,14 @@ def edit_property(id: int, property: Property, current_user = Depends(get_curren
 
     return {"message": "Property edited successfully"}
 
-@router.delete("/{id}")
-def delete_property(id: int, current_user = Depends(get_current_user)):
+@router.delete("/{property_id}")
+def delete_property(property_id: int, current_user = Depends(get_current_user)):
     conn = get_db()
     cursor = conn.cursor()
 
     cursor.execute(
         "SELECT * FROM property WHERE id=?",
-        (id,)
+        (property_id,)
     )
     curr_prop = cursor.fetchone()
 
@@ -209,7 +210,7 @@ def delete_property(id: int, current_user = Depends(get_current_user)):
         conn.close()
         raise HTTPException(
             status_code=404,
-            detail=f"Property with ID {id} not found"
+            detail=f"Property with ID {property_id} not found"
         )
     
     if curr_prop["owner_id"] != current_user["id"]:
@@ -218,15 +219,17 @@ def delete_property(id: int, current_user = Depends(get_current_user)):
             detail="You do not have permission to access this property"
         )
 
+    delete_images_by_property(property_id)
+
     cursor.execute(
         "DELETE FROM property WHERE id=?",
-        (id,)
+        (property_id,)
     )
 
     conn.commit()
     conn.close()
 
-    return {"message": "Property deleted successfully"}
+    return {"message": "Property deleted"}
 
 @router.patch("/details/{id}")
 def update_property_details(id: int, details: dict, current_user = Depends(get_current_user)):

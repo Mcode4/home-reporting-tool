@@ -14,6 +14,8 @@ import {
     patioTemp,
     smokeDetectorTemp
 } from "../detailTemps";
+import { uploadPropertyImage } from "@/api/images";
+
 
 export default function NewPropertyPage() {
     const router = useRouter();
@@ -51,12 +53,7 @@ export default function NewPropertyPage() {
     const [smokeDetectorCount, setSmokeDetectorCount] = useState(1);
 
     useEffect(()=> {
-        const details = document.getElementById("details")
-        if(active) {
-            details.className = "active"
-        } else {
-            details.className = "inactive"
-        }
+        console.log('ACTIVE1', active)
     }, [active])
 
     // console.log('Extras:', {
@@ -74,6 +71,12 @@ export default function NewPropertyPage() {
         e.preventDefault();
         setErr({});
         let id
+        const propertyImage = document.getElementById("prop-image-file")
+        let file
+
+        if(propertyImage.files[0]) {
+            file = propertyImage.files[0]
+        }
 
         const bedroomObj = {}
         const bathroomObj = {}
@@ -83,7 +86,6 @@ export default function NewPropertyPage() {
         for(let i=1; i<=bathrooms; i++) {
             bathroomObj[`bathroom${i}`] = bathTemp()
         }
-
 
         const data = {
             name,
@@ -106,7 +108,13 @@ export default function NewPropertyPage() {
         try {
             const property = await addProperty(data);
             console.log(property);
-            id = property["id"]
+            id = property["id"];
+
+            if(file) {
+                const imageFile = await uploadPropertyImage(id, file);
+                console.log("IMAGE FILE", imageFile);
+            }
+
             if(active) {
                 console.log('PROPERTY:', property, "ID:", id)
 
@@ -226,7 +234,7 @@ export default function NewPropertyPage() {
             }
         }
         finally {
-            router.push('/home')
+            // router.push('/home')
         }
     }
 
@@ -241,6 +249,11 @@ export default function NewPropertyPage() {
             <input type="text" name="name" id="prop-name" required
                 value={name} onChange={(e)=> setName(e.target.value)}
             />
+
+            <label htmlFor="prop-image-file">
+                File:
+                <input id="prop-image-file" name="prop-image-file" type="file" accept="image/*" />
+            </label>
 
             <div id="location">
                 <label htmlFor="address">Address: </label>
@@ -279,9 +292,8 @@ export default function NewPropertyPage() {
                 value={bathrooms} onChange={(e)=> setBathrooms(e.target.value)}
             />
 
-            <button type="button" onClick={()=> setActive(!active)}>Advanced</button>
-
-            <ul id="details" className="active">
+            <details id="details" onClick={()=> setActive(!active)}>
+                <summary>Advanced</summary>
                 <li>
                     <input type="checkbox" value={livingRoom} onChange={(e)=> setLivingRoom(e.target.checked)} />
                     Living Room
@@ -352,7 +364,7 @@ export default function NewPropertyPage() {
                         </div>
                     )}
                 </li>
-            </ul>
+            </details>
 
             <button type="submit">Submit</button>
             {err.message && (

@@ -4,6 +4,7 @@
 - python-jose[cryptography]
 - passlib[bcrypt]
 - python-dotenv
+- python-multipart
 
 ## Start Backend
 uvicorn main:app --reload  <!-- Starts running api on http://127.0.0.1:8000 -->

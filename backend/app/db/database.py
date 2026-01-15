@@ -47,6 +47,20 @@ def init_db():
         )
     """)
 
+    # PROPERTY IMAGE TABLE
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS images (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            property_id INTEGER NOT NULL,
+            filename TEXT NOT NULL,
+            filepath TEXT NOT NULL,
+            content_type TEXT,
+            size INTEGER,
+            uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (property_id) REFERENCES property(id)
+        );
+    """)
+
     conn.commit()
     conn.close()
         

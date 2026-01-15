@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "concurrently \"npm:dev-backend\" \"npm:dev-frontend\"",
-    "dev-backend": "cd backend && ./venv/bin/python -m uvicorn main:app --reload",
-    "dev-frontend": "cd frontend && npm install && npm run dev"
+    "dev-backend": "cd backend && cp .env.example .env && ./venv/bin/python -m uvicorn main:app --reload",
+    "dev-frontend": "cd frontend && cp .env.example .env && npm install && npm run build && npm run dev"
   },
   "keywords": [],
   "author": "",

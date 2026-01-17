@@ -43,7 +43,6 @@ COPY . .
 # Install backend dependencies
 # ----------------------------
 WORKDIR /app/backend
-RUN python3 -m venv venv
 RUN pip install --no-cache-dir -r requirements.txt
 
 # ----------------------------
@@ -57,10 +56,10 @@ EXPOSE 80
 WORKDIR /app
 RUN npm install
 
-# RUN pwd && ls -la
-# RUN find /app -maxdepth 3 -type d
-# RUN which python || true
-# RUN python --version || true
+RUN pwd && ls -la
+RUN find /app -maxdepth 3 -type d
+RUN which python || true
+RUN python --version || true
 
 
 

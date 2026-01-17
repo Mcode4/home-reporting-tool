@@ -2,4 +2,4 @@ Examples
 .env
 __pycache__
 venv
-*.db
+.db*

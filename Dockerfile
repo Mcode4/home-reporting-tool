@@ -44,9 +44,8 @@ COPY . .
 # ----------------------------
 WORKDIR /app/backend
 RUN python3 -m venv .venv
-RUN source ./venv/bin/activate
+RUN . ./venv/bin/activate
 RUN pip install -r requirements.txt
-RUN deactivate
 
 # ----------------------------
 # Expose ports

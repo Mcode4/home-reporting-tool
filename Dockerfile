@@ -57,7 +57,7 @@ RUN npm run build
 # ----------------------------
 # Expose ports
 # ----------------------------
-EXPOSE 80
+EXPOSE 1000
 
 # ----------------------------
 # Go back to root

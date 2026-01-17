@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker-setup": "concurrently --kill-others \"npm run start-nginx\" \"npm run start-backend\" \"npm run start-frontend\"",
     "start-nginx": "cd nginx && nginx -g 'daemon off;'",
-    "start-backend": "cd backend && . ./venv/bin/activate && uvicorn main:app --reload",
+    "start-backend": "cd backend && uvicorn main:app --reload",
     "start-frontend": "cd frontend && npm install && npm run build && npm run start"
   },
   "keywords": [],

@@ -38,6 +38,12 @@ WORKDIR /app
 # ----------------------------
 COPY . .
 
+RUN pwd && ls -la
+RUN find /app -maxdepth 3 -type d
+RUN which python || true
+RUN python --version || true
+
+
 # ----------------------------
 # Install backend dependencies
 # ----------------------------
@@ -54,6 +60,12 @@ EXPOSE 80
 # ----------------------------
 WORKDIR /app
 RUN npm install
+
+RUN pwd && ls -la
+RUN find /app -maxdepth 3 -type d
+RUN which python || true
+RUN python --version || true
+
 
 
 CMD ["npm", "run", "docker-setup"]

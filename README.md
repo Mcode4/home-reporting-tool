@@ -15,8 +15,8 @@ Currently being developed into BETA stage. This is a home reporting tool for doc
 
 **Simple Setup(Docker):**
 
-1. Run the docker build command. You can make your own or use: `docker build -t home-reporting-tool .`
-2. Run the docker build with the run command. Must have .env from Prerequisite 4. `docker run -p 8000:8000 --env-file .env home-reporting-tool`
+1. Run the docker build command. You can make your own or use: `docker build -t home-reporting-tool --build-arg PORT=3000 --build-arg POSTGRES_URL={YOUR URL} --build-arg SECRET_KEY=supersecretkey123 --build-arg ALGORITHM=HS256 .`
+2. Run the docker build with the run command. Must have .env from Prerequisite 4. `docker run -p 8000:8000 -p 3000:3000 --env-file .env home-reporting-tool`
 
 **Manual Setup:**
 

@@ -1,0 +1,19 @@
+{
+  "name": "home-reporting-tool",
+  "version": "1.0.0",
+  "description": "Currently being developed into BETA stage. This is a home reporting tool for documenting properties and saving results to a database connected to your specific user. Setting up is simple and currently supported on linux/mac OS/wsl on Windows.",
+  "main": "ecosystem.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker-setup": "concurrently --kill-others \"npm run start-nginx\" \"npm run start-backend\" \"npm run start-frontend\"",
+    "start-nginx": "cd nginx && nginx -g 'daemon off;'",
+    "start-backend": "cd backend && bash -c 'source ./venv/bin/activate && uvicorn main:app --reload'",
+    "start-frontend": "cd frontend && npm install && npm run build && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

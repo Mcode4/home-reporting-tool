@@ -383,7 +383,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Flooring - vinyl/tile presentable</span>
-                                <select name="bath1_flooring">
+                                <select name="bath1_flooring"
+                                    value={property?.details.baths[`bathroom${i+1}`].flooringPresentable.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.flooringPresentable.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -393,7 +396,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Countertop - resurface</span>
-                                <select name="bath1_countertop_resurface">
+                                <select name="bath1_countertop_resurface"
+                                    value={property?.details.baths[`bathroom${i+1}`].counterTopResurface.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.counterTopResurface.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -403,7 +409,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Countertop caulk</span>
-                                <select name="bath1_countertop_caulk">
+                                <select name="bath1_countertop_caulk"
+                                    value={property?.details.baths[`bathroom${i+1}`].counterTopCaulk.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.counterTopCaulk.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -413,7 +422,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Mirror - cracked/discolored</span>
-                                <select name="bath1_mirror">
+                                <select name="bath1_mirror"
+                                    value={property?.details.baths[`bathroom${i+1}`].mirrorCracked.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.mirrorCracked.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -423,7 +435,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Faucet - dripping/leaking</span>
-                                <select name="bath1_faucet_leak">
+                                <select name="bath1_faucet_leak"
+                                    value={property?.details.baths[`bathroom${i+1}`].faucetDrip.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.faucetDrip.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -433,7 +448,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Stopper - remove old system</span>
-                                <select name="bath1_stop_system">
+                                <select name="bath1_stop_system"
+                                    value={property?.details.baths[`bathroom${i+1}`].stopperOld.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.stopperOld.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -443,7 +461,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Medicine cabinet - clean/damaged</span>
-                                <select name="bath1_medicine_cabinet">
+                                <select name="bath1_medicine_cabinet"
+                                    value={property?.details.baths[`bathroom${i+1}`].medicineCabinetDamaged.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.medicineCabinetDamaged.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -453,7 +474,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Medicine cabinet - mirror faded spots</span>
-                                <select name="bath1_medicine_mirror_faded">
+                                <select name="bath1_medicine_mirror_faded"
+                                    value={property?.details.baths[`bathroom${i+1}`].medicineCabinetFaded.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.medicineCabinetFaded.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -463,7 +487,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Lightbulbs - light fixture secure</span>
-                                <select name="bath1_light_fixture">
+                                <select name="bath1_light_fixture"
+                                    value={property?.details.baths[`bathroom${i+1}`].lightbulbs.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.lightbulbs.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -473,7 +500,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Toilet - seat</span>
-                                <select name="bath1_toilet_seat">
+                                <select name="bath1_toilet_seat"
+                                    value={property?.details.baths[`bathroom${i+1}`].toiletSeat.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.toiletSeat.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -483,7 +513,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Toilet - working with water</span>
-                                <select name="bath1_toilet_working">
+                                <select name="bath1_toilet_working"
+                                    value={property?.details.baths[`bathroom${i+1}`].toiletWorking.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.toiletWorking.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -493,7 +526,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Toilet - bolts/caulking</span>
-                                <select name="bath1_toilet_bolts">
+                                <select name="bath1_toilet_bolts"
+                                    value={property?.details.baths[`bathroom${i+1}`].toiletCaulking.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.toiletCaulking.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -503,7 +539,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Toilet - running/leaking</span>
-                                <select name="bath1_toilet_leaking">
+                                <select name="bath1_toilet_leaking"
+                                    value={property?.details.baths[`bathroom${i+1}`].toiletLeaking.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.toiletLeaking.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -513,7 +552,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathtub - stopper</span>
-                                <select name="bath1_bathtub_stopper">
+                                <select name="bath1_bathtub_stopper"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathtubStopper.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathtubStopper.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -523,7 +565,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathtub - resurfacing needed</span>
-                                <select name="bath1_bathtub_resurface">
+                                <select name="bath1_bathtub_resurface"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathtubResurface.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathtubResurface.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -533,7 +578,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathtub - shower diverter working/no leaks</span>
-                                <select name="bath1_shower_diverter">
+                                <select name="bath1_shower_diverter"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathtubShowerDiverter.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathtubShowerDiverter.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -543,7 +591,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathtub - shower towel bar</span>
-                                <select name="bath1_towel_bar">
+                                <select name="bath1_towel_bar"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathtubTowelBar.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathtubTowelBar.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -553,7 +604,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathtub - shower head</span>
-                                <select name="bath1_shower_head">
+                                <select name="bath1_shower_head"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathtubShowerHead.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathtubShowerHead.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -563,7 +617,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathtub - shower curtain rod</span>
-                                <select name="bath1_shower_rod">
+                                <select name="bath1_shower_rod"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathtubCurtainRob.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathtubCurtainRob.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -573,7 +630,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathroom faucet - working no leaks</span>
-                                <select name="bath1_faucet_working">
+                                <select name="bath1_faucet_working"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathroomFaucetWorking.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathroomFaucetWorking.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -583,7 +643,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathroom faucet - hot/cold water</span>
-                                <select name="bath1_faucet_hot_cold">
+                                <select name="bath1_faucet_hot_cold"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathroomFaucetHotCold.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathroomFaucetHotCold.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -593,7 +656,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathroom faucet - stopper missing</span>
-                                <select name="bath1_faucet_stopper_missing">
+                                <select name="bath1_faucet_stopper_missing"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathroomFaucetStopper.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathroomFaucetStopper.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -603,7 +669,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathroom - towel racks</span>
-                                <select name="bath1_towel_racks">
+                                <select name="bath1_towel_racks"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathroomTowelRacks.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathroomTowelRacks.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -613,7 +682,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathroom - toilet paper holder</span>
-                                <select name="bath1_toilet_paper_holder">
+                                <select name="bath1_toilet_paper_holder"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathroomToiletPaperHolder.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathroomToiletPaperHolder.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -623,7 +695,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathroom - door/hinges/knobs/strike plates</span>
-                                <select name="bath1_door_hardware">
+                                <select name="bath1_door_hardware"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathroomDoorHingesKnobsStrikePlates.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathroomDoorHingesKnobsStrikePlates.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -633,7 +708,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathroom - shelving intact</span>
-                                <select name="bath1_shelving">
+                                <select name="bath1_shelving"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathroomShelvingIntact.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathroomShelvingIntact.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -643,7 +721,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Fart fan - working, clean</span>
-                                <select name="bath1_fart_fan">
+                                <select name="bath1_fart_fan"
+                                    value={property?.details.baths[`bathroom${i+1}`].fartFan.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.fartFan.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -653,7 +734,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Bathroom - baseboards cracked/water damaged</span>
-                                <select name="bath1_baseboards_damaged">
+                                <select name="bath1_baseboards_damaged"
+                                    value={property?.details.baths[`bathroom${i+1}`].bathroomBaseboardsDamage.value || ""}
+                                    onChange={(e)=> handleChange(`details.baths.bathroom${i+1}.bathroomBaseboardsDamage.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>

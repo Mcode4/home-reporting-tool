@@ -1,4 +1,9 @@
-const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api` || '/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_PROXY ? '/api' : "http://127.0.0.1:8000/api";
+
+
+// console.log(`ENV: ${process.env.NEXT_PUBLIC_API_URL}`)
+// console.log(`API URL: ${API_BASE_URL}`)
+// console.log(`PROXY: ${process.env.NEXT_PUBLIC_PROXY}`)
 
 export async function login(email, password) {
     const res = await fetch(`${API_BASE_URL}/auth/login`, {

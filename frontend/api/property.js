@@ -1,4 +1,8 @@
-const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api` || '/api';
+const API_BASE_URL = process.env.PROXY ? '/api' : "http://127.0.0.1:8000/api";
+
+
+console.log(`ENV: ${process.env.NEXT_PUBLIC_API_URL}`)
+console.log(`API URL: ${API_BASE_URL}`)
 
 export async function getAllProperties() {
     const res = await fetch(`${API_BASE_URL}/property/all`, {

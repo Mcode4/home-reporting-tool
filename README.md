@@ -3,7 +3,7 @@ Currently being developed into BETA stage. This is a home reporting tool for doc
 
 ## Setup
 **Prerequisite:**
-- If you're using docker you can skip prerequisite steps 1 and 2
+- If you're using docker you can skip prerequisite steps 1, 2, and 4
 
 1. Have npm(Node Package Manager) installed on your system
 2. Install python3.12
@@ -12,9 +12,11 @@ Currently being developed into BETA stage. This is a home reporting tool for doc
 
 **Docker Setup:**
 
-1. Run the docker build command. You can make your own or use: `docker build -t home-reporting-tool --build-arg ACCESS_TOKEN_EXPIRE_MINUTES=60 --build-arg SQLITE_PATH=report_tool_db.db --build-arg POSTGRES_URL={YOUR URL} --build-arg SECRET_KEY=supersecretkey123 --build-arg ALGORITHM=HS256 .`
-- Edit POSTGRES_URL={YOUR URL}
-2. Run the docker build with the run command. Must have .env from Prerequisite 4. `docker run -p 8000:8000 -p 3000:3000 --env-file .env home-reporting-tool`
+1. Run the docker build command. You can make your own or use: `docker build -t home-reporting-tool --build-arg ACCESS_TOKEN_EXPIRE_MINUTES=60 --build-arg SQLITE_PATH=report_tool_db.db --build-arg POSTGRES_URL={YOUR URL} --build-arg SECRET_KEY=supersecretkey123 --build-arg ALGORITHM=HS256 --build-arg PROJECT_ENV=development .`
+- (Optional) Edit POSTGRES_URL={YOUR URL} Edit PROJECT_ENV to "Production" if you add a postegres url
+2. Run the docker build with the run command. Must have .env from Prerequisite 4. `docker run -p 10000:10000 --env-file .env home-reporting-tool`
+3. With docker setup, you'll have to wait for Nginx to run. The delay is from the code in the root's package.json: `"start-nginx": "sleep 40 && cd nginx && nginx -g 'daemon off;'"`. It waits to ensure frontend and backend load but can be removed if running locally: `"start-nginx": "cd nginx && nginx -g 'daemon off;'"`
+4. Access site at http://localhost:10000
 
 **Manual Setup:**
 - Quick Command in root directory: `npm install && npm run local-setup`

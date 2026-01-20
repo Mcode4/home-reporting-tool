@@ -10,7 +10,6 @@ RUN apt-get update && \
     apt-get install -y curl gnupg build-essential nginx && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
-    apt-get install pgloader && \
     rm -rf /var/lib/apt/lists/* 
 
 # ----------------------------
@@ -28,6 +27,7 @@ ARG SQLITE_PATH
 ARG POSTGRES_URL
 ARG SECRET_KEY
 ARG ALGORITHM
+ARG PROJECT_ENV
 
 # ----------------------------
 # Set working directory
@@ -52,6 +52,7 @@ RUN python3 ./scripts/migrate_db_to_postgres.py
 # Install frontend dependencies
 # ----------------------------
 WORKDIR /app/frontend
+ENV NEXT_PUBLIC_PROXY=true
 RUN npm install
 RUN npm run build
 
@@ -60,7 +61,7 @@ RUN npm run build
 # ----------------------------
 # Expose ports
 # ----------------------------
-EXPOSE 1000
+EXPOSE 10000
 
 # ----------------------------
 # Go back to root

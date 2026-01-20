@@ -1076,8 +1076,8 @@ export default function PropertyPage() {
                             <div class="item-group">
                                 <span class="item-label">Light fixture - bulbs working/secure</span>
                                 <select name="dining_light_fixture"
-                                    value={property?.details.livingRoom[`livingRoom${i+1}`] || ""}
-                                    onChange={(e)=> handleChange(`details.livingRoom.livingRoom${i+1}`, e.target.value)}
+                                    value={property?.details.diningRoom[`diningRoom${i+1}`].lightFixture.value || ""}
+                                    onChange={(e)=> handleChange(`details.diningRoom.diningRoom${i+1}.lightFixture.value`, e.target.value)}
                                 >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
@@ -1088,7 +1088,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Switch plates - painted/damaged</span>
-                                <select name="dining_switch_plates">
+                                <select name="dining_switch_plates"
+                                    value={property?.details.diningRoom[`diningRoom${i+1}`].switchPlatesDamage.value || ""}
+                                    onChange={(e)=> handleChange(`details.diningRoom.diningRoom${i+1}.switchPlatesDamage.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1099,8 +1102,8 @@ export default function PropertyPage() {
                             <div class="item-group">
                                 <span class="item-label">Flooring - vinyl/carpet condition</span>
                                 <select name="dining_flooring_condition"
-                                    value={property?.details.livingRoom[`livingRoom${i+1}`] || ""}
-                                    onChange={(e)=> handleChange(`details.livingRoom.livingRoom${i+1}`, e.target.value)}
+                                    value={property?.details.diningRoom[`diningRoom${i+1}`].flooringCondition.value || ""}
+                                    onChange={(e)=> handleChange(`details.diningRoom.diningRoom${i+1}.flooringCondition.value`, e.target.value)}
                                 >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>

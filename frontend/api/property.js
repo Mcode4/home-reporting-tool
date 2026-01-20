@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.PROXY ? '/api' : "http://127.0.0.1:8000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_PROXY == "true" ? '/api' : "http://127.0.0.1:8000/api";
 
 
 console.log(`ENV: ${process.env.NEXT_PUBLIC_API_URL}`)

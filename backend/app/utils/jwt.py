@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-env_path = Path(__file__).resolve().parents[1] / ".env"
+env_path = Path(__file__).resolve().parents[2] / ".env"
 # print("Looking for .env at:", env_path)
 # print("Exists:", env_path.exists())
 

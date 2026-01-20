@@ -69,7 +69,7 @@ def upload_property_image(
         cursor.execute(
             """
             INSERT INTO images (property_id, filename, filepath, content_type, size)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s)
             """,
             (
                 property_id,
@@ -151,12 +151,13 @@ def get_image_by_property(
     current_user: int = Depends(get_current_user)
 ):
     if PROJECT_ENV == "production":
-            conn = get_db()
+            conn = get_pg_db()
             cursor = conn.cursor()
             cursor.execute(
-                "SELECT * FROM property WHERE id=?", (property_id,)
+                "SELECT * FROM property WHERE id=%s", (property_id,)
             )
             curr_prop = cursor.fetchone()
+            print(f'CURRENT PROPERTY: {curr_prop}')
 
             if curr_prop["owner_id"] != current_user["id"]:
                 print(f"roperty:{curr_prop} User ID:{current_user["id"]}")
@@ -166,7 +167,7 @@ def get_image_by_property(
                 """
                 SELECT filepath
                 FROM images
-                WHERE property_id = ?
+                WHERE property_id = %s
                 """,
                 (property_id,),
             )
@@ -273,11 +274,11 @@ def replace_image(
         conn = get_pg_db()
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT * FROM images WHERE id=?", (image_id,)
+            "SELECT * FROM images WHERE id=%s", (image_id,)
         )
         image = cursor.fetchone()
         cursor.execute(
-            "SELECT * FROM property WHERE id=?", (image["property_id"],)
+            "SELECT * FROM property WHERE id=%s", (image["property_id"],)
         )
         curr_prop = cursor.fetchone()
 

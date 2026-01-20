@@ -18,7 +18,6 @@ load_dotenv(env_path)
 router = APIRouter(prefix="/property", tags=["Property"])
 
 PROJECT_ENV = os.environ.get("PROJECT_ENV", "development")
-print(f'PROJECT ENV: {PROJECT_ENV}')
 
 def get_pg_db():
     return psycopg2.connect(
@@ -39,7 +38,6 @@ def deep_merge(original, patch):
 
 @router.get("/all")
 def all_properties(current_user = Depends(get_current_user)):
-    print(f'PROJECT ENV: {PROJECT_ENV}')
     if PROJECT_ENV == 'production':
         conn = get_pg_db()
         cursor = conn.cursor()

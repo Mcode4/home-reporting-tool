@@ -30,6 +30,16 @@ ARG ALGORITHM
 ARG PROJECT_ENV
 
 # ----------------------------
+# Bake ARGS into Image
+# ----------------------------
+ENV ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+ENV SQLITE_PATH=${SQLITE_PATH}
+ENV POSTGRES_URL=${POSTGRES_URL}
+ENV SECRET_KEY=${SECRET_KEY}
+ENV ALGORITHM=${ALGORITHM}
+ENV PROJECT_ENV=${PROJECT_ENV}
+
+# ----------------------------
 # Set working directory
 # ----------------------------
 WORKDIR /app
@@ -69,10 +79,13 @@ EXPOSE 10000
 WORKDIR /app
 RUN npm install
 
-RUN pwd && ls -la
-RUN find /app -maxdepth 3 -type d
-RUN which python || true
-RUN python --version || true
+# ----------------------------
+# File Testing
+# ----------------------------
+# RUN pwd && ls -la
+# RUN find /app -maxdepth 3 -type d
+# RUN which python || true
+# RUN python --version || true
 
 
 

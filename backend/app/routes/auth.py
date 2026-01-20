@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 from psycopg2 import IntegrityError as PostgresError
+from psycopg2.extras import RealDictCursor
 import psycopg2
 
 env_path = Path(__file__).resolve().parents[1] / ".env"

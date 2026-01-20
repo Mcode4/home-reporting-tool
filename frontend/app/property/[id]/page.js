@@ -1586,7 +1586,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Flooring - cracked/damaged</span>
-                                <select name="patio_flooring">
+                                <select name="patio_flooring"
+                                    value={property?.details.patio[`patio${i+1}`].flooringDamage.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.flooringDamage.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ INTACT</option>
                                 <option value="repair">🔧 CRACKED</option>
@@ -1596,7 +1599,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Railings - secure/paint or cleaning needed</span>
-                                <select name="patio_railings">
+                                <select name="patio_railings"
+                                    value={property?.details.patio[`patio${i+1}`].railing.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.railing.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ SECURE</option>
                                 <option value="repair">🔧 NEED CLEANING</option>
@@ -1606,7 +1612,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Light fixture - bulbs working/secure</span>
-                                <select name="patio_light_fixture">
+                                <select name="patio_light_fixture"
+                                    value={property?.details.patio[`patio${i+1}`].lightFixture.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.lightFixture.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 NEED REPAIR</option>
@@ -1616,7 +1625,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Pest control - wasp/ants/spiders</span>
-                                <select name="patio_pest_control">
+                                <select name="patio_pest_control"
+                                    value={property?.details.patio[`patio${i+1}`].pestControl.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.pestControl.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ CLEAR</option>
                                 <option value="repair">🔧 PRESENCE DETECTED</option>
@@ -1626,7 +1638,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Hot water heater - leaks/rust</span>
-                                <select name="patio_hot_water_heater">
+                                <select name="patio_hot_water_heater"
+                                    value={property?.details.patio[`patio${i+1}`].hotWaterHeater.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.hotWaterHeater.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ NO LEAKS</option>
                                 <option value="repair">🔧 LEAKS</option>
@@ -1636,7 +1651,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Heat & AC unit - working properly</span>
-                                <select name="patio_heat_ac_working">
+                                <select name="patio_heat_ac_working"
+                                    value={property?.details.patio[`patio${i+1}`].heatACUnitWorking.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.heatACUnitWorking.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 NEED REPAIR</option>
@@ -1646,7 +1664,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Heat & AC unit - filter/thermostat powered</span>
-                                <select name="patio_heat_ac_filter">
+                                <select name="patio_heat_ac_filter"
+                                    value={property?.details.patio[`patio${i+1}`].heatACUnitThermostat.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.heatACUnitThermostat.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ FILTER CLEAN / THERMOSTAT ON</option>
                                 <option value="repair">🔧 NEED FILTER CHANGE</option>
@@ -1656,7 +1677,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">HVAC room - no dust/mildew/water damage</span>
-                                <select name="patio_hvac_room_clean">
+                                <select name="patio_hvac_room_clean"
+                                    value={property?.details.patio[`patio${i+1}`].HVACRoomDamage.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.HVACRoomDamage.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ CLEAN</option>
                                 <option value="repair">🔧 DUST/MILDEW PRESENT</option>
@@ -1666,7 +1690,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">HVAC room - doors/hinges/locks</span>
-                                <select name="patio_hvac_room_doors">
+                                <select name="patio_hvac_room_doors"
+                                    value={property?.details.patio[`patio${i+1}`].HVACRoomDoorHingeLock.value || ""}
+                                    onChange={(e)=> handleChange(`details.patio.patio${i+1}.HVACRoomDoorHingeLock.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ SECURE</option>
                                 <option value="repair">🔧 NEED REPAIR</option>
@@ -1680,7 +1707,10 @@ export default function PropertyPage() {
                             <summary>Smoke Detectors {property?.details.smokeDetector.count > 1 && i+1}</summary>
                             <div class="item-group">
                                 <span class="item-label">Detectors - batteries changed</span>
-                                <select name="smoke_detectors_batteries">
+                                <select name="smoke_detectors_batteries"
+                                    value={property?.details}
+                                    onChange={(e)=> handleChange(``, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ CHANGED</option>
                                 <option value="repair">🔧 NEED CHANGE</option>

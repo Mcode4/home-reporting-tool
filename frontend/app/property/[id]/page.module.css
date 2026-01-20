@@ -1,0 +1,9 @@
+#inspectionForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#inspectionForm div {
+    display: flex;
+    flex-direction: column;
+}

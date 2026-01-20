@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { getPropertyById } from "@/api/property";
+import { getPropertyById, updatePropertyDetails } from "@/api/property";
+import styles from "./page.module.css"
 
 // Values on form remove on refresh
 // Need to save to a cookie or local session
@@ -11,6 +12,7 @@ export default function PropertyPage() {
     const [property, setProperty] = useState(null);
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(null);
+    const [completed, setCompleted] = useState(false);
 
     useEffect(() => {
         if (!params.id) return;
@@ -30,7 +32,6 @@ export default function PropertyPage() {
 
         console.log('local storage validate, property:', property);
         const saved = localStorage.getItem("propertyDraft");
-        console.log('saved', saved)
 
         if(saved) {
             try {
@@ -57,6 +58,12 @@ export default function PropertyPage() {
         }
     }, [property, loaded])
 
+    useEffect(()=> {
+        if(completed){
+            setCompleted(false);
+        }
+    }, [property]);
+
     if (!loaded) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
     if (!property) return <div>Property not found</div>;
@@ -81,12 +88,32 @@ export default function PropertyPage() {
         });
     };
 
+    const handleComplete = async (e) => {
+        e.preventDefault();
+
+        try {
+            const id = params.id;
+            const details = property.details;
+            const submit = await updatePropertyDetails(id, details)
+
+            console.log('SUBMIT', submit)
+
+            if(submit) {
+                setCompleted(true);
+            }
+        } catch(e) {
+            console.error("Error occured", e);
+        }
+
+        return
+    }
+
     return (
         <div id="propertyPage">
             {loaded && (
                 <>
                     <h1>{property?.name} · Unit Inspection</h1>
-                    <form id="inspectionForm">
+                    <form id={styles.inspectionForm}>
                         <div className="meta">
                         <label>Unit Number: 
                             <input 
@@ -163,8 +190,11 @@ export default function PropertyPage() {
                             </select>
                         </label>
 
-                        <button type="button" onClick="markCompleted()">Completed</button>
+                        <button type="button" onClick={handleComplete} disabled={completed}>{completed ? "Completed" : "Not Complete"}</button>
                         <button type="button" onClick="checkUnitStatus()">Check Unit Status</button>
+
+                        {/* <button type="button" onClick="markCompleted()">Completed</button>
+                        <button type="button" onClick="checkUnitStatus()">Check Unit Status</button> */}
                         </div>
 
                         {Array.from({length: property?.bedroom_size || 0}, (_, i)=> (

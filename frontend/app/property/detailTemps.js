@@ -32,6 +32,7 @@ export const exteriorTemp = ({
   kickPlate = null,
   cleanPatio = null,
   rails = null,
+  paintPatio = null,
   patioDoorLock = null,
 } = {}) => ({
   changeFrontLocks: { text: 'Change locks - front door', value: changeFrontLocks },
@@ -42,6 +43,7 @@ export const exteriorTemp = ({
   kickPlate: { text: 'Kick plate (if needed)', value: kickPlate },
   cleanPatio: { text: 'Clean patio', value: cleanPatio },
   rails: { text: 'Paint/clean rails (if needed)', value: rails },
+  paintPatio: { text: 'Paint/clean patio door', value: paintPatio },
   patioDoorLock: { text: 'Change patio door lock', value: patioDoorLock },
 });
 

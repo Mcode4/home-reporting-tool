@@ -752,7 +752,10 @@ export default function PropertyPage() {
                             <summary>Exterior {property?.details.exterior.count > 1 && i+1}</summary>
                             <div class="item-group">
                             <span class="item-label">Change locks - front door</span>
-                            <select name="exterior_front_door_lock">
+                            <select name="exterior_front_door_lock"
+                                value={property?.details.exterior[`exterior${i+1}`].changeFrontLocks.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.changeFrontLocks.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -762,7 +765,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Clean front door area</span>
-                            <select name="exterior_front_door_clean">
+                            <select name="exterior_front_door_clean"
+                                value={property?.details.exterior[`exterior${i+1}`].cleanFrontDoor.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.cleanFrontDoor.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -772,7 +778,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Paint front door</span>
-                            <select name="exterior_front_door_paint">
+                            <select name="exterior_front_door_paint"
+                                value={property?.details.exterior[`exterior${i+1}`].paintFrontDoor.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.paintFrontDoor.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -782,7 +791,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Front door light bulb/fixture</span>
-                            <select name="exterior_front_door_light">
+                            <select name="exterior_front_door_light"
+                                value={property?.details.exterior[`exterior${i+1}`].frontDoorLight.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.frontDoorLight.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -792,7 +804,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Door number installed</span>
-                            <select name="exterior_door_number">
+                            <select name="exterior_door_number"
+                                value={property?.details.exterior[`exterior${i+1}`].doorNumber.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.doorNumber.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -802,7 +817,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Kick plate (if needed)</span>
-                            <select name="exterior_kick_plate">
+                            <select name="exterior_kick_plate"
+                                value={property?.details.exterior[`exterior${i+1}`].kickPlate.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.kickPlate.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -812,7 +830,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Clean patio</span>
-                            <select name="exterior_patio_clean">
+                            <select name="exterior_patio_clean"
+                                value={property?.details.exterior[`exterior${i+1}`].cleanPatio.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.cleanPatio.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -822,7 +843,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Paint/clean rails (if needed)</span>
-                            <select name="exterior_rails_paint_clean">
+                            <select name="exterior_rails_paint_clean"
+                                value={property?.details.exterior[`exterior${i+1}`].rails.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.rails.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -832,7 +856,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Paint/clean patio door</span>
-                            <select name="exterior_patio_door_paint_clean">
+                            <select name="exterior_patio_door_paint_clean"
+                                value={property?.details.exterior[`exterior${i+1}`].paintPatio.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.paintPatio.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -842,7 +869,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                             <span class="item-label">Change patio door lock</span>
-                            <select name="exterior_patio_door_lock">
+                            <select name="exterior_patio_door_lock"
+                                value={property?.details.exterior[`exterior${i+1}`].patioDoorLock.value || ""}
+                                onChange={(e)=> handleChange(`details.exterior.exterior${i+1}.patioDoorLock.value`, e.target.value)}
+                            >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>

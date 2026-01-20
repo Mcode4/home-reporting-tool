@@ -1477,7 +1477,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Flooring - vinyl/carpet damaged</span>
-                                <select name="laundry_flooring">
+                                <select name="laundry_flooring"
+                                    value={property?.details.laundryRoom[`laundryRoom${i+1}`].flooringDamage.value || ""}
+                                    onChange={(e)=> handleChange(`details.laundryRoom.laundryRoom${i+1}.flooringDamage.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 DAMAGED</option>
@@ -1487,7 +1490,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Washer - run cycle/leaks/loud noises</span>
-                                <select name="laundry_washer">
+                                <select name="laundry_washer"
+                                    value={property?.details.laundryRoom[`laundryRoom${i+1}`].washerCycleLeaksNoise.value || ""}
+                                    onChange={(e)=> handleChange(`details.laundryRoom.laundryRoom${i+1}.washerCycleLeaksNoise.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 LEAKS</option>
@@ -1497,7 +1503,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Dryer - run cycle/leaks/loud noises</span>
-                                <select name="laundry_dryer">
+                                <select name="laundry_dryer"
+                                    value={property?.details.laundryRoom[`laundryRoom${i+1}`].dryerCycleLeaksNoise.value || ""}
+                                    onChange={(e)=> handleChange(`details.laundryRoom.laundryRoom${i+1}.dryerCycleLeaksNoise.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 LEAKS</option>
@@ -1507,7 +1516,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Shelves - secure</span>
-                                <select name="laundry_shelves">
+                                <select name="laundry_shelves"
+                                    value={property?.details.laundryRoom[`laundryRoom${i+1}`].shelves.value || ""}
+                                    onChange={(e)=> handleChange(`details.laundryRoom.laundryRoom${i+1}.shelves.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ SECURE</option>
                                 <option value="repair">🔧 LOOSE</option>
@@ -1517,7 +1529,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Circuit breaker box - secure</span>
-                                <select name="laundry_breaker_box">
+                                <select name="laundry_breaker_box"
+                                    value={property?.details.laundryRoom[`laundryRoom${i+1}`].circuitBreakerBox.value || ""}
+                                    onChange={(e)=> handleChange(`details.laundryRoom.laundryRoom${i+1}.circuitBreakerBox.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ SECURE</option>
                                 <option value="repair">🔧 NEEDS REPAIR</option>
@@ -1527,7 +1542,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Laundry machine - area clean</span>
-                                <select name="laundry_area_clean">
+                                <select name="laundry_area_clean"
+                                    value={property?.details.laundryRoom[`laundryRoom${i+1}`].laundryMachine.value || ""}
+                                    onChange={(e)=> handleChange(`details.laundryRoom.laundryRoom${i+1}.laundryMachine.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ CLEAN</option>
                                 <option value="repair">🔧 NEED CLEANING</option>
@@ -1536,7 +1554,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Light fixture - lightbulbs</span>
-                                <select name="laundry_light_fixture">
+                                <select name="laundry_light_fixture"
+                                    value={property?.details.laundryRoom[`laundryRoom${i+1}`].lightFixture.value || ""}
+                                    onChange={(e)=> handleChange(`details.laundryRoom.laundryRoom${i+1}.lightFixture.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 NEED REPLACEMENT</option>
@@ -1545,7 +1566,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Baseboards - cracked/water damaged</span>
-                                <select name="laundry_baseboards">
+                                <select name="laundry_baseboards"
+                                    value={property?.details.laundryRoom[`laundryRoom${i+1}`].baseboardsCrack.value || ""}
+                                    onChange={(e)=> handleChange(`details.laundryRoom.laundryRoom${i+1}.baseboardsCrack.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ INTACT</option>
                                 <option value="repair">🔧 CRACKED</option>

@@ -18,14 +18,44 @@ export default function PropertyPage() {
         getPropertyById(params.id)
             .then(data => {
                 setProperty(data.property || data);
-                setLoaded(true);
             })
             .catch(err => {
                 setError(err.message || "Failed to load property");
-                setLoaded(true);
             });
         
     }, [params.id]);
+
+    useEffect(()=> {
+        if(!property || loaded) return;
+
+        console.log('local storage validate, property:', property);
+        const saved = localStorage.getItem("propertyDraft");
+        console.log('saved', saved)
+
+        if(saved) {
+            try {
+                setProperty(p => ({
+                    ...p,
+                    details: JSON.parse(saved)
+                }));
+                localStorage.removeItem("propertyDraft");
+            }
+            catch(e) {
+                console.error('Error occured', e);
+            }
+        }
+        setLoaded(true);
+    }, [property, loaded]);
+
+    useEffect(()=> {
+        if(loaded && property?.details) {
+
+            localStorage.setItem(
+                "propertyDraft", 
+                JSON.stringify(property.details)
+            );
+        }
+    }, [property, loaded])
 
     if (!loaded) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;

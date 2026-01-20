@@ -35,14 +35,17 @@ export default function PropertyPage() {
         setProperty(prev => {
             const updated = JSON.parse(JSON.stringify(prev)); // deep clone
             const keys = path.split('.');
+            console.log('KEYS', keys)
             let obj = updated;
             for (let i = 0; i < keys.length - 1; i++) {
                 obj = obj[keys[i]];
             }
             obj[keys[keys.length - 1]] = value;
-            console.log("path:", path)
-            console.log("property:",property)
+            // console.log('TEST1:', obj[keys[keys.length - 1]]);
+            console.log("TEST2:", value);
+            console.log("path:", path);
             console.log("updated value:", keys[keys.length - 2], "=", value );
+            console.log("property:",property);
             return updated;
             
         });
@@ -140,7 +143,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Doorknob locks working</span>
-                                <select name="br1_doorknob_locks">
+                                <select name="br1_doorknob_locks"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].doorknobLock.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.doorknobLock.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -150,7 +156,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Door - open/close damages</span>
-                                <select name="br1_door_damages">
+                                <select name="br1_door_damages"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].doorDamage.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.doorDamage.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -160,7 +169,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Door - door stopper</span>
-                                <select name="br1_door_stopper">
+                                <select name="br1_door_stopper"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].doorStopper.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.doorStopper.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -170,7 +182,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Closet door - on hinge/track</span>
-                                <select name="br1_closet_door_hinge">
+                                <select name="br1_closet_door_hinge"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].closetDoorHinge.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.closetDoorHinge.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -180,7 +195,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Closet door - door stopper</span>
-                                <select name="br1_closet_door_stopper">
+                                <select name="br1_closet_door_stopper"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].closetDoorStopper.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.closetDoorStopper.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -190,7 +208,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Closet shelves - secure</span>
-                                <select name="br1_closet_shelves">
+                                <select name="br1_closet_shelves"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].closetShelves.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.closetShelves.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -200,7 +221,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Switch covers - painted/damaged</span>
-                                <select name="br1_switch_covers">
+                                <select name="br1_switch_covers"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].switchCovers.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.switchCovers.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -210,7 +234,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Clean A/C vents</span>
-                                <select name="br1_ac_vents_clean">
+                                <select name="br1_ac_vents_clean"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].cleanACVents.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.cleanACVents.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -220,7 +247,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Lightbulbs - light fixture</span>
-                                <select name="br1_light_fixture">
+                                <select name="br1_light_fixture"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].lightbulbs.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.lightbulbs.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -230,7 +260,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Ceiling fan - working</span>
-                                <select name="br1_ceiling_fan">
+                                <select name="br1_ceiling_fan"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].ceilingFan.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.ceilingFan.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -240,7 +273,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Windows - broken</span>
-                                <select name="br1_windows_broken">
+                                <select name="br1_windows_broken"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].windowsBroke.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.windowsBroke.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -250,7 +286,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Windows - locks</span>
-                                <select name="br1_windows_locks">
+                                <select name="br1_windows_locks"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].windowsLock.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.windowsLock.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -260,7 +299,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Windows - don't open</span>
-                                <select name="br1_windows_dont_open">
+                                <select name="br1_windows_dont_open"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].windowsDontOpen.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.windowsDontOpen.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -270,7 +312,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Windows - screens missing</span>
-                                <select name="br1_windows_screens_missing">
+                                <select name="br1_windows_screens_missing"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].windowsScreenMissing.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.windowsScreenMissing.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -280,7 +325,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Baseboard - cracked</span>
-                                <select name="br1_baseboard_cracked">
+                                <select name="br1_baseboard_cracked"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].baseboardsCrack.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.baseboardsCrack.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -290,7 +338,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Blinds - broken</span>
-                                <select name="br1_blinds_broken">
+                                <select name="br1_blinds_broken"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].blindsBroke.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.blindsBroke.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -300,7 +351,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Flooring - carpet/vinyl condition</span>
-                                <select name="br1_flooring_condition">
+                                <select name="br1_flooring_condition"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].flooringCondition.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.flooringCondition.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -310,7 +364,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Closet flooring</span>
-                                <select name="br1_closet_flooring">
+                                <select name="br1_closet_flooring"
+                                    value={property?.details.bedrooms[`bedroom${i+1}`].closetFlooring.value || ""}
+                                    onChange={(e)=> handleChange(`details.bedrooms.bedroom${i+1}.closetFlooring.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>

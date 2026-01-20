@@ -30,6 +30,16 @@ ARG ALGORITHM
 ARG PROJECT_ENV
 
 # ----------------------------
+# Set working directory
+# ----------------------------
+WORKDIR /app
+
+# ----------------------------
+# Copy backend and frontend code
+# ----------------------------
+COPY . .
+
+# ----------------------------
 # Bake ARGS into Image
 # ----------------------------
 ENV ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
@@ -40,28 +50,11 @@ ENV ALGORITHM=${ALGORITHM}
 ENV PROJECT_ENV=${PROJECT_ENV}
 
 # ----------------------------
-# Set working directory
-# ----------------------------
-WORKDIR /app
-
-# ----------------------------
-# Copy backend and frontend code
-# ----------------------------
-COPY . .
-
-
-# ----------------------------
 # Install backend dependencies
 # ----------------------------
 WORKDIR /app/backend
 RUN pip install --no-cache-dir -r requirements.txt
 RUN python3 main.py
-
-RUN pwd && ls -la
-RUN find /app -maxdepth 3 -type d
-RUN which python || true
-RUN python --version || true
-
 RUN python3 ./scripts/migrate_db_to_postgres.py
 
 # ----------------------------
@@ -88,10 +81,10 @@ RUN npm install
 # ----------------------------
 # File Testing
 # ----------------------------
-# RUN pwd && ls -la
-# RUN find /app -maxdepth 3 -type d
-# RUN which python || true
-# RUN python --version || true
+RUN pwd && ls -la
+RUN find /app -maxdepth 3 -type d
+RUN which python || true
+RUN python --version || true
 
 
 

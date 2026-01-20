@@ -1,9 +1,25 @@
 import sqlite3
 import psycopg2
 import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+env_path = Path(__file__).resolve().parents[2] / ".env"
+# print("Looking for .env at:", env_path)
+# print("Exists:", env_path.exists())
+
+load_dotenv(env_path)
+
+print("POSTGRES_URL loaded:", bool(os.getenv("POSTGRES_URL")))
 
 SQLITE_DB = "report_tool_db.db"
 POSTGRES_URL = os.environ["POSTGRES_URL"]
+
+print("POSTGRES_URL value:", POSTGRES_URL)
+print("RAW POSTGRES_URL repr:", repr(POSTGRES_URL))
+
+
+
 
 # -----------------------
 # CONNECT
@@ -42,7 +58,7 @@ try:
             bedroom_size INTEGER NOT NULL,
             bathroom_size INTEGER NOT NULL,
             owner_id INTEGER NOT NULL,
-            details TEXT,
+            details jsonb,
             FOREIGN KEY (owner_id) REFERENCES users(id)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE
@@ -81,7 +97,7 @@ try:
     # -----------------------
     # DISABLE FK CHECKS (FASTER)
     # -----------------------
-    pg_cur.execute("SET session_replication_role = replica;")
+    # pg_cur.execute("SET session_replication_role = replica;")
 
     # -----------------------
     # INSERT USERS
@@ -112,7 +128,7 @@ try:
                 id, name, address, city, state, country, zip,
                 bedroom_size, bathroom_size, owner_id, details
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb)
             ON CONFLICT (id) DO NOTHING
             """,
             (
@@ -126,7 +142,7 @@ try:
                 row["bedroom_size"],
                 row["bathroom_size"],
                 row["owner_id"],
-                row["details"],
+                row["details"] or "{}",
             ),
         )
 
@@ -157,7 +173,7 @@ try:
     # -----------------------
     # RESTORE FK CHECKS
     # -----------------------
-    pg_cur.execute("SET session_replication_role = DEFAULT;")
+    # pg_cur.execute("SET session_replication_role = DEFAULT;")
 
     # -----------------------
     # SET UP AUTO-INCREMENT (SERIAL STYLE)

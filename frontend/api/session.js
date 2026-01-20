@@ -1,4 +1,4 @@
-const API_BASE_URL = "/api"
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api` || '/api';
 
 export async function login(email, password) {
     const res = await fetch(`${API_BASE_URL}/auth/login`, {

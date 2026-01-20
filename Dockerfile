@@ -4,13 +4,14 @@
 FROM python:3.12-slim
 
 # ----------------------------
-# Install Node.js (for Next.js)
+# Install Node.js (for Next.js), Nginx, PgLoader
 # ----------------------------
 RUN apt-get update && \
     apt-get install -y curl gnupg build-essential nginx && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install pgloader && \
+    rm -rf /var/lib/apt/lists/* 
 
 # ----------------------------
 # Nginx
@@ -44,6 +45,8 @@ COPY . .
 # ----------------------------
 WORKDIR /app/backend
 RUN pip install --no-cache-dir -r requirements.txt
+RUN python3 main.py
+RUN python3 ./scripts/migrate_db_to_postgres.py
 
 # ----------------------------
 # Install frontend dependencies

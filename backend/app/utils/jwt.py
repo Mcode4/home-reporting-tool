@@ -1,6 +1,15 @@
 from datetime import datetime, timedelta
 from jose import jwt
 import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+env_path = Path(__file__).resolve().parents[1] / ".env"
+# print("Looking for .env at:", env_path)
+# print("Exists:", env_path.exists())
+
+load_dotenv(env_path)
+
 
 # Load ENV safely with fallbacks
 SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_ME_IN_PRODUCTION")

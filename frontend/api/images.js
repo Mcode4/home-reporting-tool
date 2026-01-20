@@ -1,4 +1,4 @@
-const API_BASE_URL = "/api"
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api` || '/api';
 
 export async function uploadPropertyImage(propertyId, file) {
     const formData = new FormData();

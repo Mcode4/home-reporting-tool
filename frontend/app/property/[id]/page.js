@@ -1088,10 +1088,7 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Switch plates - painted/damaged</span>
-                                <select name="dining_switch_plates"
-                                    value={property?.details.livingRoom[`livingRoom${i+1}`] || ""}
-                                    onChange={(e)=> handleChange(`details.livingRoom.livingRoom${i+1}`, e.target.value)}
-                                >
+                                <select name="dining_switch_plates">
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1120,7 +1117,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Flooring - vinyl/tile damaged</span>
-                                <select name="kitchen_flooring">
+                                <select name="kitchen_flooring"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].flooringDamage.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.flooringDamage.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1130,7 +1130,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Countertop - resurfacing needed</span>
-                                <select name="kitchen_countertop_resurface">
+                                <select name="kitchen_countertop_resurface"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].counterTopResurface.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.counterTopResurface.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1140,7 +1143,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Countertop - caulking</span>
-                                <select name="kitchen_countertop_caulk">
+                                <select name="kitchen_countertop_caulk"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].counterTopCaulk.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.counterTopCaulk.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1150,7 +1156,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Switch plates - painted/damaged</span>
-                                <select name="kitchen_switch_plates">
+                                <select name="kitchen_switch_plates"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].switchPlatesDamage.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.switchPlatesDamage.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1160,7 +1169,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Kitchen sink - fire extinguisher full/expired</span>
-                                <select name="kitchen_fire_extinguisher">
+                                <select name="kitchen_fire_extinguisher"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].kitchenSinkFireExtinguisher.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.kitchenSinkFireExtinguisher.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ FULL</option>
                                 <option value="repair">🔧 EXPIRED</option>
@@ -1169,7 +1181,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Kitchen sink - stoppers</span>
-                                <select name="kitchen_sink_stoppers">
+                                <select name="kitchen_sink_stoppers"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].kitchenSinkStopper.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.kitchenSinkStopper.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1179,7 +1194,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Kitchen sink faucet - leaking/dripping</span>
-                                <select name="kitchen_sink_faucet_leak">
+                                <select name="kitchen_sink_faucet_leak"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].kitchenSinkFaucetDrip.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.kitchenSinkFaucetDrip.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1189,7 +1207,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Kitchen sink - faucet sprayer/secure</span>
-                                <select name="kitchen_sink_sprayer">
+                                <select name="kitchen_sink_sprayer"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].kitchenSinkFaucetSprayer.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.kitchenSinkFaucetSprayer.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1199,7 +1220,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Garbage disposal - working/clean</span>
-                                <select name="kitchen_garbage_disposal">
+                                <select name="kitchen_garbage_disposal"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].garbageDisposal.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.garbageDisposal.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1209,7 +1233,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Cabinets - inside clean</span>
-                                <select name="kitchen_cabinets_clean">
+                                <select name="kitchen_cabinets_clean"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].cabinetsInside.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.cabinetsInside.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1219,7 +1246,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Cabinets - doors/drawers secure</span>
-                                <select name="kitchen_cabinets_secure">
+                                <select name="kitchen_cabinets_secure"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].cabinetsDoorDrawers.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.cabinetsDoorDrawers.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1229,7 +1259,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Cabinets - doors/knobs</span>
-                                <select name="kitchen_cabinets_knobs">
+                                <select name="kitchen_cabinets_knobs"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].cabinetDoorKnob.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.cabinetDoorKnob.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1239,7 +1272,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Kitchen drawers - on track/broken</span>
-                                <select name="kitchen_drawers_track">
+                                <select name="kitchen_drawers_track"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].kitchenDrawersBroke.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.kitchenDrawersBroke.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 BROKEN</option>
@@ -1248,7 +1284,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Cabinets - shelves/knobs secure/missing</span>
-                                <select name="kitchen_cabinets_shelves">
+                                <select name="kitchen_cabinets_shelves"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].cabinetsShelvesKnobs.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.cabinetsShelvesKnobs.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ SECURE</option>
                                 <option value="repair">🔧 MISSING</option>
@@ -1257,7 +1296,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Cabinet tops - clean</span>
-                                <select name="kitchen_cabinet_tops">
+                                <select name="kitchen_cabinet_tops"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].cabinetTop.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.cabinetTop.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ CLEAN</option>
                                 <option value="repair">🔧 NEEDS CLEANING</option>
@@ -1266,7 +1308,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Stove - working/clean</span>
-                                <select name="kitchen_stove_working">
+                                <select name="kitchen_stove_working"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].stoveWorking.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.stoveWorking.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 NEED CLEANING</option>
@@ -1276,7 +1321,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Stove - drip pans/eyes missing</span>
-                                <select name="kitchen_stove_drip_pans">
+                                <select name="kitchen_stove_drip_pans"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].stoveDripPan.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.stoveDripPan.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ PRESENT</option>
                                 <option value="repair">🔧 MISSING</option>
@@ -1285,7 +1333,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Stove - knobs/oven light</span>
-                                <select name="kitchen_stove_knobs_light">
+                                <select name="kitchen_stove_knobs_light"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].stoveKnobOven.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.stoveKnobOven.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1294,7 +1345,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Stove - door/bottom tray/on track</span>
-                                <select name="kitchen_stove_door_tray">
+                                <select name="kitchen_stove_door_tray"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].stoveDoorBottomTray.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.stoveDoorBottomTray.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ ON TRACK</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1303,7 +1357,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Microwave - working/clean</span>
-                                <select name="kitchen_microwave_working">
+                                <select name="kitchen_microwave_working"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].microwaveWorking.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.microwaveWorking.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 NEED CLEANING</option>
@@ -1312,7 +1369,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Microwave - filter/fire suppression</span>
-                                <select name="kitchen_microwave_filter">
+                                <select name="kitchen_microwave_filter"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].microwaveFilterFireSuppression.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.microwaveFilterFireSuppression.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ OKAY</option>
                                 <option value="repair">🔧 NEED REPLACEMENT</option>
@@ -1321,7 +1381,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Microwave - light</span>
-                                <select name="kitchen_microwave_light">
+                                <select name="kitchen_microwave_light"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].microwaveLight.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.microwaveLight.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1331,7 +1394,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Refrigerator - loud noise</span>
-                                <select name="kitchen_refrigerator_noise">
+                                <select name="kitchen_refrigerator_noise"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].refrigeratorNoise.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.refrigeratorNoise.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ QUIET</option>
                                 <option value="repair">🔧 LOUD NOISE</option>
@@ -1340,7 +1406,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Refrigerator - ice maker working</span>
-                                <select name="kitchen_refrigerator_icemaker">
+                                <select name="kitchen_refrigerator_icemaker"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].refrigeratorIceMaker.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.refrigeratorIceMaker.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 NOT WORKING</option>
@@ -1349,7 +1418,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Refrigerator - lightbulbs/shelves/cracks</span>
-                                <select name="kitchen_refrigerator_light_shelves">
+                                <select name="kitchen_refrigerator_light_shelves"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].refrigeratorLightShelvesCracks.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.refrigeratorLightShelvesCracks.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ INTACT</option>
                                 <option value="repair">🔧 DAMAGED</option>
@@ -1359,7 +1431,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Refrigerator - trash out</span>
-                                <select name="kitchen_refrigerator_trash">
+                                <select name="kitchen_refrigerator_trash"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].refrigeratorTrash.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.refrigeratorTrash.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ CLEARED</option>
                                 <option value="repair">🔧 NEEDS REMOVAL</option>
@@ -1368,7 +1443,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Dishwasher - run cycle/secure</span>
-                                <select name="kitchen_dishwasher_cycle">
+                                <select name="kitchen_dishwasher_cycle"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].dishwasherCycle.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.dishwasherCycle.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ WORKING</option>
                                 <option value="repair">🔧 REPAIR</option>
@@ -1378,7 +1456,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Kitchen vents - clean</span>
-                                <select name="kitchen_vents_clean">
+                                <select name="kitchen_vents_clean"
+                                    value={property?.details.kitchen[`kitchen${i+1}`].kitchenVents.value || ""}
+                                    onChange={(e)=> handleChange(`details.kitchen.kitchen${i+1}.kitchenVents.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ CLEAN</option>
                                 <option value="repair">🔧 NEED CLEANING</option>

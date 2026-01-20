@@ -1708,8 +1708,8 @@ export default function PropertyPage() {
                             <div class="item-group">
                                 <span class="item-label">Detectors - batteries changed</span>
                                 <select name="smoke_detectors_batteries"
-                                    value={property?.details}
-                                    onChange={(e)=> handleChange(``, e.target.value)}
+                                    value={property?.details.smokeDetector[`smokeDetector${i+1}`].detectorBattery.value || ""}
+                                    onChange={(e)=> handleChange(`details.smokeDetector.smokeDetector${i+1}.detectorBattery.value`, e.target.value)}
                                 >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ CHANGED</option>
@@ -1719,7 +1719,10 @@ export default function PropertyPage() {
 
                             <div class="item-group">
                                 <span class="item-label">Detectors - replaced</span>
-                                <select name="smoke_detectors_replaced">
+                                <select name="smoke_detectors_replaced"
+                                    value={property?.details.smokeDetector[`smokeDetector${i+1}`].detectorReplaced.value || ""}
+                                    onChange={(e)=> handleChange(`details.smokeDetector.smokeDetector${i+1}.detectorReplaced.value`, e.target.value)}
+                                >
                                 <option value="">— Select —</option>
                                 <option value="okay">✅ REPLACED</option>
                                 <option value="repair">🔧 NEED REPLACEMENT</option>

@@ -82,7 +82,7 @@ export default function HomePagePage() {
                         <p>{property.name}</p>
 
                         <div className={styles.propertyActions}>
-                            <button>Edit</button>
+                            <button onClick={()=> router.push(`/property/edit/${property.id}`)}>Edit</button>
                             <button onClick={(e)=> handleDelete(e, property.id)}>Delete</button>
                         </div>
                     </div>

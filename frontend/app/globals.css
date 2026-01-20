@@ -85,3 +85,7 @@ main {
 .inactive {
   display: none;
 }
+
+button {
+  cursor: pointer;
+}

@@ -67,19 +67,21 @@ export default function HomePagePage() {
                     <div 
                         className={styles.property} 
                         key={property.id}
-                        onClick={()=> router.push(`/property/${property.id}`)}
                         style={{
-                            cursor: "pointer", display: "flex", flexDirection: "column",
-                            alignItems: "center"
+                            display: "flex", flexDirection: "column",
                         }}
                     >
-                        <Image 
-                            src={images?.[property.id] || defaultImage} 
-                            alt={property.name}
-                            height={100}
-                            width={100}
-                        />
-                        <p>{property.name}</p>
+                        <div className="click-area" onClick={()=> router.push(`/property/${property.id}`)} style={{
+                            cursor: "pointer"
+                        }}>
+                            <Image 
+                                src={images?.[property.id] || defaultImage} 
+                                alt={property.name}
+                                height={100}
+                                width={100}
+                            />
+                            <p>{property.name}</p>
+                        </div>
 
                         <div className={styles.propertyActions}>
                             <button onClick={()=> router.push(`/property/edit/${property.id}`)}>Edit</button>

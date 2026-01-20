@@ -175,8 +175,9 @@ def get_current_user(
     response: Response,
     access_token: str | None = Cookie(None, alias="access_token")
 ):
+    # print(f'ACCESS TOKEN: {access_token}')
     if not access_token:
-        raise HTTPException(status_code=401, detail="Not authenticated")
+        raise HTTPException(status_code=401, detail="Not authenticated-ses")
 
     payload = decode_access_token(access_token)
     if not payload:

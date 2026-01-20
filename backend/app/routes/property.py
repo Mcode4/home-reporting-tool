@@ -12,13 +12,13 @@ from psycopg2.extras import RealDictCursor
 import psycopg2
 
 env_path = Path(__file__).resolve().parents[3] / ".env"
-print("ENV PATH", env_path)
 load_dotenv(env_path)
 
 
 router = APIRouter(prefix="/property", tags=["Property"])
 
 PROJECT_ENV = os.environ.get("PROJECT_ENV", "development")
+print(f'PROJECT ENV: {PROJECT_ENV}')
 
 def get_pg_db():
     return psycopg2.connect(

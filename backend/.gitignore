@@ -2,5 +2,5 @@ Examples
 .env
 __pycache__
 venv
-app/routes/uploads/*
+app/uploads/*
 *.db

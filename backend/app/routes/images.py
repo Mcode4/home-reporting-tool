@@ -68,11 +68,12 @@ def upload_property_image(
         # Save metadata to DB
         cursor.execute(
             """
-            INSERT INTO images (property_id, filename, filepath, content_type, size)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO images (property_id, default_filename filename, filepath, content_type, size)
+            VALUES (%s, %s, %s, %s, %s, %s)
             """,
             (
                 property_id,
+                f'{file.filename}',
                 filename,
                 filepath,
                 file.content_type,
@@ -113,6 +114,7 @@ def upload_property_image(
         
         # Safe unique filename
         ext = os.path.splitext(file.filename)[1]
+        print(f'default filename: {file.filename}')
         filename = f"{uuid.uuid4()}{ext}"
         filepath = os.path.join(property_dir, filename)
 
@@ -123,11 +125,12 @@ def upload_property_image(
         # Save metadata to DB
         cursor.execute(
             """
-            INSERT INTO images (property_id, filename, filepath, content_type, size)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO images (property_id, default_filename, filename, filepath, content_type, size)
+            VALUES (?, ?, ?, ?, ?, ?)
             """,
             (
                 property_id,
+                f'{file.filename}',
                 filename,
                 filepath,
                 file.content_type,
@@ -145,47 +148,30 @@ def upload_property_image(
         }
 
 
-@router.get("/{property_id}")
+@router.get("/{id}")
 def get_image_by_property(
-    property_id: int,
+    id: int,
     current_user: int = Depends(get_current_user)
 ):
     if PROJECT_ENV == "production":
-            conn = get_pg_db()
-            cursor = conn.cursor()
-            cursor.execute(
-                "SELECT * FROM property WHERE id=%s", (property_id,)
-            )
-            curr_prop = cursor.fetchone()
-            print(f'CURRENT PROPERTY: {curr_prop}')
-
-            if curr_prop["owner_id"] != current_user["id"]:
-                print(f"roperty:{curr_prop} User ID:{current_user["id"]}")
-                raise HTTPException(status_code=401, detail="User not authorized to add image to property")
-
-            cursor.execute(
-                """
-                SELECT filepath
-                FROM images
-                WHERE property_id = %s
-                """,
-                (property_id,),
-            )
-            print(f"Property ID:{property_id}")
-            row = cursor.fetchone()
-
-            print(f'Row:{row}')
-            conn.close()
-
-            if not row:
-                raise HTTPException(status_code=404, detail="Image not found")
-
-            return FileResponse(row[0])
-    else:
-        conn = get_db()
+        conn = get_pg_db()
         cursor = conn.cursor()
+        
         cursor.execute(
-            "SELECT * FROM property WHERE id=?", (property_id,)
+            """
+            SELECT 
+                filepath,
+                property_id
+            FROM images
+            WHERE id = %s
+            """,
+            (id,),
+        )
+        row = cursor.fetchone()
+        print(f'ROW PROP ID: {row['property_id']}')
+
+        cursor.execute(
+            "SELECT * FROM property WHERE id=%s", (row['property_id'],)
         )
         curr_prop = cursor.fetchone()
 
@@ -193,16 +179,42 @@ def get_image_by_property(
             print(f"roperty:{curr_prop} User ID:{current_user["id"]}")
             raise HTTPException(status_code=401, detail="User not authorized to add image to property")
 
+        
+
+        print(f'Row:{row}')
+        conn.close()
+
+        if not row:
+            raise HTTPException(status_code=404, detail="Image not found")
+
+        return FileResponse(row[0])
+    else:
+        conn = get_db()
+        cursor = conn.cursor()
+
         cursor.execute(
             """
-            SELECT filepath
+            SELECT 
+                filepath,
+                property_id
             FROM images
-            WHERE property_id = ?
+            WHERE id = ?
             """,
-            (property_id,),
+            (id,),
         )
-        print(f"Property ID:{property_id}")
         row = cursor.fetchone()
+        print(f'ROW PROP ID: {row['property_id']}')
+
+        cursor.execute(
+            "SELECT * FROM property WHERE id=?", (row['property_id'],)
+        )
+        curr_prop = cursor.fetchone()
+
+        if curr_prop["owner_id"] != current_user["id"]:
+            print(f"roperty:{curr_prop} User ID:{current_user["id"]}")
+            raise HTTPException(status_code=401, detail="User not authorized to add image to property")
+
+        
 
         print(f'Row:{row}')
         conn.close()

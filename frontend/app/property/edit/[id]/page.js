@@ -13,6 +13,7 @@ import {
     patioTemp,
     smokeDetectorTemp
 } from "../../detailTemps";
+import { getImageById } from "@/api/images";
 
 export default function EditPropertyPage() {
     const router = useRouter();
@@ -48,11 +49,13 @@ export default function EditPropertyPage() {
 
     useEffect(()=> {
         // load data for place 
+        let imageId
         getPropertyById(id)
             .then(data => {
                 console.log("DATA", data)
                 const property = data.property;
 
+                imageId = property["image_id"]
                 setName(property.name);
                 setAddress(property.address);
                 setCity(property.city);

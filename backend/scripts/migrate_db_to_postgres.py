@@ -69,6 +69,7 @@ try:
         CREATE TABLE IF NOT EXISTS images (
             id INTEGER PRIMARY KEY,
             property_id INTEGER NOT NULL,
+            default_filename TEXT NOT NULL,
             filename TEXT NOT NULL,
             filepath TEXT NOT NULL,
             content_type TEXT,
@@ -153,7 +154,7 @@ try:
         pg_cur.execute(
             """
             INSERT INTO images (
-                id, property_id, filename, filepath,
+                id, property_id, default_filename, filename, filepath,
                 content_type, size, uploaded_at
             )
             VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -162,6 +163,7 @@ try:
             (
                 row["id"],
                 row["property_id"],
+                row['default_filename'],
                 row["filename"],
                 row["filepath"],
                 row["content_type"],

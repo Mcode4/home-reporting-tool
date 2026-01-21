@@ -52,6 +52,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS images (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             property_id INTEGER NOT NULL,
+            default_filename TEXT NOT NULL,
             filename TEXT NOT NULL,
             filepath TEXT NOT NULL,
             content_type TEXT,

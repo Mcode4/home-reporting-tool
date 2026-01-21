@@ -6,6 +6,7 @@ console.log(`API URL: ${API_BASE_URL}`)
 
 export async function uploadPropertyImage(propertyId, file) {
     const formData = new FormData();
+    console.log('PROPERTY ID API', propertyId)
     formData.append("file", file);  // <-- This is correct
     const res = await fetch(`${API_BASE_URL}/images/upload/${propertyId}`, {
         method: "POST",
@@ -22,8 +23,8 @@ export async function uploadPropertyImage(propertyId, file) {
     return data
 }
 
-export async function getImageByPropertyId(propertyId) {
-    const res = await fetch(`${API_BASE_URL}/images/${propertyId}`, {
+export async function getImageById(id) {
+    const res = await fetch(`${API_BASE_URL}/images/${id}`, {
         method: "GET",
         credentials: "include"
     });
@@ -48,3 +49,5 @@ export async function getImageByPropertyId(propertyId) {
     const url = URL.createObjectURL(blob);
     return { url, contentType, blob };
 }
+
+export async function replaceImageById() {}

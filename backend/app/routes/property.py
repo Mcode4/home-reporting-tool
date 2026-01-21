@@ -43,7 +43,23 @@ def all_properties(current_user = Depends(get_current_user)):
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT * FROM property WHERE owner_id=%s",
+            """
+                SELECT
+                    p.id    AS property_id,
+                    p.name,
+                    p.address,
+                    p.city,
+                    p.state,
+                    p.country,
+                    p.zip,
+                    p.bedroom_size,
+                    p.bathroom_size,
+                    p.details,
+                    img.id  AS image_id
+                FROM property p
+                LEFT JOIN images img ON p.id = img.property_id
+                WHERE p.owner_id=%s
+            """,
             (current_user["id"],)
         )
         properties = cursor.fetchall()
@@ -68,7 +84,23 @@ def all_properties(current_user = Depends(get_current_user)):
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT * FROM property WHERE owner_id=?",
+            """
+                SELECT
+                    p.id    AS property_id,
+                    p.name,
+                    p.address,
+                    p.city,
+                    p.state,
+                    p.country,
+                    p.zip,
+                    p.bedroom_size,
+                    p.bathroom_size,
+                    p.details,
+                    img.id  AS image_id
+                FROM property p
+                LEFT JOIN images img ON p.id = img.property_id
+                WHERE p.owner_id=?
+            """,
             (current_user["id"],)
         )
         properties = cursor.fetchall()
@@ -95,7 +127,28 @@ def get_property_by_id(id: int, current_user = Depends(get_current_user)):
         conn = get_pg_db()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM property WHERE id=%s", (id,))
+        cursor.execute(
+            """
+                SELECT
+                    p.id    AS property_id,
+                    p.name,
+                    p.address,
+                    p.city,
+                    p.state,
+                    p.country,
+                    p.zip,
+                    p.bedroom_size,
+                    p.bathroom_size,
+                    p.details,
+                    p.owner_id,
+                    img.id  AS image_id,
+                    img.default_filename
+                FROM property p
+                LEFT JOIN images img ON p.id = img.property_id
+                WHERE p.id=?
+            """,
+            (id,)
+        )
         curr_prop = cursor.fetchone()
         conn.close()
 
@@ -117,7 +170,28 @@ def get_property_by_id(id: int, current_user = Depends(get_current_user)):
         conn = get_db()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM property WHERE id=?", (id,))
+        cursor.execute(
+            """
+                SELECT
+                    p.id    AS property_id,
+                    p.name,
+                    p.address,
+                    p.city,
+                    p.state,
+                    p.country,
+                    p.zip,
+                    p.bedroom_size,
+                    p.bathroom_size,
+                    p.details,
+                    p.owner_id,
+                    img.id  AS image_id,
+                    img.default_filename
+                FROM property p
+                LEFT JOIN images img ON p.id = img.property_id
+                WHERE p.id=?
+            """,
+            (id,)
+        )
         curr_prop = cursor.fetchone()
         conn.close()
 

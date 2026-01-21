@@ -107,8 +107,9 @@ export default function NewPropertyPage() {
 
         try {
             const property = await addProperty(data);
-            console.log(property);
+            console.log("PROPERTY DATA", property);
             id = property["id"];
+            console.log("ID", id)
 
             if(file) {
                 const imageFile = await uploadPropertyImage(id, file);

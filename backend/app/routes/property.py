@@ -338,7 +338,7 @@ def edit_property(id: int, property: Property, current_user = Depends(get_curren
         cursor.execute(
             """
             UPDATE property
-            SET name=%s, address=%s, city=%s, state=%s, zip=%s, bedroom_size=%s, bathroom_size=%s
+            SET name=%s, address=%s, city=%s, state=%s, zip=%s, bedroom_size=%s, bathroom_size=%s, details=%s::jsonb
             WHERE id=%s
             """,
             (
@@ -349,6 +349,7 @@ def edit_property(id: int, property: Property, current_user = Depends(get_curren
                 property.zip,
                 property.bedrooms,
                 property.bathrooms,
+                property.details,
                 id,
             )
         )
@@ -383,7 +384,11 @@ def edit_property(id: int, property: Property, current_user = Depends(get_curren
         cursor.execute(
             """
             UPDATE property
-            SET name=?, address=?, city=?, state=?, zip=?, bedroom_size=?, bathroom_size=?
+            SET name=?, address=?, city=?, state=?, zip=?, bedroom_size=?, bathroom_size=?,
+            details = json_patch(
+                COALESCE(details, '{}'),
+                ?
+            )
             WHERE id=?
             """,
             (
@@ -394,6 +399,7 @@ def edit_property(id: int, property: Property, current_user = Depends(get_curren
                 property.zip,
                 property.bedrooms,
                 property.bathrooms,
+                json.dumps(property.details),
                 id,
             )
         )

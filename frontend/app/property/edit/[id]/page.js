@@ -1,7 +1,18 @@
 "use client";
 import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from 'react';
-import { getPropertyById } from "@/api/property";
+import { getPropertyById, editProperty } from "@/api/property";
+import { 
+    exteriorTemp, 
+    livingRoomTemp,
+    bedroomTemp,
+    bathTemp,
+    diningRoomTemp,
+    kitchenTemp,
+    laundryRoomTemp,
+    patioTemp,
+    smokeDetectorTemp
+} from "../../detailTemps";
 
 export default function EditPropertyPage() {
     const router = useRouter();
@@ -32,6 +43,7 @@ export default function EditPropertyPage() {
     const [smokeDetector, setSmokeDetector] = useState(false);
     const [smokeDetectorCount, setSmokeDetectorCount] = useState(1);
     const [canSubmit, setCanSubmit] = useState(false);
+    const [details, setDetails] = useState(null);
     const { id } = useParams()
 
     useEffect(()=> {
@@ -50,41 +62,42 @@ export default function EditPropertyPage() {
                 setBedrooms(property.bedroom_size);
                 setBathrooms(property.bathroom_size);
 
-                const details = property.details;
+                const propDetails = property.details;
+                setDetails(propDetails);
 
-                if(details.livingRoom) {
+                if(propDetails.livingRoom) {
                     setLivingRoom(true);
-                    setLivingRoomCount(details.livingRoom.count);
+                    setLivingRoomCount(propDetails.livingRoom.count);
                     setActive(true);
                 }
-                if(details.exterior) {
+                if(propDetails.exterior) {
                     setExterior(true);
-                    setExteriorCount(details.exterior.count);
+                    setExteriorCount(propDetails.exterior.count);
                     setActive(true);
                 }
-                if(details.diningRoom) {
+                if(propDetails.diningRoom) {
                     setDiningRoom(true);
-                    setDiningRoomCount(details.diningRoom.count);
+                    setDiningRoomCount(propDetails.diningRoom.count);
                     setActive(true);
                 }
-                if(details.kitchen) {
+                if(propDetails.kitchen) {
                     setKitchen(true);
-                    setKitchenCount(details.kitchen.count);
+                    setKitchenCount(propDetails.kitchen.count);
                     setActive(true);
                 }
-                if(details.laundryRoom) {
+                if(propDetails.laundryRoom) {
                     setLaundryRoom(true);
-                    setLaundryRoomCount(details.laundryRoom.count);
+                    setLaundryRoomCount(propDetails.laundryRoom.count);
                     setActive(true);
                 }
-                if(details.patio) {
+                if(propDetails.patio) {
                     setPatio(true);
-                    setPatioCount(details.patio.count);
+                    setPatioCount(propDetails.patio.count);
                     setActive(true);
                 }
-                if(details.smokeDetector) {
+                if(propDetails.smokeDetector) {
                     setSmokeDetector(true);
-                    setSmokeDetectorCount(details.smokeDetector.count);
+                    setSmokeDetectorCount(propDetails.smokeDetector.count);
                     setActive(true);
                 }
             })
@@ -109,50 +122,6 @@ export default function EditPropertyPage() {
             })
     }, []);
 
-    // useEffect(()=> {
-    //     if(
-    //         livingRoom ||
-    //         exterior ||
-    //         diningRoom ||
-    //         kitchen ||
-    //         laundryRoom ||
-    //         patio ||
-    //         smokeDetector
-    //     ) {
-    //         setActive(true)
-    //         console.log('active true', active)
-    //     } else {
-    //         setActive(false)
-    //         console.log('active false', active)
-    //     }
-    //     // console.log("details data", {
-    //     //     active,
-    //     //     livingRoom,
-    //     //     exterior,
-    //     //     diningRoom,
-    //     //     kitchen,
-    //     //     laundryRoom,
-    //     //     patio,
-    //     //     smokeDetector
-    //     // })
-    // }, [livingRoom, exterior, diningRoom, kitchen, laundryRoom, patio, smokeDetector, active]);
-
-    // const handleActive = (e) => {
-    //     e.preventDefault();
-
-    //     if(active) {
-    //         setLivingRoom(false);
-    //         setExterior(false);
-    //         setDiningRoom(false);
-    //         setKitchen(false);
-    //         setLaundryRoom(false);
-    //         setPatio(false);
-    //         setSmokeDetector(false);
-    //     } else {
-    //         setActive(true)
-    //     }
-    // }
-
     useEffect(()=> {
         if(!canSubmit) {
             setCanSubmit(true);
@@ -167,6 +136,155 @@ export default function EditPropertyPage() {
 
     const handleSubmit = async (e) => {
         // submit form(update)
+        e.preventDefault();
+        const detailsObj = {};
+
+        if(livingRoom) {
+            const livingRoomObj = { count: livingRoomCount };
+            for(let i=1; i<=livingRoomCount; i++) {
+                if (!details.livingRoom[`livingRoom${i}`]) {
+                    livingRoomObj[`livingRoom${i}`] = livingRoomTemp();
+                    console.log("Temp added", livingRoomObj);
+                } else {
+                    livingRoomObj[`livingRoom${i}`] = details.livingRoom[`livingRoom${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.livingRoom = livingRoomObj;
+        };
+
+        if(exterior) {
+            const exteriorObj = { count: exteriorCount };
+            for(let i=1; i<=exteriorCount; i++) {
+                if (!details.exterior[`exterior${i}`]) {
+                    exteriorObj[`exterior${i}`] = exteriorTemp();
+                    console.log("Temp added", exteriorObj);
+                } else {
+                    exteriorObj[`exterior${i}`] = details.exterior[`exterior${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.exterior = exteriorObj;
+        };
+
+        if(diningRoom) {
+            const diningRoomObj = { count: diningRoomCount };
+            for(let i=1; i<=diningRoomCount; i++) {
+                if (!details.diningRoom[`diningRoom${i}`]) {
+                    diningRoomObj[`diningRoom${i}`] = diningRoomTemp();
+                    console.log("Temp added", diningRoomObj);
+                } else {
+                    diningRoomObj[`diningRoom${i}`] = details.diningRoom[`diningRoom${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.diningRoom = diningRoomObj;
+        };
+
+        if(kitchen) {
+            const kitchenObj = { count: kitchenCount };
+            for(let i=1; i<=kitchenCount; i++) {
+                if (!details.kitchen[`kitchen${i}`]) {
+                    kitchenObj[`kitchen${i}`] = kitchenTemp();
+                    console.log("Temp added", kitchenObj);
+                } else {
+                    kitchenObj[`kitchen${i}`] = details.kitchen[`kitchen${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.kitchen = kitchenObj;
+        };
+
+        if(laundryRoom) {
+            const laundryRoomObj = { count: laundryRoomCount };
+            for(let i=1; i<=laundryRoomCount; i++) {
+                if (!details.laundryRoom[`laundryRoom${i}`]) {
+                    laundryRoomObj[`laundryRoom${i}`] = laundryRoomTemp();
+                    console.log("Temp added", laundryRoomObj);
+                } else {
+                    laundryRoomObj[`laundryRoom${i}`] = details.laundryRoom[`laundryRoom${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.laundryRoom = laundryRoomObj;
+        };
+
+        if(patio) {
+            const patioObj = { count: patioCount };
+            for(let i=1; i<=patioCount; i++) {
+                if (!details.patio[`patio${i}`]) {
+                    patioObj[`patio${i}`] = patioTemp();
+                    console.log("Temp added", patioObj);
+                } else {
+                    patioObj[`patio${i}`] = details.patio[`patio${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.patio = patioObj;
+        };
+
+        if(smokeDetector) {
+            const smokeDetectorObj = { count: smokeDetectorCount };
+            for(let i=1; i<=smokeDetectorCount; i++) {
+                if (!details.smokeDetector[`smokeDetector${i}`]) {
+                    smokeDetectorObj[`smokeDetector${i}`] = smokeDetectorTemp();
+                    console.log("Temp added", smokeDetectorObj);
+                } else {
+                    smokeDetectorObj[`smokeDetector${i}`] = details.smokeDetector[`smokeDetector${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.smokeDetector = smokeDetectorObj;
+        };
+
+        for(let i=1; i<=bedrooms; i++) {
+            const bedroomObj = {};
+            for(let i=1; i<=bedrooms; i++) {
+                if (!details.bedrooms[`bedroom${i}`]) {
+                    bedroomObj[`bedroom${i}`] = bedroomTemp();
+                    console.log("Temp added", bedroomObj);
+                } else {
+                    bedroomObj[`bedroom${i}`] = details.bedrooms[`bedroom${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.bedrooms = bedroomObj;
+        };
+
+        for(let i=1; i<=bathrooms; i++) {
+            const bathroomObj = {};
+            for(let i=1; i<=bathrooms; i++) {;
+                if (!details.baths[`bathroom${i}`]) {
+                    bathroomObj[`bathroom${i}`] = bathTemp();
+                    console.log("Temp added", bathroomObj);
+                } else {
+                    bathroomObj[`bathroom${i}`] = details.baths[`bathroom${i}`];
+                    console.log("Transfer added", detailsObj);
+                }
+            }
+            detailsObj.baths = bathroomObj;
+        };
+        
+        const data = {
+            name,
+            address,
+            city,
+            state,
+            country,
+            zip,
+            bedrooms,
+            bathrooms,
+            details: detailsObj
+        };
+
+        try {
+            const submit = await editProperty(id, data);
+            console.log('SUBMIT', submit);
+        } catch(e) {
+            console.log("Error occured", e);
+        }
+
+        
 
         // if extra deatils se t acctive to true and open detail element
     }
@@ -225,9 +343,9 @@ export default function EditPropertyPage() {
                     value={bathrooms} onChange={(e)=> setBathrooms(e.target.value)}
                 />
 
-                <details id="details" onClick={(e)=> {
+                <details id="details" onToggle={(e)=> {
                     e.preventDefault();
-                    setActive(!active);
+                    setActive(e.target.open);
                 }} open={active}>
                     <summary>Advanced</summary>
                     <li>

@@ -60,6 +60,26 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 @router.post("/register")
 def register(user: User):
+    password = user.password
+    SYMBOL = "!@#$%?.-"
+    ALLOWED = set(f"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789{SYMBOL}")
+
+    if not all(c in ALLOWED for c in password):
+        raise HTTPException(status_code=400, detail=f'Password contains characters not allowed. Only A-Z, 0-9, and !@#$%?.-')
+
+    if(len(password) < 6 or len(password) > 25):
+        raise HTTPException(status_code=400, detail="Password be between 5 and 25 character")
+    
+    def is_valid(p: str) -> bool:
+        return (
+            any(c.isupper() for c in p) and
+            any(c.isdigit() for c in p) and
+            any(c in SYMBOL for c in p)
+        )
+    
+    if not is_valid(password):
+        raise HTTPException(status_code=400, detail=f'Password must contain at least 1 uppercased character, 1 number and 1 special character: {SYMBOL}')
+    
     if PROJECT_ENV == 'production':
         conn = get_pg_db()
         cursor = conn.cursor()

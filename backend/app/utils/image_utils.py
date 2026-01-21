@@ -1,4 +1,5 @@
 import os
+from fastapi import HTTPException
 from app.db.database import get_db
 
 def delete_image_by_id(image_id: int):

@@ -411,6 +411,7 @@ def edit_property(id: int, property: Property, current_user = Depends(get_curren
 
 @router.delete("/{property_id}")
 def delete_property(property_id: int, current_user = Depends(get_current_user)):
+    print(f'PROJECT ENV: {PROJECT_ENV}')
     if PROJECT_ENV == 'production':
         conn = get_pg_db()
         cursor = conn.cursor()
@@ -435,12 +436,12 @@ def delete_property(property_id: int, current_user = Depends(get_current_user)):
             )
 
         try:
+            delete_images_by_property(property_id)
+
             cursor.execute(
                 "DELETE FROM property WHERE id=?",
                 (property_id,)
             )
-
-            delete_images_by_property(property_id)
             
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
@@ -474,14 +475,15 @@ def delete_property(property_id: int, current_user = Depends(get_current_user)):
             )
 
         try:
+            delete_images_by_property(property_id)
+
             cursor.execute(
                 "DELETE FROM property WHERE id=?",
                 (property_id,)
             )
-
-            delete_images_by_property(property_id)
             
         except Exception as e:
+            print(f'ERROR: {e}')
             raise HTTPException(status_code=400, detail=str(e))
 
 

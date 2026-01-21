@@ -46,7 +46,7 @@ export default function HomePagePage() {
         e.preventDefault();
         try {
             const res = await deleteProperty(id);
-            console.log(res)
+            console.log("RES", res)
             window.location.reload();
         }
         catch(e) {

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState, useContext } from 'react';
 import { login } from "@/api/session";
 import { UserContext } from "@/components/AppLayout/AppLayout";
+import useToast from "@/components/Toast/useToast";
 
 import styles from './page.module.css'
 
@@ -12,6 +13,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [err, setErr] = useState({});
     const { setUser } = useContext(UserContext);
+    const { addToast } = useToast();
 
 
     const handleSubmit = async (e) => {
@@ -22,7 +24,10 @@ export default function LoginPage() {
             const user = await login(email, password);
             setUser(user);
             console.log('Login successful');
-            router.push('/home');
+            if(user) {
+                addToast("Welcome back! 👋", "info");
+                router.push('/home');
+            }
         } catch(err) {
             console.log("Login error: ", err);
             if(err.status === 404) {

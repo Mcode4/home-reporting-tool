@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { register } from "@/api/session";
+import useToast from "@/components/Toast/useToast";
 import styles from './page.module.css'
 
 export default function SignUpPage() {
@@ -10,6 +11,7 @@ export default function SignUpPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [err, setErr] = useState({});
+    const { addToast } = useToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -58,7 +60,11 @@ export default function SignUpPage() {
         try {
             const res = await register(email, password);
             console.log('Sign up successful');
-            router.push('/');
+            
+            if(res) {
+                addToast("Sign up successful 🎉", "success");
+                router.push('/');
+            }
         } catch(err) {
             if(err.status === 400) {
                 setErr({

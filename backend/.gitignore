@@ -3,4 +3,5 @@ Examples
 __pycache__
 venv
 app/uploads/*
+!app/uploads/.gitkeep
 *.db

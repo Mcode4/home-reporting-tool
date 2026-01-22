@@ -7,7 +7,7 @@ import Image from "next/image";
 import defaultImage from "@/public/HomeInsuranceCompany.jpg"
 import styles from './page.module.css'
 
-export default function HomePagePage() {
+export default function HomePage() {
     const router = useRouter();
     const [data, setData] = useState(null);
     const [images, setImages] = useState(null);
@@ -85,6 +85,7 @@ export default function HomePagePage() {
                         </div>
 
                         <div className={styles.propertyActions}>
+                            <button onClick={()=> router.push(`/property/map/${property.property_id}`)}>Map Demo</button>
                             <button onClick={()=> router.push(`/property/edit/${property.property_id}`)}>Edit</button>
                             <button onClick={(e)=> handleDelete(e, property.property_id)}>Delete</button>
                         </div>

@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ToastProvider>
-          <AppLayout>{children}</AppLayout>
+          <AppLayout id="appMain">{children}</AppLayout>
         </ToastProvider>
       </body>
     </html>

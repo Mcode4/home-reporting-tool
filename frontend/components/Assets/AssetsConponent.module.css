@@ -1,0 +1,149 @@
+#mapContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.georgia-bell.us/demo/nomi/mrl/Preston-Plat-0.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform-origin: center center;
+    transition: transform 0.1s ease-out;
+}
+
+.building, .amenity, .garage {
+    position: absolute;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+    cursor: move;
+    user-select: none;
+    pointer-events: auto;
+}
+
+.building {
+    width: 22.5px;
+    height: 22.5px;
+    background: rgba(255, 255, 255, 0.2); /* was 0.9 */
+    border: 1px solid #888;
+    line-height: 22.5px;
+    font-size: 10.5px;
+}
+
+.amenity {
+    width: 60px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.2); /* lighter transparency */
+    border: 1px solid #888;
+    font-size: 9px;
+    padding-top: 3px;
+}
+
+.garage {
+    width: 30px;
+    height: 22.5px;
+    background: rgba(200, 200, 255, 0.2); /* lighter transparency */
+    border: 1px solid #555;
+    line-height: 22.5px;
+    font-size: 10.5px;
+}
+
+
+#sidebar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: #f9f9f9;
+    padding: 1em;
+    border-left: 1px solid #ccc;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    z-index: 999;
+}
+
+#sidebar.hidden {
+    transform: translateX(100%);
+}
+
+#menuToggle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.template-section {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.template-form {
+    display: none;
+    margin: 0.5em 0 1em;
+    padding: 0.5em;
+    background: #eef;
+    border-radius: 6px;
+}
+
+.template-form label {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+.template-form input,
+.template-form textarea {
+    width: 100%;
+    padding: 0.4em;
+    margin-top: 0.2em;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+.template-form button {
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.template-form button:hover {
+    background: #005fa3;
+}
+
+.assetsButton {
+  background-color: #6c726c;       /* muted grey-green tone */
+  color: #e7fbf6;                  /* soft mint text for contrast */
+  border: none;                    /* remove default border */
+  padding: 12px 20px;              /* space inside */
+  border-radius: 8px;              /* rounded corners */
+  cursor: pointer;                 /* pointer on hover */
+  font-weight: 600;                /* bold text */
+  font-size: 1em;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* subtle shadow */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.assetsButton:hover {
+  background-color: #555;          /* darker on hover */
+  transform: scale(1.05);          /* slight grow effect */
+}

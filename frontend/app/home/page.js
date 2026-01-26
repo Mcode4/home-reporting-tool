@@ -22,7 +22,8 @@ export default function HomePage() {
                     setData(properties);
 
                     console.log('Properties: ', properties)
-                    properties.forEach(async (p)=> {
+                    properties.forEach(async (p, i)=> {
+                        console.log(`PROPERTY IMAGE ID: ${p.image_id} at ${i}`)
                         const res = await getImageById(p.image_id)
                         console.log('RES', res)
                         setImages(prev => ({ 

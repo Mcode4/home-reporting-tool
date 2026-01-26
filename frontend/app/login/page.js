@@ -38,6 +38,16 @@ export default function LoginPage() {
                 setErr({
                     account: "Invalid password"
                 });
+            } else {
+                if(err.message) {
+                    setErr({
+                        error: err.message
+                    })
+                } else {
+                    setErr({
+                        error: "Server error, please try again."
+                    })
+                }
             }
         }
     }
@@ -55,6 +65,7 @@ export default function LoginPage() {
                     <label htmlFor="password">Password:</label>
                     <input type="password" id="password" name="password" value={password} onChange={(e)=> setPassword(e.target.value)} required />
                     {err.password && (<p className="error">{err.password}</p>)}
+                    {err.error && (<p>{err.error}</p>)}
 
                     <button type="submit">Login</button>
 

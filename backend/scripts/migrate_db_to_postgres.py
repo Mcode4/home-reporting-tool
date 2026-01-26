@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from pathlib import Path
 
 env_path = Path(__file__).resolve().parents[2] / ".env"
-# print("Looking for .env at:", env_path)
-# print("Exists:", env_path.exists())
+print("Looking for .env at:", env_path)
+print("Exists:", env_path.exists())
 
 load_dotenv(env_path)
 
@@ -14,10 +14,11 @@ print("POSTGRES_URL loaded:", bool(os.getenv("POSTGRES_URL")))
 
 SQLITE_DB = "report_tool_db.db"
 POSTGRES_URL = os.environ["POSTGRES_URL"]
+SCHEMA = os.environ.get("SCHEMA", "public")
 
 print("POSTGRES_URL value:", POSTGRES_URL)
 print("RAW POSTGRES_URL repr:", repr(POSTGRES_URL))
-
+print("SCHEMA:", repr(SCHEMA))
 
 
 
@@ -30,6 +31,8 @@ sqlite3_cur = sqlite3_conn.cursor()
 
 pg_conn = psycopg2.connect(POSTGRES_URL)
 pg_cur = pg_conn.cursor()
+pg_cur.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
+pg_cur.execute(f"SET search_path TO {SCHEMA};")
 
 try:
     # -----------------------
@@ -157,7 +160,7 @@ try:
                 id, property_id, default_filename, filename, filepath,
                 content_type, size, uploaded_at
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (id) DO NOTHING
             """,
             (

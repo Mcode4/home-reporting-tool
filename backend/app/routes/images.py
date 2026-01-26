@@ -68,7 +68,7 @@ def upload_property_image(
         # Save metadata to DB
         cursor.execute(
             """
-            INSERT INTO images (property_id, default_filename filename, filepath, content_type, size)
+            INSERT INTO images (property_id, default_filename, filename, filepath, content_type, size)
             VALUES (%s, %s, %s, %s, %s, %s)
             """,
             (
@@ -149,7 +149,7 @@ def upload_property_image(
 
 
 @router.get("/{id}")
-def get_image_by_property(
+def get_image_by_id(
     id: int,
     current_user: int = Depends(get_current_user)
 ):
@@ -187,7 +187,7 @@ def get_image_by_property(
         if not row:
             raise HTTPException(status_code=404, detail="Image not found")
 
-        return FileResponse(row[0])
+        return FileResponse(row["filepath"])
     else:
         conn = get_db()
         cursor = conn.cursor()
@@ -216,7 +216,7 @@ def get_image_by_property(
 
         
 
-        print(f'Row:{row}')
+        print(f'Row:{row[0]}')
         conn.close()
 
         if not row:

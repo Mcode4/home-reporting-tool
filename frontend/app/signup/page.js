@@ -70,6 +70,16 @@ export default function SignUpPage() {
                 setErr({
                     email: "Email is in use"
                 });
+            } else {
+                if(err.message) {
+                    setErr({
+                        error: err.message
+                    })
+                } else {
+                    setErr({
+                        error: "Server error, please try again."
+                    })
+                }
             }
         }
     }
@@ -90,6 +100,7 @@ export default function SignUpPage() {
                     <label htmlFor="confirm-password">Confirm Password:</label>
                     <input type="password" id="confirm-password" name="confirm-password" value={confirmPassword} onChange={(e)=> setConfirmPassword(e.target.value)} required />
                     {err.password && (<p className="error"> {err.password} </p>)}
+                    {err.error && (<p>{err.error}</p>)}
 
                     <button type="submit">Sign Up</button>
 

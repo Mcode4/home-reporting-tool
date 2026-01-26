@@ -14,6 +14,16 @@ import psycopg2
 env_path = Path(__file__).resolve().parents[3] / ".env"
 load_dotenv(env_path)
 
+print("POSTGRES_URL loaded:", bool(os.getenv("POSTGRES_URL")))
+
+SQLITE_DB = "report_tool_db.db"
+POSTGRES_URL = os.environ["POSTGRES_URL"]
+SCHEMA = os.environ.get("SCHEMA", "public")
+
+print("POSTGRES_URL value:", POSTGRES_URL)
+print("RAW POSTGRES_URL repr:", repr(POSTGRES_URL))
+print("SCHEMA:", repr(SCHEMA))
+
 
 router = APIRouter(prefix="/property", tags=["Property"])
 
@@ -145,7 +155,7 @@ def get_property_by_id(id: int, current_user = Depends(get_current_user)):
                     img.default_filename
                 FROM property p
                 LEFT JOIN images img ON p.id = img.property_id
-                WHERE p.id=?
+                WHERE p.id=%s
             """,
             (id,)
         )
@@ -228,6 +238,7 @@ def add_property(property: Property, current_user = Depends(get_current_user)):
                 INSERT INTO property
                 (name, address, city, state, country, zip, bedroom_size, bathroom_size, owner_id, details)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
                 """,
                 (
                     property.name,
@@ -243,8 +254,8 @@ def add_property(property: Property, current_user = Depends(get_current_user)):
                 )
             )
 
-            property_id = cursor.lastrowid
-            conn.commit()
+            property_id = cursor.fetchone()["id"]
+            print(f'Property ID: {property_id}')
 
             cursor.execute(
                 """
@@ -266,36 +277,39 @@ def add_property(property: Property, current_user = Depends(get_current_user)):
             )
 
             row = cursor.fetchone()
+            print(f'Row: {row}')
 
             if not row:
                 raise HTTPException(status_code=404, detail="Property not found")
 
             # build response and deserialize details if present
             property_dict = {
-                "id": row[0],
-                "name": row[1],
-                "address": row[2],
-                "city": row[3],
-                "state": row[4],
-                "zip": row[5],
-                "bedrooms": row[6],
-                "bathrooms": row[7],
-                "owner_id": row[8],
+                "id": row["id"],
+                "name": row["name"],
+                "address": row["address"],
+                "city": row["city"],
+                "state": row["state"],
+                "zip": row["zip"],
+                "bedrooms": row["bedroom_size"],
+                "bathrooms": row["bathroom_size"],
+                "owner_id": row["owner_id"],
                 "details": None
             }
 
-            if row[9]:
+            if row["details"]:
                 try:
-                    property_dict["details"] = json.loads(row[9])
+                    property_dict["details"] = json.loads(row["details"])
                 except Exception:
-                    property_dict["details"] = row[9]
+                    property_dict["details"] = row["details"]
 
             return property_dict
 
         except Exception as e:
+            conn.rollback()
             raise HTTPException(status_code=400, detail=str(e))
 
         finally:
+            conn.commit()
             conn.close()
     else:
         conn = get_db()
@@ -330,7 +344,6 @@ def add_property(property: Property, current_user = Depends(get_current_user)):
             )
 
             property_id = cursor.lastrowid
-            conn.commit()
 
             cursor.execute(
                 """
@@ -379,9 +392,11 @@ def add_property(property: Property, current_user = Depends(get_current_user)):
             return property_dict
 
         except Exception as e:
+            conn.rollback()
             raise HTTPException(status_code=400, detail=str(e))
 
         finally:
+            conn.commit()
             conn.close()
 
 @router.patch("/edit/{id}")
@@ -513,7 +528,7 @@ def delete_property(property_id: int, current_user = Depends(get_current_user)):
             delete_images_by_property(property_id)
 
             cursor.execute(
-                "DELETE FROM property WHERE id=?",
+                "DELETE FROM property WHERE id=%s",
                 (property_id,)
             )
             

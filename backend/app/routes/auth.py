@@ -13,7 +13,7 @@ from psycopg2 import IntegrityError as PostgresError
 from psycopg2.extras import RealDictCursor
 import psycopg2
 
-env_path = Path(__file__).resolve().parents[1] / ".env"
+env_path = Path(__file__).resolve().parents[3] / ".env"
 load_dotenv(env_path)
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -196,6 +196,8 @@ def get_current_user(
     response: Response,
     access_token: str | None = Cookie(None, alias="access_token")
 ):
+    print(f'PROJECT ENV: {PROJECT_ENV}')
+    
     # print(f'ACCESS TOKEN: {access_token}')
     if not access_token:
         raise HTTPException(status_code=401, detail="Not authenticated-ses")

@@ -10,6 +10,7 @@ export default function Assets() {
     const startX = useRef(null);
     const startY = useRef(null);
     const activeEl = useRef(null);
+    const sidebar = useRef(null);
     const background = useRef(null);
     const moveTo = useRef({});
     const mapEl = useContext(mapElementContext);
@@ -22,7 +23,6 @@ export default function Assets() {
         } = mapEl;
 
     useEffect(()=> {
-        
         const page = document.getElementById("assetContainer");
         // console.log("Map Children", map.children);
         // console.log("Page width:", window.innerWidth, "Map width", map.getBoundingClientRect().width);
@@ -44,7 +44,7 @@ export default function Assets() {
         // get element class and set x and y
         element.style.offsetTop = elCoordinates.x
         element.style.offsetLeft = elCoordinates.y
-        
+
         const map = document.getElementById("map");
         map.append(element);
     }, [mapEl])
@@ -147,7 +147,16 @@ export default function Assets() {
         document.removeEventListener('mouseup', mouseUp);
     }
 
-    function handleToggleForm(number) {}
+    function handleToggleForm(number) {
+        for(let i=1; i<=7; i++) {
+            const form = document.getElementById(`form${i}`);
+            if(i === number) {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+    }
 
     function handleSubmitForm(number) {}
 
@@ -155,7 +164,7 @@ export default function Assets() {
 
     return (
         <div id="assetContainer" ref={background}>
-        <button className={styles.assetsButton} id={styles["menuToggle"]} onClick={()=> ""}>☰ Menu</button>
+        <button className={styles.assetsButton} id={styles["menuToggle"]} onClick={()=> sidebar.current.classList.toggle('hidden')}>☰ Menu</button>
         {/* <button id="menuToggle" onClick={()=> "toggleSidebar()"}>☰ Menu</button> */}
 
         <div id="mapContainer">
@@ -222,15 +231,15 @@ export default function Assets() {
             </div>
         
 
-            <div id={styles["sidebar"]} className={styles["hidden"]}>
+            <div id={styles["sidebar"]} className="hidden" ref={sidebar}>
             <h2>Types of Log Templates</h2>
 
             {/* <!-- 01. Daily Maintenance Logs --> */}
-            <div className={styles["template-section"]} onClick={()=> ""}>
+            <div className={styles["template-section"]} onClick={()=> handleToggleForm(1)}>
             {/* <div class="template-section" onClick={()=> "toggleForm('form1')"}> */}
                 01. Daily Maintenance Logs
             </div>
-            <div className={styles["template-form"]} id={styles["form1"]}>
+            <div className={styles["template-form"]} id="form1">
                 <label>Date & Time:
                     <input type="text" id={styles["timestamp1"]} readOnly />
                 </label>
@@ -287,11 +296,11 @@ export default function Assets() {
             </div>
 
             {/* <!-- 02. Preventive Maintenance Logs --> */}
-            <div className={styles["template-section"]} onClick={()=> ""}>
+            <div className={styles["template-section"]} onClick={()=> handleToggleForm(2)}>
             {/* <div class="template-section" onClick={()=> "toggleForm('form2')"}> */}
                 02. Preventive Maintenance Logs
             </div>
-            <div className={styles["template-form"]} id={styles["form2"]}>
+            <div className={styles["template-form"]} id="form2">
                 <label>Date & Time:
                     <input type="text" id={styles["timestamp2"]} readOnly />
                 </label>
@@ -410,11 +419,11 @@ export default function Assets() {
 
 
             {/* <!-- 03. Equipment Maintenance Logs --> */}
-            <div className={styles["template-section"]} onClick={()=> ""}>
+            <div className={styles["template-section"]} onClick={()=> handleToggleForm(3)}>
             {/* <div class="template-section" onClick={()=> "toggleForm('form3')"}> */}
                 03. Equipment Maintenance Logs
             </div>
-            <div className={styles["template-form"]} id={styles["form3"]}>
+            <div className={styles["template-form"]} id="form3">
                 <label>Date & Time:
                     <input type="text" id={styles["timestamp3"]} readOnly />
                 </label>
@@ -533,11 +542,11 @@ export default function Assets() {
 
 
             {/* <!-- 04. Corrective Maintenance Logs --> */}
-            <div className={styles["template-section"]} onClick={()=> ""}>
+            <div className={styles["template-section"]} onClick={()=> handleToggleForm(4)}>
             {/* <div class="template-section" onClick={()=> "toggleForm('form4')"}> */}
                 04. Corrective Maintenance Logs
             </div>
-            <div className={styles["template-form"]} id={styles["form4"]}>
+            <div className={styles["template-form"]} id="form4">
                 <label>Date & Time:
                     <input type="text" id={styles["timestamp4"]} readOnly />
                 </label>
@@ -656,11 +665,11 @@ export default function Assets() {
 
 
             {/* <!-- 05. Facility Maintenance Logs --> */}
-            <div className={styles["template-section"]} onClick={()=> ""}>
+            <div className={styles["template-section"]} onClick={()=> handleToggleForm(5)}>
             {/* <div class="template-section" onClick={()=> "toggleForm('form5')"}> */}
                 05. Facility Maintenance Logs
             </div>
-            <div className={styles["template-form"]} id={styles["form5"]}>
+            <div className={styles["template-form"]} id="form5">
                 <label>Date & Time:
                     <input type="text" id={styles["timestamp5"]} readOnly />
                 </label>
@@ -779,11 +788,11 @@ export default function Assets() {
 
 
             {/* <!-- 06. Machine Maintenance Logs --> */}
-            <div className={styles["template-section"]} onClick={()=> ""}>
+            <div className={styles["template-section"]} onClick={()=> handleToggleForm(6)}>
             {/* <div class="template-section" onClick={()=> "toggleForm('form6')"}> */}
                 06. Machine Maintenance Logs
             </div>
-            <div className={styles["template-form"]} id={styles["form6"]}>
+            <div className={styles["template-form"]} id="form6">
                 <label>Date & Time:
                     <input type="text" id={styles["timestamp6"]} readOnly />
                 </label>
@@ -902,11 +911,11 @@ export default function Assets() {
 
 
             {/* <!-- 07. Other Maintenance Logs --> */}
-            <div className={styles["template-section"]} onClick={()=> ""}>
+            <div className={styles["template-section"]} onClick={()=> handleToggleForm(7)}>
             {/* <div class="template-section" onClick={()=> "toggleForm('form7')"}> */}
                 07. Other Maintenance Logs
             </div>
-            <div className={styles["template-form"]} id={styles["form7"]}>
+            <div className={styles["template-form"]} id="form7">
                 <label>Date & Time:
                     <input type="text" id={styles["timestamp7"]} readOnly />
                 </label>

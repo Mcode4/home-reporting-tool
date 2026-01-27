@@ -12,11 +12,8 @@ export default function Map() {
     const { id } = useParams();
     const mapEl = useContext(mapElementContext);
     const { element,
-            setElement,
             elCoordinates,
-            setElCoordinates,
-            direction,
-            setDirection
+            direction
         } = mapEl;
 
     useEffect(() => {

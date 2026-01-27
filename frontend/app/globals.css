@@ -89,3 +89,7 @@ main {
 button {
   cursor: pointer;
 }
+
+.hidden {
+  display: none;
+}

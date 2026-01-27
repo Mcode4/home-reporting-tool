@@ -7,12 +7,16 @@ import { mapElementContext } from "@/app/property/map/[id]/page";
 
 export default function Assets() {
     const [menuActive, setMenuActive] = useState(false);
+
     const startX = useRef(null);
     const startY = useRef(null);
+
     const activeEl = useRef(null);
     const sidebar = useRef(null);
+
     const background = useRef(null);
     const moveTo = useRef({});
+
     const mapEl = useContext(mapElementContext);
     const { element,
             setElement,
@@ -24,6 +28,7 @@ export default function Assets() {
 
     useEffect(()=> {
         const page = document.getElementById("assetContainer");
+        const map = document.getElementById("map");
         // console.log("Map Children", map.children);
         // console.log("Page width:", window.innerWidth, "Map width", map.getBoundingClientRect().width);
         
@@ -77,9 +82,7 @@ export default function Assets() {
         let x = startX.current;
         let y = startY.current;
 
-        console.log('EL Parent:', el.p)
-
-        if(!moveTo.current[el] || moveTo.current[el] !== 'map') {
+        if(!moveTo.current[el.id] || moveTo.current[el.id] !== 'map') {
             if(el.offsetLeft + 45 > mapWidth) {
                 background.current.style.borderRight = '5px solid red';
                 console.log('Close to move');
@@ -101,6 +104,8 @@ export default function Assets() {
 
         console.log({newX, newY});
         console.log({x, y});
+        console.log("MOVETO", moveTo.current)
+        console.log({el})
         console.log({'el-top': el.offsetTop, 'el-left': el.offsetLeft})
         console.log(map.getBoundingClientRect().width);
     }
@@ -109,7 +114,7 @@ export default function Assets() {
         const el = activeEl.current;
         const mapWidth = map.getBoundingClientRect().width;
 
-        if(!moveTo.current[el] || moveTo.current[el] !== 'map') {
+        if(!moveTo.current[el.id] || moveTo.current[el.id] !== 'map') {
             if(el.offsetLeft + 25 > mapWidth) {
                 console.log('MOVE TO MAP');
                 setElement(el);
@@ -122,7 +127,7 @@ export default function Assets() {
                 console.log({el})
                 const removeEl = document.getElementById(el.id);
                 removeEl.remove();
-                moveTo.current[el] = 'map';
+                moveTo.current[el.id] = 'map';
             }
         } else {
             if(el.offsetLeft - 25 < mapWidth) {
@@ -137,7 +142,7 @@ export default function Assets() {
                 console.log({el})
                 const removeEl = document.getElementById(el.id);
                 removeEl.remove();
-                moveTo.current = 'assets';
+                moveTo.current[el.id] = 'assets';
             }
         }
 
@@ -151,7 +156,11 @@ export default function Assets() {
         for(let i=1; i<=7; i++) {
             const form = document.getElementById(`form${i}`);
             if(i === number) {
-                form.style.display = "block";
+                if(form.style.display === "block") {
+                    form.style.display = "none";
+                } else {
+                    form.style.display = "block";
+                }
             } else {
                 form.style.display = "none";
             }

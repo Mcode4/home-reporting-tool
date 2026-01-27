@@ -36,7 +36,7 @@ export default function LoginPage() {
                 });
             } else if(err.status === 401) {
                 setErr({
-                    account: "Invalid password"
+                    password: "Invalid password"
                 });
             } else {
                 if(err.message) {

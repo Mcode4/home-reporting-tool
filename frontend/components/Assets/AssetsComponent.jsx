@@ -1,76 +1,224 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import styles from "./AssetsConponent.module.css"
+import { mapElementContext } from "@/app/property/map/[id]/page";
+
+
 
 export default function Assets() {
     const [menuActive, setMenuActive] = useState(false);
+    const startX = useRef(null);
+    const startY = useRef(null);
+    const activeEl = useRef(null);
+    const background = useRef(null);
+    const moveTo = useRef({});
+    const mapEl = useContext(mapElementContext);
+    const { element,
+            setElement,
+            elCoordinates,
+            setElCoordinates,
+            direction,
+            setDirection
+        } = mapEl;
+
+    useEffect(()=> {
+        
+        const page = document.getElementById("assetContainer");
+        // console.log("Map Children", map.children);
+        // console.log("Page width:", window.innerWidth, "Map width", map.getBoundingClientRect().width);
+        
+        [...map.children].forEach(el => {
+            el.addEventListener("mousedown", (e)=> mouseDown(e, el));
+        });
+
+        return () => {
+            [...map.children].forEach(el => {
+            el.removeEventListener("mousedown", mouseDown);
+            });
+        };
+    }, []);
+
+    useEffect(()=> {
+        if(direction !== 'assets') return;
+
+        // get element class and set x and y
+        element.style.offsetTop = elCoordinates.x
+        element.style.offsetLeft = elCoordinates.y
+        
+        const map = document.getElementById("map");
+        map.append(element);
+    }, [mapEl])
+
+    function mouseDown(e, el) {
+        e.preventDefault();
+
+        activeEl.current = el;
+        startX.current = e.clientX;
+        startY.current = e.clientY;
+
+        document.addEventListener('mousemove', mouseMove);
+        document.addEventListener('mouseup', mouseUp);
+    }
+
+    function mouseMove(e) {
+        const el = activeEl.current;
+        const map = document.getElementById("map");
+        const mapWidth = map.getBoundingClientRect().width;
+
+        const newX = startX.current - e.clientX;
+        const newY = startY.current - e.clientY;
+        
+        startX.current = e.clientX;
+        startY.current = e.clientY;
+
+        el.style.top = (el.offsetTop - newY) + 'px';
+        el.style.left = (el.offsetLeft - newX) + 'px';
+
+        let x = startX.current;
+        let y = startY.current;
+
+        console.log('EL Parent:', el.p)
+
+        if(!moveTo.current[el] || moveTo.current[el] !== 'map') {
+            if(el.offsetLeft + 45 > mapWidth) {
+                background.current.style.borderRight = '5px solid red';
+                console.log('Close to move');
+                if(el.offsetLeft + 25 > mapWidth) {
+                    background.current.style.borderRight = '5px solid green';
+                    console.log('MOVE TO MAP');
+                }
+            }
+        } else {
+            if(el.offsetLeft - 45 < mapWidth) {
+                background.current.style.borderRight = '5px solid red';
+                console.log('Close to move');
+                if(el.offsetLeft - 25 < mapWidth) {
+                    background.current.style.borderRight = '5px solid green';
+                    console.log('MOVE TO ASSETS');
+                }
+            }
+        }
+
+        console.log({newX, newY});
+        console.log({x, y});
+        console.log({'el-top': el.offsetTop, 'el-left': el.offsetLeft})
+        console.log(map.getBoundingClientRect().width);
+    }
+
+    function mouseUp(e) {
+        const el = activeEl.current;
+        const mapWidth = map.getBoundingClientRect().width;
+
+        if(!moveTo.current[el] || moveTo.current[el] !== 'map') {
+            if(el.offsetLeft + 25 > mapWidth) {
+                console.log('MOVE TO MAP');
+                setElement(el);
+                setElCoordinates({
+                    y: (el.style.top + 'px'),
+                    x: (el.style.left + 'px')
+                })
+                setDirection('map');
+                
+                console.log({el})
+                const removeEl = document.getElementById(el.id);
+                removeEl.remove();
+                moveTo.current[el] = 'map';
+            }
+        } else {
+            if(el.offsetLeft - 25 < mapWidth) {
+                console.log('MOVE TO ASSTES');
+                setElement(el);
+                setElCoordinates({
+                    y: (el.style.top + 'px'),
+                    x: (el.style.left + 'px')
+                })
+                setDirection('assets');
+                
+                console.log({el})
+                const removeEl = document.getElementById(el.id);
+                removeEl.remove();
+                moveTo.current = 'assets';
+            }
+        }
+
+        activeEl.current = null;
+        background.current.style.borderRight = 'none';
+        document.removeEventListener('mousemove', mouseMove);
+        document.removeEventListener('mouseup', mouseUp);
+    }
 
     function handleToggleForm(number) {}
 
     function handleSubmitForm(number) {}
 
+    
+
     return (
-        <>
+        <div id="assetContainer" ref={background}>
         <button className={styles.assetsButton} id={styles["menuToggle"]} onClick={()=> ""}>☰ Menu</button>
         {/* <button id="menuToggle" onClick={()=> "toggleSidebar()"}>☰ Menu</button> */}
 
         <div id="mapContainer">
             <div id="map">
                 {/* <!-- Buildings 1–19 --> */}
-                <div className={styles["building"]} style={{top: "50px", left: "50px"}} id={styles["b1"]}>1</div>
-                <div className={styles["building"]} style={{top: "50px", left: "100px"}} id={styles["b2"]}>2</div>
-                <div className={styles["building"]} style={{top:"50px", left:"150px"}} id={styles["b3"]}>3</div>
-                <div className={styles["building"]} style={{ top: '50px', left: '200px' }} id={styles["b4"]}>4</div>
-                <div className={styles["building"]} style={{ top: '50px', left: '250px' }} id={styles["b5"]}>5</div>
-                <div className={styles["building"]} style={{ top: '100px', left: '50px' }} id={styles["b6"]}>6</div>
-                <div className={styles["building"]} style={{ top: '100px', left: '100px' }} id={styles["b7"]}>7</div>
-                <div className={styles["building"]} style={{ top: '100px', left: '150px' }} id={styles["b8"]}>8</div>
-                <div className={styles["building"]} style={{ top: '100px', left: '200px' }} id={styles["b9"]}>9</div>
-                <div className={styles["building"]} style={{ top: '100px', left: '250px' }} id={styles["b10"]}>10</div>
-                <div className={styles["building"]} style={{ top: '150px', left: '50px' }} id={styles["b11"]}>11</div>
-                <div className={styles["building"]} style={{ top: '150px', left: '100px' }} id={styles["b12"]}>12</div>
-                <div className={styles["building"]} style={{ top: '150px', left: '150px' }} id={styles["b13"]}>13</div>
-                <div className={styles["building"]} style={{ top: '150px', left: '200px' }} id={styles["b14"]}>14</div>
-                <div className={styles["building"]} style={{ top: '150px', left: '250px' }} id={styles["b15"]}>15</div>
-                <div className={styles["building"]} style={{ top: '200px', left: '50px' }} id={styles["b16"]}>16</div>
-                <div className={styles["building"]} style={{ top: '200px', left: '100px' }} id={styles["b17"]}>17</div>
-                <div className={styles["building"]} style={{ top: '200px', left: '150px' }} id={styles["b18"]}>18</div>
-                <div className={styles["building"]} style={{ top: '200px', left: '200px' }} id={styles["b19"]}>19</div>
+                <div className={styles.building} style={{ top: "150px", left: "50px" }} id="b1">1</div>
+                <div className={styles.building} style={{ top: "150px", left: "100px" }} id="b2">2</div>
+                <div className={styles.building} style={{ top: "150px", left: "150px" }} id="b3">3</div>
+                <div className={styles.building} style={{ top: "150px", left: "200px" }} id="b4">4</div>
+                <div className={styles.building} style={{ top: "150px", left: "250px" }} id="b5">5</div>
+                <div className={styles.building} style={{ top: "200px", left: "50px" }} id="b6">6</div>
+                <div className={styles.building} style={{ top: "200px", left: "100px" }} id="b7">7</div>
+                <div className={styles.building} style={{ top: "200px", left: "150px" }} id="b8">8</div>
+                <div className={styles.building} style={{ top: "200px", left: "200px" }} id="b9">9</div>
+                <div className={styles.building} style={{ top: "200px", left: "250px" }} id="b10">10</div>
+                <div className={styles.building} style={{ top: "250px", left: "50px" }} id="b11">11</div>
+                <div className={styles.building} style={{ top: "250px", left: "100px" }} id="b12">12</div>
+                <div className={styles.building} style={{ top: "250px", left: "150px" }} id="b13">13</div>
+                <div className={styles.building} style={{ top: "250px", left: "200px" }} id="b14">14</div>
+                <div className={styles.building} style={{ top: "250px", left: "250px" }} id="b15">15</div>
+                <div className={styles.building} style={{ top: "300px", left: "50px" }} id="b16">16</div>
+                <div className={styles.building} style={{ top: "300px", left: "100px" }} id="b17">17</div>
+                <div className={styles.building} style={{ top: "300px", left: "150px" }} id="b18">18</div>
+                <div className={styles.building} style={{ top: "300px", left: "200px" }} id="b19">19</div>
+
 
                 {/* Amenities */}
-                <div className={styles["amenity"]} style={{ top: '250px', left: '50px' }} id={styles["a1"]}>🏠<br />Leasing</div>
-                <div className={styles["amenity"]} style={{ top: '250px', left: '120px' }} id={styles["a2"]}>🗑️<br />Compactor</div>
-                <div className={styles["amenity"]} style={{ top: '250px', left: '190px' }} id={styles["a3"]}>🔥<br />Grill</div>
-                <div className={styles["amenity"]} style={{ top: '250px', left: '260px' }} id={styles["a4"]}>✉️<br />Mailboxes</div>
-                <div className={styles["amenity"]} style={{ top: '300px', left: '50px' }} id={styles["a5"]}>🏐<br />Volleyball</div>
-                <div className={styles["amenity"]} style={{ top: '300px', left: '120px' }} id={styles["a6"]}>🏛️<br />Club House</div>
-                <div className={styles["amenity"]} style={{ top: '300px', left: '190px' }} id={styles["a7"]}>🌲<br />Park 1</div>
-                <div className={styles["amenity"]} style={{ top: '300px', left: '260px' }} id={styles["a7a"]}>🌲<br />Park 2</div>
-                <div className={styles["amenity"]} style={{ top: '350px', left: '50px' }} id={styles["a8"]}>💪<br />Gym</div>
-                <div className={styles["amenity"]} style={{ top: '350px', left: '120px' }} id={styles["a9"]}>🎾<br />Tennis</div>
-                <div className={styles["amenity"]} style={{ top: '350px', left: '190px' }} id={styles["a10"]}>🏊<br />Pool 1</div>
-                <div className={styles["amenity"]} style={{ top: '350px', left: '260px' }} id={styles["a11"]}>🏊<br />Pool 2</div>
-                <div className={styles["amenity"]} style={{ top: '400px', left: '50px' }} id={styles["a12"]}>🎠<br />Playground</div>
-                <div className={styles["amenity"]} style={{ top: '400px', left: '120px' }} id={styles["a13"]}>📦<br />Mail Room</div>
-                <div className={styles["amenity"]} style={{ top: '600px', left: '50px' }} id={styles["a14"]}>🛠️<br />Maintenance</div>
-                <div className={styles["amenity"]} style={{ top: '600px', left: '120px' }} id={styles["a15"]}>🗑️<br />Trash</div>
-                <div className={styles["amenity"]} style={{ top: '600px', left: '190px' }} id={styles["a16"]}>🌊<br />Flood</div>
-                <div className={styles["amenity"]} style={{ top: '600px', left: '260px' }} id={styles["a17"]}>⚠️<br />Incident</div>
+                <div className={styles.amenity} style={{ top: "350px", left: "50px" }} id="a1">🏠<br />Leasing</div>
+                <div className={styles.amenity} style={{ top: "350px", left: "120px" }} id="a2">🗑️<br />Compactor</div>
+                <div className={styles.amenity} style={{ top: "350px", left: "190px" }} id="a3">🔥<br />Grill</div>
+                <div className={styles.amenity} style={{ top: "350px", left: "260px" }} id="a4">✉️<br />Mailboxes</div>
+                <div className={styles.amenity} style={{ top: "400px", left: "50px" }} id="a5">🏐<br />Volleyball</div>
+                <div className={styles.amenity} style={{ top: "400px", left: "120px" }} id="a6">🏛️<br />Club House</div>
+                <div className={styles.amenity} style={{ top: "400px", left: "190px" }} id="a7">🌲<br />Park 1</div>
+                <div className={styles.amenity} style={{ top: "400px", left: "260px" }} id="a7a">🌲<br />Park 2</div>
+                <div className={styles.amenity} style={{ top: "450px", left: "50px" }} id="a8">💪<br />Gym</div>
+                <div className={styles.amenity} style={{ top: "450px", left: "120px" }} id="a9">🎾<br />Tennis</div>
+                <div className={styles.amenity} style={{ top: "450px", left: "190px" }} id="a10">🏊<br />Pool 1</div>
+                <div className={styles.amenity} style={{ top: "450px", left: "260px" }} id="a11">🏊<br />Pool 2</div>
+                <div className={styles.amenity} style={{ top: "500px", left: "50px" }} id="a12">🎠<br />Playground</div>
+                <div className={styles.amenity} style={{ top: "500px", left: "120px" }} id="a13">📦<br />Mail Room</div>
+                <div className={styles.amenity} style={{ top: "700px", left: "50px" }} id="a14">🛠️<br />Maintenance</div>
+                <div className={styles.amenity} style={{ top: "700px", left: "120px" }} id="a15">🗑️<br />Trash</div>
+                <div className={styles.amenity} style={{ top: "700px", left: "190px" }} id="a16">🌊<br />Flood</div>
+                <div className={styles.amenity} style={{ top: "700px", left: "260px" }} id="a17">⚠️<br />Incident</div>
+
 
                 {/* Garages A–M */}
-                <div className={styles["garage"]} style={{ top: '450px', left: '50px' }} id={styles["gA"]}>A</div>
-                <div className={styles["garage"]} style={{ top: '450px', left: '100px' }} id={styles["gB"]}>B</div>
-                <div className={styles["garage"]} style={{ top: '450px', left: '150px' }} id={styles["gC"]}>C</div>
-                <div className={styles["garage"]} style={{ top: '450px', left: '200px' }} id={styles["gD"]}>D</div>
-                <div className={styles["garage"]} style={{ top: '450px', left: '250px' }} id={styles["gE"]}>E</div>
-                <div className={styles["garage"]} style={{ top: '500px', left: '50px' }} id={styles["gF"]}>F</div>
-                <div className={styles["garage"]} style={{ top: '500px', left: '100px' }} id={styles["gG"]}>G</div>
-                <div className={styles["garage"]} style={{ top: '500px', left: '150px' }} id={styles["gH"]}>H</div>
-                <div className={styles["garage"]} style={{ top: '500px', left: '200px' }} id={styles["gI"]}>I</div>
-                <div className={styles["garage"]} style={{ top: '500px', left: '250px' }} id={styles["gJ"]}>J</div>
-                <div className={styles["garage"]} style={{ top: '550px', left: '50px' }} id={styles["gK"]}>K</div>
-                <div className={styles["garage"]} style={{ top: '550px', left: '100px' }} id={styles["gL"]}>L</div>
-                <div className={styles["garage"]} style={{ top: '550px', left: '150px' }} id={styles["gM"]}>M</div>
+                <div className={styles.garage} style={{ top: "550px", left: "50px" }} id="gA">A</div>
+                <div className={styles.garage} style={{ top: "550px", left: "100px" }} id="gB">B</div>
+                <div className={styles.garage} style={{ top: "550px", left: "150px" }} id="gC">C</div>
+                <div className={styles.garage} style={{ top: "550px", left: "200px" }} id="gD">D</div>
+                <div className={styles.garage} style={{ top: "550px", left: "250px" }} id="gE">E</div>
+
+                <div className={styles.garage} style={{ top: "600px", left: "50px" }} id="gF">F</div>
+                <div className={styles.garage} style={{ top: "600px", left: "100px" }} id="gG">G</div>
+                <div className={styles.garage} style={{ top: "600px", left: "150px" }} id="gH">H</div>
+                <div className={styles.garage} style={{ top: "600px", left: "200px" }} id="gI">I</div>
+                <div className={styles.garage} style={{ top: "600px", left: "250px" }} id="gJ">J</div>
+
+                <div className={styles.garage} style={{ top: "650px", left: "50px" }} id="gK">K</div>
+                <div className={styles.garage} style={{ top: "650px", left: "100px" }} id="gL">L</div>
+                <div className={styles.garage} style={{ top: "650px", left: "150px" }} id="gM">M</div>
             </div>
         
 
@@ -876,6 +1024,6 @@ export default function Assets() {
             </div>
             </div>
         </div>
-        </>
+        </div>
     )
 }

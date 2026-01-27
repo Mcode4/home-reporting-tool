@@ -19,18 +19,17 @@ export default function SignUpPage() {
         const SYMBOL = "!@#$%?.-";
         const ALLOWED = `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789${SYMBOL}`;
 
-        // if(password.length < 6 || password.length > 25) {
-        //     return setErr({
-        //         password: "Password must be 6-25 characters"
-        //     });
-        // }
-
         if(confirmPassword !== password) {
             return setErr({
                 password: "Passwords don't match"
             });
         }
 
+        if(password.length < 6 || password.length > 25) {
+            return setErr({
+                password: "Password must be 6-25 characters"
+            });
+        }
         let symbolCheck = false;
         let upperCaseCheck = false;
         let numberCheck = false;
@@ -60,7 +59,7 @@ export default function SignUpPage() {
         try {
             const res = await register(email, password);
             console.log('Sign up successful');
-            
+            console.log("res", res);
             if(res) {
                 addToast("Sign up successful 🎉", "success");
                 router.push('/');

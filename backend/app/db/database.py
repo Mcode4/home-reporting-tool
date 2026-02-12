@@ -41,6 +41,7 @@ def init_db():
             bathroom_size INTEGER NOT NULL,
             owner_id INTEGER NOT NULL,
             details TEXT,
+            pinned INTEGER DEFAULT 0,
             FOREIGN KEY (owner_id) REFERENCES users(id)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE

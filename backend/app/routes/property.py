@@ -65,10 +65,34 @@ def all_properties(current_user = Depends(get_current_user)):
                     p.bedroom_size,
                     p.bathroom_size,
                     p.details,
+                    p.pinned,
                     img.id  AS image_id
                 FROM property p
                 LEFT JOIN images img ON p.id = img.property_id
-                WHERE p.owner_id=%s
+                WHERE p.owner_id=%s AND p.pinned=1
+            """,
+            (current_user["id"],)
+        )
+        pinned_properties = cursor.fetchall()
+
+        cursor.execute(
+            """
+                SELECT
+                    p.id    AS property_id,
+                    p.name,
+                    p.address,
+                    p.city,
+                    p.state,
+                    p.country,
+                    p.zip,
+                    p.bedroom_size,
+                    p.bathroom_size,
+                    p.details,
+                    p.pinned,
+                    img.id  AS image_id
+                FROM property p
+                LEFT JOIN images img ON p.id = img.property_id
+                WHERE p.owner_id=%s AND p.pinned=0
             """,
             (current_user["id"],)
         )
@@ -77,6 +101,16 @@ def all_properties(current_user = Depends(get_current_user)):
 
         if not properties:
             raise HTTPException(status_code=404, detail="User properties not found")
+        
+        pinned_result = []
+        for row in pinned_properties:
+            p = dict(row)
+            if p.get("details"):
+                try:
+                    p["details"] = json.loads(p["details"])
+                except Exception:
+                    pass
+            pinned_result.append(p)
 
         result = []
         for row in properties:
@@ -88,7 +122,7 @@ def all_properties(current_user = Depends(get_current_user)):
                     pass
             result.append(p)
 
-        return {"properties": result}
+        return {"pinned": pinned_result, "result": result}
     else:
         conn = get_db()
         cursor = conn.cursor()
@@ -106,10 +140,34 @@ def all_properties(current_user = Depends(get_current_user)):
                     p.bedroom_size,
                     p.bathroom_size,
                     p.details,
+                    p.pinned,
                     img.id  AS image_id
                 FROM property p
                 LEFT JOIN images img ON p.id = img.property_id
-                WHERE p.owner_id=?
+                WHERE p.owner_id=? AND p.pinned=1
+            """,
+            (current_user["id"],)
+        )
+        pinned_properties = cursor.fetchall()
+
+        cursor.execute(
+            """
+                SELECT
+                    p.id    AS property_id,
+                    p.name,
+                    p.address,
+                    p.city,
+                    p.state,
+                    p.country,
+                    p.zip,
+                    p.bedroom_size,
+                    p.bathroom_size,
+                    p.details,
+                    p.pinned,
+                    img.id  AS image_id
+                FROM property p
+                LEFT JOIN images img ON p.id = img.property_id
+                WHERE p.owner_id=? AND p.pinned=0
             """,
             (current_user["id"],)
         )
@@ -118,6 +176,16 @@ def all_properties(current_user = Depends(get_current_user)):
 
         if not properties:
             raise HTTPException(status_code=404, detail="User properties not found")
+        
+        pinned_result = []
+        for row in pinned_properties:
+            p = dict(row)
+            if p.get("details"):
+                try:
+                    p["details"] = json.loads(p["details"])
+                except Exception:
+                    pass
+            pinned_result.append(p)
 
         result = []
         for row in properties:
@@ -129,7 +197,7 @@ def all_properties(current_user = Depends(get_current_user)):
                     pass
             result.append(p)
 
-        return {"properties": result}
+        return {"pinned": pinned_result, "result": result}
 
 @router.get("/{id}")
 def get_property_by_id(id: int, current_user = Depends(get_current_user)):

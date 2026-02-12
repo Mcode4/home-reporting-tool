@@ -11,3 +11,4 @@ class Property(BaseModel):
     bedrooms: int
     bathrooms: int
     details: Optional[Dict[str, Any]] = None
+    pinned: bool = False

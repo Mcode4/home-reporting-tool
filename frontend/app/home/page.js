@@ -14,14 +14,27 @@ export default function HomePage() {
     const [loaded, setLoaded] = useState(false)
 
     useEffect(()=> {
+
         if(!data) {
             async function loadFunc() {
+                console.log('Load func ran')
                 try {
                     const propData =  await getAllProperties();
-                    const properties = propData["properties"];
-                    setData(properties);
+                    // console.log('PROPDATA', propData);
+                    const pinned = propData["pinned"];
+                    const properties = propData["result"];
+                    setData({pinned, properties});
 
-                    console.log('Properties: ', properties)
+                    console.log('Properties: ', properties, "Pinned: ", pinned)
+                    pinned.forEach(async (p, i)=> {
+                        console.log(`PROPERTY IMAGE ID: ${p.image_id} at ${i}`)
+                        const res = await getImageById(p.image_id)
+                        console.log('RES', res)
+                        setImages(prev => ({ 
+                            ...prev, 
+                            [p.property_id]: res?.url || "/HomeInsuranceCompany.jpg" 
+                        }))
+                    });
                     properties.forEach(async (p, i)=> {
                         console.log(`PROPERTY IMAGE ID: ${p.image_id} at ${i}`)
                         const res = await getImageById(p.image_id)
@@ -62,10 +75,43 @@ export default function HomePage() {
             <>
             <button onClick={()=> router.push('/property/new')}>Create New Property</button>
 
+            <h2>Pinned Properties</h2>
+            <div className={styles.properySection}>
+                {data?.pinned.length > 0 ? data.pinned.map(property => (
+                    <div 
+                        className={styles.property} 
+                        key={property.property_id}
+                        style={{
+                            display: "flex", flexDirection: "column",
+                        }}
+                    >
+                        <div className="click-area" onClick={()=> router.push(`/property/${property.property_id}`)} style={{
+                            cursor: "pointer"
+                        }}>
+                            <Image 
+                                src={images?.[property.property_id] || defaultImage} 
+                                alt={property.name}
+                                height={100}
+                                width={100}
+                            />
+                            <p>{property.name}</p>
+                        </div>
+
+                        <div className={styles.propertyActions}>
+                            <button onClick={()=> router.push(`/property/map/${property.property_id}`)}>Map Demo</button>
+                            <button onClick={()=> router.push(`/property/edit/${property.property_id}`)}>Edit</button>
+                            <button onClick={(e)=> handleDelete(e, property.property_id)}>Delete</button>
+                        </div>
+                    </div>
+                )) : (
+                    <p>No pinned properties</p>
+                )}
+            </div>
+
+
             <h2>Properties</h2>
             <div className={styles.properySection}>
-                
-                {data?.length > 0 ? data.map(property => (
+                {data?.properties.length > 0 ? data.properties.map(property => (
                     <div 
                         className={styles.property} 
                         key={property.property_id}

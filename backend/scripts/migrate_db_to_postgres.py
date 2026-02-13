@@ -31,16 +31,15 @@ sqlite3_cur = sqlite3_conn.cursor()
 
 pg_conn = psycopg2.connect(POSTGRES_URL)
 pg_cur = pg_conn.cursor()
-pg_cur.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA};")
-pg_cur.execute(f"SET search_path TO {SCHEMA};")
+pg_cur.execute(f'CREATE SCHEMA IF NOT EXISTS {SCHEMA} AUTHORIZATION "user";')
 
 try:
     # -----------------------
     # CREATE TABLES
     # -----------------------
 
-    pg_cur.execute("""
-        CREATE TABLE IF NOT EXISTS users (
+    pg_cur.execute(f"""
+        CREATE TABLE IF NOT EXISTS {SCHEMA}.users (
             id INTEGER PRIMARY KEY,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
@@ -49,8 +48,8 @@ try:
         )
     """)
 
-    pg_cur.execute("""
-        CREATE TABLE IF NOT EXISTS property (
+    pg_cur.execute(f"""
+        CREATE TABLE IF NOT EXISTS {SCHEMA}.property (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             address TEXT NOT NULL,
@@ -62,14 +61,15 @@ try:
             bathroom_size INTEGER NOT NULL,
             owner_id INTEGER NOT NULL,
             details jsonb,
+            pinned INTEGER DEFAULT 0,
             FOREIGN KEY (owner_id) REFERENCES users(id)
                 ON DELETE CASCADE
                 ON UPDATE CASCADE
         )
     """)
 
-    pg_cur.execute("""
-        CREATE TABLE IF NOT EXISTS images (
+    pg_cur.execute(f"""
+        CREATE TABLE IF NOT EXISTS {SCHEMA}.images (
             id INTEGER PRIMARY KEY,
             property_id INTEGER NOT NULL,
             default_filename TEXT NOT NULL,
@@ -108,8 +108,8 @@ try:
     # -----------------------
     for row in user_rows:
         pg_cur.execute(
-            """
-            INSERT INTO users (id, email, password, name, phone_number)
+            f"""
+            INSERT INTO {SCHEMA}.users (id, email, password, name, phone_number)
             VALUES (%s, %s, %s, %s, %s)
             ON CONFLICT (id) DO NOTHING
             """,
@@ -127,12 +127,13 @@ try:
     # -----------------------
     for row in property_rows:
         pg_cur.execute(
-            """
-            INSERT INTO property (
+            f"""
+            INSERT INTO {SCHEMA}.property (
                 id, name, address, city, state, country, zip,
-                bedroom_size, bathroom_size, owner_id, details
+                bedroom_size, bathroom_size, owner_id, details,
+                pinned
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb, %s)
             ON CONFLICT (id) DO NOTHING
             """,
             (
@@ -147,6 +148,7 @@ try:
                 row["bathroom_size"],
                 row["owner_id"],
                 row["details"] or "{}",
+                row["pinned"]
             ),
         )
 
@@ -155,8 +157,8 @@ try:
     # -----------------------
     for row in images_rows:
         pg_cur.execute(
-            """
-            INSERT INTO images (
+            f"""
+            INSERT INTO {SCHEMA}.images (
                 id, property_id, default_filename, filename, filepath,
                 content_type, size, uploaded_at
             )
@@ -184,22 +186,22 @@ try:
     # SET UP AUTO-INCREMENT (SERIAL STYLE)
     # -----------------------
 
-    pg_cur.execute("""
-        CREATE SEQUENCE IF NOT EXISTS users_id_seq OWNED BY users.id;
-        ALTER TABLE users ALTER COLUMN id SET DEFAULT nextval('users_id_seq');
-        SELECT setval('users_id_seq', COALESCE((SELECT MAX(id) FROM users), 1));
+    pg_cur.execute(f"""
+        CREATE SEQUENCE IF NOT EXISTS {SCHEMA}.users_id_seq OWNED BY {SCHEMA}.users.id;
+        ALTER TABLE {SCHEMA}.users ALTER COLUMN id SET DEFAULT nextval('{SCHEMA}.users_id_seq');
+        SELECT setval('{SCHEMA}.users_id_seq', COALESCE((SELECT MAX(id) FROM {SCHEMA}.users), 1));
     """)
 
-    pg_cur.execute("""
-        CREATE SEQUENCE IF NOT EXISTS property_id_seq OWNED BY property.id;
-        ALTER TABLE property ALTER COLUMN id SET DEFAULT nextval('property_id_seq');
-        SELECT setval('property_id_seq', COALESCE((SELECT MAX(id) FROM property), 1));
+    pg_cur.execute(f"""
+        CREATE SEQUENCE IF NOT EXISTS {SCHEMA}.property_id_seq OWNED BY {SCHEMA}.property.id;
+        ALTER TABLE {SCHEMA}.property ALTER COLUMN id SET DEFAULT nextval('{SCHEMA}.property_id_seq');
+        SELECT setval('{SCHEMA}.property_id_seq', COALESCE((SELECT MAX(id) FROM {SCHEMA}.property), 1));
     """)
 
-    pg_cur.execute("""
-        CREATE SEQUENCE IF NOT EXISTS images_id_seq OWNED BY images.id;
-        ALTER TABLE images ALTER COLUMN id SET DEFAULT nextval('images_id_seq');
-        SELECT setval('images_id_seq', COALESCE((SELECT MAX(id) FROM images), 1));
+    pg_cur.execute(f"""
+        CREATE SEQUENCE IF NOT EXISTS {SCHEMA}.images_id_seq OWNED BY {SCHEMA}.images.id;
+        ALTER TABLE {SCHEMA}.images ALTER COLUMN id SET DEFAULT nextval('{SCHEMA}.images_id_seq');
+        SELECT setval('{SCHEMA}.images_id_seq', COALESCE((SELECT MAX(id) FROM {SCHEMA}.images), 1));
     """)
 
     # -----------------------

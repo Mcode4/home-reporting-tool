@@ -31,7 +31,7 @@ sqlite3_cur = sqlite3_conn.cursor()
 
 pg_conn = psycopg2.connect(POSTGRES_URL)
 pg_cur = pg_conn.cursor()
-pg_cur.execute(f'CREATE SCHEMA IF NOT EXISTS {SCHEMA} AUTHORIZATION "user";')
+pg_cur.execute(f'CREATE SCHEMA IF NOT EXISTS {SCHEMA};')
 
 try:
     # -----------------------
